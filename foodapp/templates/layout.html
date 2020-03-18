@@ -6,10 +6,40 @@
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/core-style.css') }}">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
     <title></title>
   </head>
   <body>
+    <div class="header-container">
+      <header>
+        <div class="nav">
+          <div class="container-fluid">
+            <div class="row">
+              <nav class="col-lg-12">
+                <div class="col col-xl-5 col-lg-9 col-md-9 col-xs-12">
+                  <div id="top_menu">
+                    <ul class="clearfix text-left">
+                      <li class="px-3"><a href="#">จัดส่ง</a></li>
+                      <li class="px-3"><a href="#">บทความ</a></li>
+                      <li class="px-3"><a href="#">สูตรอาหาร</a></li>
+                      <li class="px-3"><a href="#">ส่วนลด</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col">
+
+                </div>
+              </nav>
+
+            </div>
+          </div>
+
+        </div>
+      </header>
+    </div>
+
     <section>
       {%block content%}
       {%endblock%}
