@@ -7,44 +7,60 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/core-style.css') }}">
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" >
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/core-style.css') }}" >
     <title></title>
   </head>
   <body>
-    <div class="header-container">
-      <header>
-        <div class="nav">
-          <div class="container-fluid">
-            <div class="row">
-              <nav class="col-lg-12">
-                <div class="col col-xl-5 col-lg-9 col-md-9 col-xs-12">
-                  <div id="top_menu">
-                    <ul class="clearfix text-left">
-                      <li class="px-3"><a href="#">จัดส่ง</a></li>
-                      <li class="px-3"><a href="#">บทความ</a></li>
-                      <li class="px-3"><a href="#">สูตรอาหาร</a></li>
-                      <li class="px-3"><a href="#">ส่วนลด</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="col">
-
-                </div>
-              </nav>
-
-            </div>
-          </div>
-
+    <header class="main-header container-fluid">
+      <div class="notification row bg-danger">
+        <div class="d-none d-md-block col-md-8">
+          <h4>first column</h4>
         </div>
-      </header>
-    </div>
+        <div class="d-none d-md-block col-md-4">
+          <h4>second column</h4>
+        </div>
+      </div>
+
+      <nav class="navbar navbar-light">
+        <a href="{{ url_for('home') }}" class="navbar-brand"><img class="main-logo" src="{{ url_for('static', filename='image/logo.png') }}"></a>
+        <button class="navbar-toggler" data-toggle="collapse">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </nav>
+      <nav class="navbar navbar-expand-md">
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a href="#" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">Articles</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">Products</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">Recipe</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+    </header>
 
     <section>
       {%block content%}
       {%endblock%}
     </section>
+    <footer>
+    </footer>
+    <!-- Google jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Bootstrap js -->
+  	<script src="{{url_for('static', filename = 'js/bootstrap.bundle.min.js')}}"></script>
   </body>
-  <footer>
-  </footer>
 </html>

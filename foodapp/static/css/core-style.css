@@ -1,0 +1,14 @@
+img.main-logo{
+  max-width: 120px;
+}
+
+@media (min-width: 576px) {
+  img.main-logo{
+    max-width: 130px;
+  }
+}
+@media (min-width: 768px) {
+  img.main-logo{
+    max-width: 150px;
+  }
+}
