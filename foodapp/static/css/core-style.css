@@ -1,3 +1,20 @@
+.notification{
+  background-color: #3C4B5C;
+  line-height: 1;
+}
+
+.notification a{
+  color: white;
+  font-size: 0.8rem;
+}
+.notification a:hover{
+  color: #A0DFDF;
+}
+
+a{
+  color: #5c5d60;
+}
+
 img.main-logo{
   max-width: 115px;
 }
@@ -11,4 +28,29 @@ img.main-logo{
   img.main-logo{
     max-width: 125px;
   }
+}
+
+#hamburger .line{
+  width: 35px;
+  height: 4px;
+  background-color: #5c5d60;
+  margin: 6px 0;
+}
+
+.nav-menu ul {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    width: 100%;
+}
+.nav-menu ul li{
+    display: block;
+}
+
+.highlight{
+  color: #ef4065;
+}
+
+.bottom{
+  bottom:0px;
 }

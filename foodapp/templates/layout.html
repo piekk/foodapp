@@ -13,7 +13,78 @@
   </head>
   <body>
     <header>
-      <nav class="navbar navbar-light navbar-expand-sm">
+      <div class="container-fluid px-0">
+        <div class="notification d-none d-md-block">
+          <div class="container">
+            <div class="row py-1">
+              <div class="col-4">
+                <a href="#">Notification</a>
+              </div>
+              <div class="widget col-8 text-right">
+                <a class="px-3" href="#">Text</a>
+                <a class="px-3" href="#">Text</a>
+                <a class="pl-3" href="#">Text</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <nav class="main-nav row sticky-top mt-1">
+          <div class="container">
+            <div class="row">
+              <div class="col-8 pl-4 pl-md-3">
+                <img class="main-logo" src="{{ url_for('static', filename='image/logo.png') }}">
+                <span class="d-none d-md-inline-block text-primary pl-1">SLOGAN THIS IS SLOGAN</span>
+              </div>
+              <div class="col-4 pr-4 pr-md-3">
+                <div class="float-right d-md-none" id="hamburger" onclick="toggle">
+                  <div class="line"></div>
+                  <div class="line"></div>
+                  <div class="line"></div>
+                </div>
+                <div class="float-right d-none d-md-inline">
+                  <span>Cart</span>
+                  <span>Sign in</span>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="nav-menu col-12 d-none d-md-block">
+                <ul class="pl-0">
+                  <li class="d-inline">
+                    <a href="#">หน้าหลัก</a>
+                  </li>
+                  <li class="d-inline">
+                    <a href="#">บทความ</a>
+                  </li>
+                  <li class="d-inline">
+                    <a href="#">สินค้า</a>
+                  </li>
+                  <li class="d-inline">
+                    <a href="#">สูตรอาหาร</a>
+                  </li>
+                  <li class="d-inline">
+                    <a href="#">ติดต่อ</a>
+                  </li>
+                  <li class="d-inline highlight">
+                    <a href="#">สมาชิก</a>
+                  </li>
+                  <li class="d-inline highlight">
+                    <a href="#">โปรโมชัน</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+      </div>
+    </header>
+
+
+
+    <header>
+      <nav class="navbar navbar-light navbar-expand-sm mt-5">
         <a class="navbar-brand" href="#">
           <img class="main-logo image-fluid" src="{{ url_for('static', filename='image/logo.png') }}">
         </a>
