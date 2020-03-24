@@ -1,14 +1,14 @@
 img.main-logo{
-  max-width: 120px;
+  max-width: 115px;
 }
 
 @media (min-width: 576px) {
   img.main-logo{
-    max-width: 130px;
+    max-width: 125px;
   }
 }
 @media (min-width: 768px) {
   img.main-logo{
-    max-width: 150px;
+    max-width: 125px;
   }
 }
