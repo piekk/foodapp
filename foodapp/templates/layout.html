@@ -29,7 +29,7 @@
           </div>
         </div>
 
-        <nav class="main-nav row sticky-top mt-1">
+        <nav class="row sticky-top mt-3">
           <div class="container">
             <div class="row">
               <div class="col-8 pl-4 pl-md-3">
@@ -73,6 +73,7 @@
                     <a href="#">โปรโมชัน</a>
                   </li>
                 </ul>
+
               </div>
             </div>
           </div>
@@ -83,102 +84,17 @@
 
 
 
-    <header>
-      <nav class="navbar navbar-light navbar-expand-sm mt-5">
-        <a class="navbar-brand" href="#">
-          <img class="main-logo image-fluid" src="{{ url_for('static', filename='image/logo.png') }}">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse flex-column" id="navbar">
-          <ul class="navbar-nav nav my-1 w-100">
-            <li class="nav-item">
-              <a class="nav-link" href="#">PROPERTY</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="#" href="#units-tab">UNITS</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="#" href="#tenancies-tab">TENANCIES</a>
-            </li>
-          </ul>
-
-          <ul class="navbar-nav nav my-1 w-100">
-            <li class="nav-item">
-              <a href="#" class="nav-link">ALL</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">CURRENT</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">PAST</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </header>
-
-
-
-    <header class="main-header container-fluid mt-5">
-      <div class="notification row bg-danger">
-        <div class="d-none d-md-block col-md-8">
-          <h4>first column</h4>
-        </div>
-        <div class="d-none d-md-block col-md-4">
-          <h4>second column</h4>
-        </div>
-      </div>
-
-      <nav class="row navbar navbar-expand-md navbar-light clearfix">
-        <div class="col-8">
-          <a href="{{ url_for('home') }}" class="navbar-brand"><img class="main-logo image-fluid" src="{{ url_for('static', filename='image/logo.png') }}"></a>
-        </div>
-        <div class="col-4 text-right ">
-          <h4>button</h4>
-        </div>
-        <div class="clearfix"></div>
-        <div class="collapse navbar-collapse">
-          <ul class="navbar-nav nav-justified">
-            <li class="nav-item">
-              <a href="#" class="nav-link">หน้าหลัก</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">บทความ</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">สินค้า</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">สูตรอาหาร</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">ติดต่อ</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">สมาชิก</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">โปรโมชัน</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
-
-
 
     </header>
 
-    <section>
-      {%block content%}
-      {%endblock%}
-    </section>
+
+    {%block content%}
+    {%endblock%}
+
     <footer>
     </footer>
     <!-- Google jquery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
     <!-- Bootstrap js -->
   	<script src="{{url_for('static', filename = 'js/bootstrap.bundle.min.js')}}"></script>
   </body>

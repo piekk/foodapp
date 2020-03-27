@@ -16,17 +16,17 @@ a{
 }
 
 img.main-logo{
-  max-width: 115px;
+  max-width: 100px;
 }
 
 @media (min-width: 576px) {
   img.main-logo{
-    max-width: 125px;
+    max-width: 110px;
   }
 }
 @media (min-width: 768px) {
   img.main-logo{
-    max-width: 125px;
+    max-width: 120px;
   }
 }
 
@@ -36,6 +36,7 @@ img.main-logo{
   background-color: #5c5d60;
   margin: 6px 0;
 }
+
 
 .nav-menu ul {
     display: flex;
@@ -53,4 +54,10 @@ img.main-logo{
 
 .bottom{
   bottom:0px;
+}
+header{
+  border-bottom: 1px solid #f9f1f1;
+}
+.title{
+  border-bottom: 1px solid #5c5d60;
 }
