@@ -2,18 +2,16 @@
 {% block content %}
 
 <section>
-  <div class="container">
+  <div class="container banner mb-5">
     <div class="row">
       <div class="d-none d-md-block col-12">
-        <div class="banner mb-5">
-          <img class="img-fluid" src="{{ url_for('static', filename='image/banner1.jpg')}}">
-        </div>
+        <img class="img-fluid" src="{{ url_for('static', filename='image/banner1.jpg')}}">
       </div>
     </div>
   </div>
 
-  <div class="container">
-    <div class="row">
+  <div class="container product-highlight mb-5">
+    <div class="row mb-5">
       <div class="col-12">
         <div class="title">
           <h4>สินค้า</h4>
@@ -23,51 +21,99 @@
 
     <div class="row">
       <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3">
-        <h4>product 1</h4>
         <img class="img-fluid" src="{{ url_for('static', filename ='products/sample1.jpg' )}}" alt="">
         <h6>brand title</h6>
         <h4>product title</h4>
         <p>short product description</p>
       </div>
       <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3">
-        <h4>product 2</h4>
         <img class="img-fluid" src="{{ url_for('static', filename ='products/sample2.jpg' )}}" alt="">
         <a href="#" title="">Bran tag</a>
         <h4>product title</h4>
         <p>short product description</p>
       </div>
       <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3">
-        <h4>product 3</h4>
         <img class="img-fluid" src="{{ url_for('static', filename ='products/sample3.jpg' )}}" alt="">
         <h6>brand title</h6>
         <h4>product title</h4>
         <p>short product description</p>
       </div>
       <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3">
-        <h4>product 4</h4>
         <img class="img-fluid" src="{{ url_for('static', filename ='products/sample4.jpg' )}}" alt="">
         <h6>brand title</h6>
         <h4>product title</h4>
         <p>short product description</p>
       </div>
       <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3">
-        <h4>product 5</h4>
+        <img class="img-fluid" src="{{ url_for('static', filename ='products/sample4.jpg' )}}" alt="">
+        <h6>brand title</h6>
+        <h4>product title</h4>
+        <p>short product description</p>
       </div>
       <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3">
-        <h4>product 6</h4>
+        <img class="img-fluid" src="{{ url_for('static', filename ='products/sample4.jpg' )}}" alt="">
+        <h6>brand title</h6>
+        <h4>product title</h4>
+        <p>short product description</p>
       </div>
       <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3">
-        <h4>product 7</h4>
+        <img class="img-fluid" src="{{ url_for('static', filename ='products/sample4.jpg' )}}" alt="">
+        <h6>brand title</h6>
+        <h4>product title</h4>
+        <p>short product description</p>
       </div>
       <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3">
-        <h4>product 8</h4>
+        <img class="img-fluid" src="{{ url_for('static', filename ='products/sample4.jpg' )}}" alt="">
+        <h6>brand title</h6>
+        <h4>product title</h4>
+        <p>short product description</p>
       </div>
+    </div>
+  </div>
 
+  <div class="container articles mb-5">
+    <div class="row mb-3">
+      <div class="col-12">
+        <div class="title">
+          <h4>บทความ</h4>
+        </div>
+      </div>
     </div>
 
-
-
+    <div class="row">
+      <div class="article-card col-12 col-sm-6 col-md-4 col-lg-3">
+        <img class="img-fluid" src="{{ url_for('static', filename ='articles/sample1.jpg' )}}" alt="">
+        <h4>article title</h4>
+        <p>article short detail info Lorem ipsum dolor sit amet,
+          consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mini
+        </p>
+      </div>
+      <div class="article-card col-12 col-sm-6 col-md-4 col-lg-3">
+        <img class="img-fluid" src="{{ url_for('static', filename ='articles/sample2.jpg' )}}" alt="">
+        <h4>article title</h4>
+        <p>article short detail info Lorem ipsum dolor sit amet,
+          consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mini
+        </p>
+      </div>
+      <div class="article-card col-12 col-sm-6 col-md-4 col-lg-3">
+        <img class="img-fluid" src="{{ url_for('static', filename ='articles/sample3.jpg' )}}" alt="">
+        <h4>article title</h4>
+        <p>article short detail info Lorem ipsum dolor sit amet,
+          consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mini
+        </p>
+      </div>
+      <div class="article-card col-12 col-sm-6 col-md-4 col-lg-3">
+        <img class="img-fluid" src="{{ url_for('static', filename ='articles/sample4.jpg' )}}" alt="">
+        <h4>article title</h4>
+        <p>article short detail info Lorem ipsum dolor sit amet,
+          consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mini
+        </p>
+      </div>
+    </div>
   </div>
+
+
+
 
 
 </section>
