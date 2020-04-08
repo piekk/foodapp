@@ -1,5 +1,12 @@
+/* color */
+/* blue #1a2a43 */
+/* black #0c1019 */
+/*yellow #dca510*/
+/*light blue #1e3957 */
+/* light grey #cdcdc3*/
+
 .notification{
-  background-color: #3C4B5C;
+  background-color: #1a2a43;
   line-height: 1;
 }
 
@@ -8,32 +15,25 @@
   font-size: 0.8rem;
 }
 .notification a:hover{
-  color: #A0DFDF;
+  color: #dca510;
+  text-decoration: none;
 }
 
-a{
-  color: #5c5d60;
+a, span, h1, h2, h3, h4, h5, h6, p{
+  color: #0c1019;
 }
-
+a:hover{
+  color: #1e3957;
+}
 img.main-logo{
-  max-width: 100px;
+  max-width: 110px;
 }
 
-@media (min-width: 576px) {
-  img.main-logo{
-    max-width: 110px;
-  }
-}
-@media (min-width: 768px) {
-  img.main-logo{
-    max-width: 120px;
-  }
-}
 
 #hamburger .line{
   width: 35px;
   height: 4px;
-  background-color: #5c5d60;
+  background-color: #1a2a43;
   margin: 6px 0;
 }
 
@@ -49,19 +49,32 @@ img.main-logo{
 }
 
 .highlight{
-  color: #ef4065;
+  color: #1e3957;
 }
-
 .bottom{
   bottom:0px;
 }
-header{
-  border-bottom: 1px solid #f9f1f1;
+
+.sticky-top{
+  border-bottom: 1px solid #0c1019;
+  background-color: white;
+  position: sticky;
+  top: 0px;
+  z-index: 1;
 }
-.title{
-  border-bottom: 1px solid #5c5d60;
+.slogan{
+  font-size: 0.8rem;
 }
 
+.dropdown-menu{
+  top: 1rem !important;
+  left: -1rem !important;
+}
+
+
+.title{
+  border-bottom: 1px solid #0c1019;
+}
 
 /* product card text style */
 .product-card a.brand-tag{
@@ -69,4 +82,80 @@ header{
 }
 .product-card a.product-name{
   font-size: 0.9rem;
+}
+
+/* position tag */
+.product-description{
+  height: 80px;
+}
+
+.star-ratings img{
+  max-width: 12px;
+}
+
+.main-button{
+  width: 175px;
+  height: 40px;
+  padding: 0px;
+  font-size: 0.8rem;
+  background-color: #223a60;
+  border: none;
+}
+.main-button:hover{
+  background-color: #1a2a43;
+  color: #dca510;
+}
+
+.footer-area{
+  background-color: #1a2a43;
+}
+ul.icon{
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.footer-area li{
+  list-style-type: none;
+  padding: 0.25rem 0;
+}
+.white{
+  color: white;
+}
+/* media screen */
+
+@media (max-width: 576px){
+  .main-button{
+    width: 150px;
+  }
+  img.main-logo{
+    max-width: 100px;
+  }
+  .slogan{
+    font-size: 0.6rem;
+  }
+}
+
+
+
+@media (min-width: 768px) {
+  .slogan{
+    font-size: 1rem;
+  }
+  .product-description{
+    height: 70px;
+  }
+  .main-button{
+    width: 180px;
+  }
+  img.main-logo{
+    max-width: 120px;
+  }
+}
+
+@media (min-width: 992px){
+  .main-button{
+    width: 200px;
+  }
 }

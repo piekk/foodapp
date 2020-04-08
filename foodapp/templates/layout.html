@@ -12,31 +12,33 @@
     <title></title>
   </head>
   <body>
-    <header>
-      <div class="container-fluid px-0">
-        <div class="notification d-none d-md-block">
-          <div class="container">
-            <div class="row py-1">
-              <div class="col-4">
-                <a href="#">Notification</a>
-              </div>
-              <div class="widget col-8 text-right">
-                <a class="px-3" href="#">Text</a>
-                <a class="px-3" href="#">Text</a>
-                <a class="pl-3" href="#">Text</a>
-              </div>
+
+    <div class="container-fluid px-0">
+      <div class="row notification d-none d-md-block">
+        <div class="container">
+          <div class="row py-1">
+            <div class="col-4">
+              <a href="#">Notification</a>
+            </div>
+            <div class="widget col-8 text-right">
+              <a class="px-3" href="#">Text</a>
+              <a class="px-3" href="#">Text</a>
+              <a class="pl-3" href="#">Text</a>
             </div>
           </div>
         </div>
+      </div>
+    </div>
 
-        <nav class="row sticky-top mt-3">
+    <header class="container-fluid px-0 sticky-top">
+        <nav class="row">
           <div class="container">
-            <div class="row">
-              <div class="col-8 pl-4 pl-md-3">
+            <div class="row mt-2">
+              <div class="col-9 pl-4 pl-md-3 position-relative">
                 <img class="main-logo" src="{{ url_for('static', filename='image/logo.png') }}">
-                <span class="d-none d-md-inline-block text-primary pl-1">SLOGAN THIS IS SLOGAN</span>
+                <span class="d-inline-block slogan text-primary pl-2" style="position:absolute;bottom:0;">SLOGAN THIS IS SLOGAN</span>
               </div>
-              <div class="col-4 pr-4 pr-md-3">
+              <div class="col-3 pr-4 pr-md-3">
                 <div class="float-right d-md-none" id="hamburger" onclick="toggle">
                   <div class="line"></div>
                   <div class="line"></div>
@@ -57,29 +59,43 @@
                   <li class="d-inline">
                     <a href="#">บทความ</a>
                   </li>
-                  <li class="d-inline">
-                    <a href="#">สินค้า</a>
+                  <li class="d-inline dropdown">
+                    <a class="dropdown-toggle" href="#" role="button" id="product-category" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">สินค้า</a>
+                    <div class="dropdown-menu" style="top: 1rem;" aria-labelledby="product-category">
+                      <a class="dropdown-item" href="#">หมวดหมู่ 1</a>
+                      <a class="dropdown-item" href="#">หมวดหมู่ 2</a>
+                      <a class="dropdown-item" href="#">หมวดหมู่ 3</a>
+                      <a class="dropdown-item" href="#">หมวดหมู่ 4</a>
+                      <a class="dropdown-item" href="#">หมวดหมู่ 5</a>
+                      <a class="dropdown-item" href="#">หมวดหมู่ 6</a>
+                      <a class="dropdown-item" href="#">หมวดหมู่ 7</a>
+                    </div>
                   </li>
-                  <li class="d-inline">
-                    <a href="#">สูตรอาหาร</a>
+                  <li class="d-inline dropdown">
+                    <a class="dropdown-toggle" href="#" role="button" id="recipes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">สูตรอาหาร</a>
+                    <div class="dropdown-menu" style="top: 1rem;" aria-labelledby="recipes">
+                      <a class="dropdown-item" href="#">ตัวอย่างสูตร 1</a>
+                      <a class="dropdown-item" href="#">ตัวอย่างสูตร 2</a>
+                      <a class="dropdown-item" href="#">ตัวอย่างสูตร 3</a>
+                      <a class="dropdown-item" href="#">ตัวอย่างสูตร 4</a>
+                      <a class="dropdown-item" href="#">ตัวอย่างสูตร 5</a>
+                    </div>
                   </li>
                   <li class="d-inline">
                     <a href="#">ติดต่อ</a>
                   </li>
-                  <li class="d-inline highlight">
-                    <a href="#">สมาชิก</a>
+                  <li class="d-inline">
+                    <a class="highlight" href="#">สมาชิก</a>
                   </li>
-                  <li class="d-inline highlight">
-                    <a href="#">โปรโมชัน</a>
+                  <li class="d-inline">
+                    <a class="highlight" href="#">โปรโมชัน</a>
                   </li>
                 </ul>
-
               </div>
             </div>
           </div>
         </nav>
 
-      </div>
     </header>
 
 
@@ -91,8 +107,48 @@
     {%block content%}
     {%endblock%}
 
-    <footer>
+    <footer class="footer-area clearfix">
+      <div class="container">
+        <div class="row">
+          <div class="col-6 d-md-none mt-4">
+            <h4 class="white font-weight-light">footer</h4>
+            <ul class="px-0">
+              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
+              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
+              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
+              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
+              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
+              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
+              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
+              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
+            </ul>
+          </div>
+          <div class="col-6 d-md-none mt-4">
+            <img class="main-logo" src="{{ url_for('static', filename='image/logo.png') }}">
+            <h6 class="slogan mt-2 white">SLOGAN THIS IS SLOGAN</h6>
+            <h4 class="mt-4 white font-weight-light">footer</h4>
+            <ul class="px-0">
+              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
+              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
+              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
+              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
+            </ul>
+          </div>
+          <div class="col-9">
+            <h4 class="white font-weight-light">Follow us</h4>
+            <ul class="px-0 icon">
+              <li class="d-inline font-weight-light"><a class="white" href="#">Face</a></li>
+              <li class="d-inline font-weight-light"><a class="white" href="#">etc</a></li>
+              <li class="d-inline font-weight-light"><a class="white" href="#">etc</a></li>
+              <li class="d-inline font-weight-light"><a class="white" href="#">etc</a></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
     </footer>
+
+
     <!-- Google jquery -->
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
     <!-- Bootstrap js -->
