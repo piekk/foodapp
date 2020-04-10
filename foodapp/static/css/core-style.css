@@ -5,6 +5,8 @@
 /*light blue #1e3957 */
 /* light grey #cdcdc3*/
 
+
+}
 .notification{
   background-color: #1a2a43;
   line-height: 1;
@@ -78,8 +80,11 @@ img.main-logo{
 
 /* product card text style */
 .product-card a.brand-tag{
-  font-size: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 200;
+  color: #1a2a43;
 }
+
 .product-card a.product-name{
   font-size: 0.9rem;
 }
@@ -90,7 +95,7 @@ img.main-logo{
 }
 
 .star-ratings img{
-  max-width: 12px;
+  max-width: 9px;
 }
 
 .main-button{
@@ -100,6 +105,7 @@ img.main-logo{
   font-size: 0.8rem;
   background-color: #223a60;
   border: none;
+  border-radius: 0;
 }
 .main-button:hover{
   background-color: #1a2a43;
@@ -123,6 +129,35 @@ ul.icon{
 .white{
   color: white;
 }
+
+.overlay-text{
+  background-color: black;
+  color: white;
+  opacity: 0.6;
+  width: 30%;
+  height: 100%;
+  position: absolute;
+  right: 1rem;
+  top: 0;
+  text-align: center;
+}
+.overlay-text:hover{
+  opacity: 1;
+  text-decoration: underline;
+}
+
+/* Shop page */
+.breadcrumb{
+  background-color: transparent;
+}
+.breadcrumb-item{
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+.breadcrumb .breadcrumb-item + .breadcrumb-item::before{
+  content: "|";
+}
+
 /* media screen */
 
 @media (max-width: 576px){
@@ -151,6 +186,9 @@ ul.icon{
   }
   img.main-logo{
     max-width: 120px;
+  }
+  .star-ratings img{
+    max-width: 12px;
   }
 }
 
