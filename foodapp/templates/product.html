@@ -1,0 +1,179 @@
+{% extends"layout.html" %}
+{% block content %}
+
+<section class="single-product">
+  <div class="container">
+    <div class="row filter">
+      <div class="d-none d-sm-block col-sm-12">
+        <nav>
+            <ol class="breadcrumb px-0">
+                <li class="breadcrumb-item"><a href="{{url_for('home')}}">หน้าหลัก</a></li>
+                <li class="breadcrumb-item"><a href="#">แบรนด์</a></li>
+                <li class="breadcrumb-item active"><a href="#">หน้าปัจจุบัน</a></li>
+            </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+
+      <div class="col-12 col-md-8">
+        <div class="carousel slide mb-5" id="single_product" data-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img class="d-block w-100" src="{{url_for('static', filename='products/sample1.jpg')}}" alt="First slide">
+            </div>
+            <div class="carousel-item">
+              <img class="d-block w-100" src="{{url_for('static', filename='products/sample2.jpg')}}" alt="First slide">
+            </div>
+            <div class="carousel-item">
+              <img class="d-block w-100" src="{{url_for('static', filename='products/sample3.jpg')}}" alt="First slide">
+            </div>
+            <div class="carousel-item">
+              <img class="d-block w-100" src="{{url_for('static', filename='products/sample4.jpg')}}" alt="First slide">
+            </div>
+          </div>
+          <ol class="carousel-indicators">
+            <li class="active" data-target="#single_product" data-slide-to="0" style="background-image: url({{ url_for('static',filename='products/sample1.jpg') }})"></li>
+            <li data-target="#single_product" data-slide-to="1" style="background-image: url({{ url_for('static',filename='products/sample2.jpg') }})"></li>
+            <li data-target="#single_product" data-slide-to="2" style="background-image: url({{ url_for('static',filename='products/sample3.jpg') }})"></li>
+            <li data-target="#single_product" data-slide-to="3" style="background-image: url({{ url_for('static',filename='products/sample4.jpg') }})"></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <div class="container-fluid px-0">
+          <div class="row">
+            <div class="col-8 col-md-12">
+              <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">kadozomi</a>
+              <h5>Turmeric & Rice Pasta Organic 250g</h5>
+            </div>
+
+            <div class="col-4 col-md-12">
+              <span class="discount-tag float-right float-md-none ml-4 ml-md-0">- 30%</span>
+              <div class="clearfix mb-0.7"></div>
+              <h6 class=" mt-2 text-right text-md-left"><del>฿2039.00</del></h6>
+              <h6 class=" mt-2 text-blue text-right text-md-left">฿2039.00 <span class="d-none d-md-inline text-blue">ราคาปัจจุบัน</span></h6>
+            </div>
+
+            <div class="col-12 mt-4">
+              <button type="button" name="button" class="btn btn-primary main-button">Add to cart</button>
+            </div>
+
+            <div class="col-12">
+              <div class="product-details bg-lightblue px-3 py-3 mt-4">
+                <h6 class="mt-2 text-blue">วิธีการผลิต</h6>
+                <p class="mt-3 text-main">You know the benefits of Spirulina but you have
+                trouble integrating it into your smoothies? Then this supplement is for you!
+                Rich in proteins, spirulina is a great alternative especially for vegetarians
+                or vegan people. Indeed, it is first of all the impressive protein content
+                (50 to 70%) of spirulina that has attracted the attention of...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-8 mt-4 ">
+        <div class="description">
+          <h5 class="mb-3 title">ส่วนประกอบ</h5>
+          <p>77% organic white quinoa, 20% organic
+            vegetables, (5% sweetcorn, red pepper
+            5%, peas 5%, 5% carrot), organic sunflower
+            oil, organic basil, natural flavourings
+            (basil, lime), sea salt, stabiliser : guar gum</p>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4 mt-4">
+        <div class="hash-tag">
+          <ul class="pl-0">
+            <h5 class="mb-3 title">แทกสินค้า</h5>
+            <li><a href="#">ORGANIC</a></li>
+            <li><a href="#">ORGANIC</a></li>
+            <li><a href="#">ORGANIC</a></li>
+            <li><a href="#">ORGANIC</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-12 mt-4">
+        <div class="reviews">
+          <h5 class="mb-3 title">รีวิวจากลูกค้า</h5>
+          <div class="bg-lightblue p-2 mb-3">
+            <h6>Laetitia A</h6>
+            <p class="mb-1 small">เมื่อวันที่่ 13/22/22</p>
+            <div class="star-ratings mb-2">
+              <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
+              <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
+              <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
+              <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
+              <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
+            </div>
+            <p class="small">Si vous avez un micro-ondes, c'est bon ;)</p>
+          </div>
+          <div class="bg-lightblue p-2 mb-2">
+            <h6>ผAnaëlle C</h6>
+            <p class="mb-1 small">เมื่อวันที่่ 13/22/22</p>
+            <div class="star-ratings mb-3">
+              <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
+              <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
+              <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
+            </div>
+            <p class="small">Je les utilise depuis plus de deux mois et rien à redire. Le petit goût de l'eau du robinet est désormais indétectable !</p>
+          </div>
+        </div>
+      </div>
+
+
+      <!--small screen only-->
+      <div class="col-12 d-sm-none mt-4">
+        <div class="product-suggest">
+          <h5 class="mb-3 title">สินค้าอื่น</h5>
+          <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="row">
+                  <div class="col-6">
+                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample1.jpg')}}" alt="1 slide">
+                  </div>
+                  <div class="col-6">
+                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample2.jpg')}}" alt="2 slide">
+                  </div>
+                </div>
+              </div>
+
+              <div class="carousel-item">
+                <div class="row">
+                  <div class="col-6">
+                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample3.jpg')}}" alt="1 slide">
+                  </div>
+                  <div class="col-6">
+                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample4.jpg')}}" alt="2 slide">
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!--large screen only-->
+
+    </div>
+  </div>
+</section>
+{% endblock %}

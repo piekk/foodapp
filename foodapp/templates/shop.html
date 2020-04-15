@@ -1,14 +1,14 @@
 {% extends"layout.html" %}
 {% block content %}
 
-<section class="mt-3">
+<section>
   <div class="container">
-    <div class="row">
+    <div class="row filter">
       <div class="col-12">
         <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{url_for('home')}}">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Gallery</a></li>
+            <ol class="breadcrumb px-0">
+                <li class="breadcrumb-item"><a href="{{url_for('home')}}">หน้าหลัก</a></li>
+                <li class="breadcrumb-item"><a href="#">แบรนด์</a></li>
                 <li class="breadcrumb-item active"><a href="#">หน้าปัจจุบัน</a></li>
             </ol>
         </nav>
@@ -39,16 +39,14 @@
         <div class="add-cart text-center">
           <button type="button" name="button" class="btn btn-primary main-button">Add to cart</button>
         </div>
-
       </div>
-
       <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3 py-3 position-relative">
         <div class="product-image">
           <img class="img-fluid" src="{{ url_for('static', filename ='products/sample2.jpg' )}}" alt="">
         </div>
         <div class="product-description">
-          <a href="#" title="" class="brand-tag">Brand example</a>
-          <h6><a href="#" class="product-name">Express Mexicanne Quinua organic 250g</a></h6>
+          <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
+          <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
         </div>
         <div class="star-ratings mb-2">
           <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
@@ -64,14 +62,13 @@
           <button type="button" name="button" class="btn btn-primary main-button">Add to cart</button>
         </div>
       </div>
-
-      <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3 py-3">
+      <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3 py-3 position-relative">
         <div class="product-image">
           <img class="img-fluid" src="{{ url_for('static', filename ='products/sample3.jpg' )}}" alt="">
         </div>
         <div class="product-description">
-          <a href="#" title="" class="brand-tag">Brand example</a>
-          <h6><a href="#" class="product-name">Express Mexicanne Quinua organic 250g</a></h6>
+          <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
+          <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
         </div>
         <div class="star-ratings mb-2">
           <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
@@ -87,13 +84,13 @@
           <button type="button" name="button" class="btn btn-primary main-button">Add to cart</button>
         </div>
       </div>
-      <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3 py-3">
+      <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3 py-3 position-relative">
         <div class="product-image">
           <img class="img-fluid" src="{{ url_for('static', filename ='products/sample4.jpg' )}}" alt="">
         </div>
         <div class="product-description">
-          <a href="#" title="" class="brand-tag">Brand example</a>
-          <h6><a href="#" class="product-name">Express Mexicanne Quinua organic etc and some 250g</a></h6>
+          <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
+          <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
         </div>
         <div class="star-ratings mb-2">
           <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
@@ -109,49 +106,7 @@
           <button type="button" name="button" class="btn btn-primary main-button">Add to cart</button>
         </div>
       </div>
-      <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3 py-3">
-        <img class="img-fluid" src="{{ url_for('static', filename ='products/sample4.jpg' )}}" alt="">
-        <h6>brand title</h6>
-        <h4>product title</h4>
-        <p>short product description</p>
-      </div>
-      <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3 py-3v">
-        <img class="img-fluid" src="{{ url_for('static', filename ='products/sample4.jpg' )}}" alt="">
-        <h6>brand title</h6>
-        <h4>product title</h4>
-        <p>short product description</p>
-      </div>
-      <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3 py-3">
-        <img class="img-fluid" src="{{ url_for('static', filename ='products/sample4.jpg' )}}" alt="">
-        <h6>brand title</h6>
-        <h4>product title</h4>
-        <p>short product description</p>
-      </div>
-      <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3 py-3">
-        <img class="img-fluid" src="{{ url_for('static', filename ='products/sample4.jpg' )}}" alt="">
-        <h6>brand title</h6>
-        <h4>product title</h4>
-        <p>short product description</p>
-      </div>
-    </div>
-  </div>
 
-  <div class="container brand-story mb-5">
-    <div class="row">
-      <div class="col-12">
-        <div class="title">
-          <h4>เกี่ยวกับเรา</h4>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-12">
-        <img class="img-fluid" src="{{ url_for('static', filename='image/banner1.jpg')}}">
-        <p>article short detail info Lorem ipsum dolor sit amet,
-        consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mini
-        </p>
-      </div>
     </div>
   </div>
 

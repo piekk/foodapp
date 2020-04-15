@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" >
     <link rel="stylesheet" href="{{ url_for('static', filename='css/core-style.css') }}" >
     <title></title>
   </head>
@@ -35,7 +34,7 @@
           <div class="container">
             <div class="row mt-2">
               <div class="col-9 pl-4 pl-md-3 position-relative">
-                <img class="main-logo" src="{{ url_for('static', filename='image/logo.png') }}">
+                <a href="{{url_for('home')}}"><img class="main-logo" src="{{ url_for('static', filename='image/logo.png') }}"></a>
                 <span class="d-inline-block slogan text-primary pl-2" style="position:absolute;bottom:0;">SLOGAN THIS IS SLOGAN</span>
               </div>
               <div class="col-3 pr-4 pr-md-3">
@@ -44,9 +43,8 @@
                   <div class="line"></div>
                   <div class="line"></div>
                 </div>
-                <div class="float-right d-none d-md-inline">
-                  <span>Cart</span>
-                  <span>Sign in</span>
+                <div class="float-right d-none d-md-inline align-items-end">
+                  <a href="#"><img src="{{url_for('static', filename='image/core-img/add-to-cart.png')}}" class="mt-2 cart-icon"><span class="align-bottom">(0)</span></a>
                 </div>
               </div>
             </div>
@@ -107,7 +105,7 @@
     {%block content%}
     {%endblock%}
 
-    <footer class="footer-area clearfix">
+    <footer class="footer-area mt-5 clearfix">
       <div class="container">
         <div class="row">
           <div class="col-6 d-md-none mt-4">
@@ -153,5 +151,9 @@
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
     <!-- Bootstrap js -->
   	<script src="{{url_for('static', filename = 'js/bootstrap.bundle.min.js')}}"></script>
+    <!-- Plugins js -->
+  	<script src="{{url_for('static', filename = 'js/plugins.js')}}"></script>
+  	<!-- Active js -->
+  	<script src="{{url_for('static',filename = 'js/active.js')}}"></script>
   </body>
 </html>
