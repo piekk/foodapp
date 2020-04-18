@@ -42,6 +42,9 @@ body {
   font-family: "Prompt-Regular";
   box-sizing: border-box;
 }
+footer{
+  margin-top: 100px;
+}
 
 .notification{
   background-color: #03444a;
@@ -96,9 +99,7 @@ img.main-logo{
 .highlight{
   color: #03444a;
 }
-.bottom{
-  bottom:0px;
-}
+
 
 .sticky-top{
   border-bottom: 1px solid #0c1019;
@@ -156,6 +157,23 @@ a.product-name{
   color: #f1bc52;
 }
 
+.view-button{
+  background-color: #00a8a8;
+  border: none;
+  color: white;
+  min-width: 100%;
+  padding: 0.7rem 2rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.view-button:hover{
+  background-color: #03444a;
+  color: white;
+  text-decoration: none;
+}
 
 .footer-area{
   background-color: #00a8a8;
@@ -254,11 +272,16 @@ ul.icon{
   color: #00a8a8;
 }
 
-.first-slide{
-  justify-content: space-between;
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+  filter: invert(.5);
 }
-.first-slide img{
-  max-height: 200px;
+
+.carousel-product .carousel-item img{
+  max-width: 450px;
+  max-height: 450px;
+  margin: auto;
 }
 
 /* media screen */
@@ -310,11 +333,8 @@ ul.icon{
   .star-ratings img{
     max-width: 12px;
   }
-  img.main-product-image{
-    max-width: 350px;
-    margin: auto;
-  }
-  ..carousel-indicators li{
+
+  .carousel-indicators li{
     width: 120px;
     height: 120px;
   }
@@ -323,15 +343,6 @@ ul.icon{
 @media (min-width: 992px){
   .main-button{
     width: 200px;
-  }
-  img.main-product-image{
-    max-width: 450px;
-    margin: auto;
-  }
-  .carousel-inner .carousel-item img{
-    max-width: 450px;
-    max-height: 450px;
-    margin: auto;
   }
   .carousel-indicators{
     max-width: 450px;

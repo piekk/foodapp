@@ -21,7 +21,7 @@
 
       <div class="col-12 col-md-8">
         <div class="carousel slide mb-5" id="single_product" data-ride="carousel">
-          <div class="carousel-inner">
+          <div class="carousel-inner carousel-product">
             <div class="carousel-item active">
               <img class="d-block w-100" src="{{url_for('static', filename='products/sample1.jpg')}}" alt="First slide">
             </div>
@@ -93,8 +93,8 @@
           <ul class="pl-0">
             <h5 class="mb-3 title">แทกสินค้า</h5>
             <li><a href="#">ORGANIC</a></li>
-            <li><a href="#">ORGANIC</a></li>
-            <li><a href="#">ORGANIC</a></li>
+            <li><a href="#">Ketone</a></li>
+            <li><a href="#">vegan</a></li>
             <li><a href="#">ORGANIC</a></li>
           </ul>
         </div>
@@ -130,18 +130,32 @@
 
 
       <!--small screen only-->
-      <div class="col-12 d-sm-none mt-4">
+      <div class="col-12 d-md-none mt-4">
         <div class="product-suggest">
           <h5 class="mb-3 title">สินค้าอื่น</h5>
-          <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+          <div id="extrasmallscreen-Controls" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
               <div class="carousel-item active">
                 <div class="row">
                   <div class="col-6">
                     <img class="d-block w-100" src="{{url_for('static', filename='products/sample1.jpg')}}" alt="1 slide">
+                    <div class="product-description bg-lightblue">
+                      <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
+                      <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
+                    </div>
+                    <div class="text-center mt-3">
+                      <a class="view-button" href="#">ดูเพิ่มเติม</a>
+                    </div>
                   </div>
                   <div class="col-6">
                     <img class="d-block w-100" src="{{url_for('static', filename='products/sample2.jpg')}}" alt="2 slide">
+                    <div class="product-description bg-lightblue">
+                      <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
+                      <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
+                    </div>
+                    <div class="text-center mt-3">
+                      <a class="view-button" href="#">ดูเพิ่มเติม</a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -159,11 +173,81 @@
 
 
             </div>
-            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <a class="carousel-control-prev" href="#extrasmallscreen-Controls" role="button" data-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="sr-only">Previous</span>
             </a>
-            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <a class="carousel-control-next" href="#extrasmallscreen-Controls" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!--medium screen only-->
+
+      <div class="d-none d-md-block d-lg-none mt-4">
+        <div class="product-suggest">
+          <h5 class="mb-3 title">สินค้าอื่น</h5>
+          <div id="mediumscreen-Controls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="row">
+                  <div class="col-4">
+                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample1.jpg')}}" alt="1 slide">
+                    <div class="product-description bg-lightblue">
+                      <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
+                      <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
+                    </div>
+                    <div class="text-center mt-3">
+                      <a class="view-button" href="#">ดูเพิ่มเติม</a>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample2.jpg')}}" alt="2 slide">
+                    <div class="product-description bg-lightblue">
+                      <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
+                      <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
+                    </div>
+                    <div class="text-center mt-3">
+                      <a class="view-button" href="#">ดูเพิ่มเติม</a>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample2.jpg')}}" alt="2 slide">
+                    <div class="product-description bg-lightblue">
+                      <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
+                      <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
+                    </div>
+                    <div class="text-center mt-3">
+                      <a class="view-button" href="#">ดูเพิ่มเติม</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="carousel-item">
+                <div class="row">
+                  <div class="col-4">
+                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample3.jpg')}}" alt="1 slide">
+                  </div>
+                  <div class="col-4">
+                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample4.jpg')}}" alt="2 slide">
+                  </div>
+                  <div class="col-4">
+                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample4.jpg')}}" alt="2 slide">
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+            <a class="carousel-control-prev" href="#mediumscreen-Controls" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#mediumscreen-Controls" role="button" data-slide="next">
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="sr-only">Next</span>
             </a>
@@ -172,6 +256,61 @@
       </div>
 
       <!--large screen only-->
+
+      <div class="d-none d-lg-block mt-4">
+        <div class="product-suggest">
+          <h5 class="mb-3 title">สินค้าอื่น</h5>
+          <div id="largescreen-Controls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="row">
+                  <div class="col-3">
+                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample1.jpg')}}" alt="1 slide">
+                    <div class="product-description bg-lightblue">
+                      <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
+                      <h6><a href="#" class="product-name">Coconut flour organic 500g kkjklsdfajlskdjfaldfjlkfdsa</a></h6>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample2.jpg')}}" alt="2 slide">
+                    <div class="product-description bg-lightblue">
+                      <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
+                      <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
+                    </div>
+                    <div class="text-center mt-3">
+                      <a class="view-button" href="#">ดูเพิ่มเติม</a>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample2.jpg')}}" alt="2 slide">
+                    <div class="product-description bg-lightblue">
+                      <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
+                      <h6><a href="#" class="product-name">Coconut flour organic 500g kkjklsdfajlskdjfaldfjlkfdsa</a></h6>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample2.jpg')}}" alt="2 slide">
+                    <div class="product-description bg-lightblue">
+                      <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
+                      <h6><a href="#" class="product-name">Coconut flour organic 500g kkjklsdfajlskdjfaldfjlkfdsa</a></h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+            <a class="carousel-control-prev" href="#largescreen-Controls" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#largescreen-Controls" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
+      </div>
 
     </div>
   </div>
