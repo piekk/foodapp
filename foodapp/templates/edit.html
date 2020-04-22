@@ -1,0 +1,56 @@
+{% extends"layout.html" %}
+{% block content %}
+
+<section>
+  <div class="container">
+    <div class="row">
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      {% for message in messages %}
+      <div class="col-12 mt-5">
+        <p class="text-danger">{{ message }}</p>
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      <div class="col-12">
+        <h5 class="title my-5">เปลี่ยนแปลงข้อมูล</h5>
+      </div>
+      <div class="col-12">
+        <form method="POST">
+        {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <h6>{{ current_user.firstname }} {{ current_user.lastname }}</h6>
+                    <h6>{{ current_user.role }}</h6>
+                </div>
+                <div class="col-12 mb-3">
+                    {{ form.username.label(class_="text-muted") }}
+                    {{ form.username(class_="form-control") }}
+                    <p class="text-danger">{% for error in form.username.errors %}{{ error }}{% endfor %}</p>
+                    <p>Your public profile only shows your username</p>
+                </div>
+                <div class="col-12 mb-3">
+                    Your current email: {{ current_user.email }}
+                    {{ form.email.label(class_="text-muted") }}
+                    {{ form.email(class_="form-control") }}
+                    <p class="text-danger">{% for error in form.email.errors %}{{ error }}{% endfor %}</p>
+                    <p>We won't share your private email address with other users.</p>
+                </div>
+                <div class="col-12 mb-3">
+                    <h6>{{ current_user.contact }}</h6>
+                    <a href="{{url_for('addcontact', name = current_user.username)}}">เพิ่มเบอร์ติดต่อ</a>
+                </div>
+
+
+                <div class="col-12 mb-3">
+                    {{ form.submit(class_="btn btn-primary button") }}
+                </div>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

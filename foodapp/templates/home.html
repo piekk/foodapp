@@ -14,13 +14,12 @@
     <div class="row">
       <div class=" col-12 text-center">
         <div class="bg-lightblue p-4">
-          <h4 class="text-blue">#STAYHOME</h4>
-          <p class="text-blue">Kazidomi continue à vous servir.
-            Nos conditions de livraison et nos mesures de sécurité.
-            Kazidomi continue à vous servir.
-            Nos conditions de livraison et nos mesures de sécurité.
+
+          <p class="text-blue px-5">เริ่มเป็นส่วนหนึ่งของการเปลี่ยนแปลง แบ่งปันความรู้และร่วม
+            เรียนรู้ไปกับเรา เพื่อสร้างสังคมเกษตรที่มีคุณภาพ เพื่อรายได้ของเกษตกรและพัฒนาคุณภาพของสินค้าเกษตร
           </p>
-          <a href="#"><span class="text-blue">Learn more</span></a>
+          <h4 class="text-blue">#CHANGES</h4>
+          <a href="{{url_for('register')}}"><span class="text-blue btn text-white button">เริ่มเลย</span></a>
         </div>
       </div>
     </div>
@@ -43,7 +42,7 @@
           <a href="{{url_for('product')}}"><img class="img-fluid" src="{{ url_for('static', filename ='products/sample1.jpg' )}}" alt=""></a>
         </div>
         <div class="product-description">
-          <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
+          <a href="{{url_for('dashboard', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
           <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
         </div>
         <div class="star-ratings mb-2">
@@ -65,7 +64,7 @@
           <a href="#"><img class="img-fluid" src="{{ url_for('static', filename ='products/sample2.jpg' )}}" alt=""></a>
         </div>
         <div class="product-description">
-          <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
+          <a href="{{url_for('dashboard', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
           <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
         </div>
         <div class="star-ratings mb-2">
@@ -87,7 +86,7 @@
           <a href="#"><img class="img-fluid" src="{{ url_for('static', filename ='products/sample3.jpg' )}}" alt=""></a>
         </div>
         <div class="product-description">
-          <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
+          <a href="{{url_for('dashboard', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
           <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
         </div>
         <div class="star-ratings mb-2">
@@ -109,7 +108,7 @@
           <a href="#"><img class="img-fluid" src="{{ url_for('static', filename ='products/sample4.jpg' )}}" alt=""></a>
         </div>
         <div class="product-description">
-          <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
+          <a href="{{url_for('dashboard', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
           <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
         </div>
         <div class="star-ratings mb-2">
@@ -131,7 +130,7 @@
           <a href="#"><img class="img-fluid" src="{{ url_for('static', filename ='products/sample5.jpg' )}}" alt=""></a>
         </div>
         <div class="product-description">
-          <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
+          <a href="{{url_for('dashboard', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
           <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
         </div>
         <div class="star-ratings mb-2">
@@ -153,7 +152,7 @@
           <a href="#"><img class="img-fluid" src="{{ url_for('static', filename ='products/sample6.jpg' )}}" alt=""></a>
         </div>
         <div class="product-description">
-          <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
+          <a href="{{url_for('dashboard', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
           <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
         </div>
         <div class="star-ratings mb-2">
@@ -175,7 +174,7 @@
           <a href="#"><img class="img-fluid" src="{{ url_for('static', filename ='products/sample2.jpg' )}}" alt=""></a>
         </div>
         <div class="product-description">
-          <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
+          <a href="{{url_for('dashboard', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
           <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
         </div>
         <div class="star-ratings mb-2">
@@ -197,7 +196,7 @@
           <a href="#"><img class="img-fluid" src="{{ url_for('static', filename ='products/sample3.jpg' )}}" alt=""></a>
         </div>
         <div class="product-description">
-          <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
+          <a href="{{url_for('dashboard', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
           <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
         </div>
         <div class="star-ratings mb-2">

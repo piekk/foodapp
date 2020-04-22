@@ -8,7 +8,6 @@
 /* blue 00a8a8 */
 
 @import url(../css/bootstrap.min.css);
-@import url(../css/font-awesome.min.css);
 
 @font-face {
   font-family: 'helveticaneuemedium';
@@ -143,6 +142,17 @@ a.product-name{
   max-width: 9px;
 }
 
+.btn:hover, .btn:active, .btn:focus {
+  color: #f1bc52 !important;
+  background-color: #03444a !important;
+  border-color: none !important;
+}
+
+.btn-primary:active, .btn-primary:focus{
+  color: #f1bc52 !important;
+  background-color: #03444a !important;
+  border-color: none !important;
+}
 .main-button{
   width: 175px;
   height: 40px;
@@ -157,9 +167,22 @@ a.product-name{
   color: #f1bc52;
 }
 
+.button{
+  padding: 0.5rem 4rem;
+  background-color: #00a8a8;
+  border: none;
+  border-radius: 0;
+}
+.button:hover{
+  background-color: #03444a;
+  color: #f1bc52;
+  text-decoration: none;
+}
+
 .view-button{
   background-color: #00a8a8;
   border: none;
+  border-radius: 0;
   color: white;
   min-width: 100%;
   padding: 0.7rem 2rem;
@@ -174,6 +197,25 @@ a.product-name{
   color: white;
   text-decoration: none;
 }
+
+.delete-button{
+  background-color: #03444a;
+  border-radius: 0;
+  border: none;
+  color: white;
+  min-width: 100%;
+  padding: 0.7rem 2rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.delete-button:hover{
+  background-color: #03444a;
+  text-decoration: none;
+}
+
 
 .footer-area{
   background-color: #00a8a8;
@@ -243,15 +285,31 @@ ul.icon{
 .text-blue{
   color: #00a8a8;
 }
+.text-bright{
+  color: #f26647;
+}
 .text-main{
   color: #03444a;
 }
-
+.text-sm{
+  font-size: 0.8rem;
+}
+.text-ud{
+  text-decoration: underline;
+}
 .bg-lightblue{
   background-color: #f0f7f4;
 }
+.card{
+  background-color: #f0f7f4;
+  border: 1px solid #00a8a8;
+}
 
-
+/* margin */
+.my-100{
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
 .hash-tag ul{
   list-style: none;
   width: 100%;
@@ -282,6 +340,49 @@ ul.icon{
   max-width: 450px;
   max-height: 450px;
   margin: auto;
+}
+
+/* form */
+form .form-control {
+  height: 60px;
+  width: 75%;
+  border: none;
+  border-radius: 0;
+  background-color: #f0f7f4;
+  padding: 30px;
+  color: #6b6b6b;
+  font-size: 0.9rem;
+}
+
+form textarea.form-control {
+  height: 210px; }
+
+form .halfw{
+  width: 80%;
+}
+form .nice-select {
+  border-radius: 0;
+  height: 60px;
+  line-height: 60px;
+  width: 75%;
+  background-color: #f0f7f4;
+  border: none;
+  color: #6b6b6b;
+  font-size: 14px;
+}
+
+/* product form control dashboard*/
+#titleError, #PriceError, #ShippingFeeError{
+  display: none;
+  color: red;
+}
+
+#add-image, #description_details, #setprice, #confirm-image, #price-setting, #price-summary, #auto-mark-noshow{
+  display: none;
+}
+
+#userinfo-container, #productinfo-container, #order-detail{
+  display: none;
 }
 
 /* media screen */
@@ -332,6 +433,9 @@ ul.icon{
   }
   .star-ratings img{
     max-width: 12px;
+  }
+  form .small{
+    width: 39%;
   }
 
   .carousel-indicators li{

@@ -1,7 +1,23 @@
 runtime: python37
 env: standard
 
-entrypoint: gunicorn -b :$PORT artapp:app
+env_variables:
+  UPLOAD_FOLDER: '/tmp'
+  BUCKET: 'foodappproducts'
+  MAIL_ACCOUNT: 'admin@onedaystory.co'
+  MAIL_PASSWORD: 'Chipperfield01'
+  DB_USER: 'root'
+  DB_PASS: 'artapp01'
+
+
+
+handlers:
+  - url: .*
+    script: auto
+    secure: always
+    redirect_http_response_code: 301
+
+entrypoint: gunicorn -b :$PORT foodapp:app
 
 
 

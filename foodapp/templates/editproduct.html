@@ -1,0 +1,138 @@
+{% extends"layout.html" %}
+{% block content %}
+
+<section>
+  <div class="container">
+    <div class="row">
+
+        {% if message %}
+        <div class="col-12 mb-3">
+          <h5 class="mb-4">{{product.title}}</h5>
+          <p>{{message}}</p>
+          {% set image1 = "https://storage.googleapis.com/"+ bucket +"/"+ product.imgfile1 %}
+          <img class="mb-3" src="{{ image1 }}">
+          <p>กลุ่มสินค้า: {{product.category}}</p>
+          <p>ข้อมูลสินค้า: {{product.description}}</p>
+        </div>
+        <div class="col-12 mb-3">
+            <p>ราคาสินค้า: {{"฿ {:,.2f}".format(product.price|int)}}</p>
+            <p>ค่าส่งสินค้า: {{"฿ {:,.2f}".format(product.shipping_fee|int)}}</p>
+            {% if product.promotion|int > 0 and time<product.promotion_expire %}
+            <p>{{product.promotion}}% <span class="text-alert">OFF</span> <span>(ถึงวันที่ {{ product.promotion_expire.strftime("%Y/%m/%d") }})</span></p>
+            <p>ราคาแสดงบนเวปไซท์:{{"฿ {:,.2f}".format((((product.price|int*(1-(product.promotion|int/100)))*margin)+product.shipping_fee|int)|round)}}</p>
+            {% else %}
+            <p>โปรโมชัน: ไม่มีโปรโมชัน</p>
+            <p>ราคาแสดงบนเวปไซท์: {{"฿ {:,.2f}".format(((product.price|int*margin)+product.shipping_fee|int)|round)}}</p>
+            {% endif %}
+            <p>จำนวนเงินที่คุณได้รับ: {{"฿ {:,.2f}".format((((product.price|int*(1-(product.promotion|int/100))))+product.shipping_fee|int)|round)}}</p>
+            <h6>เหลือจำนวน: {{product.quantity}} </h6>
+        </div>
+        <div class="col-12 mb-3">
+            <a class="amado-btn" href="{{request.referrer}}">BACK</a>
+        </div>
+      </div>
+    </div>
+        {% else %}
+
+    <div class="container">
+      <div class="row">
+        <div class="col-12 my-5">
+            <h5 class="title">{{product.title}}</h5>
+        </div>
+        <div class="col-12 col-md-8">
+          {% set image1 = "https://storage.googleapis.com/"+ bucket +"/"+ product.imgfile1 %}
+          {% if product.imagefile2 %}
+          {% set image2 = "https://storage.googleapis.com/"+ bucket +"/"+ product.imgfile2 %}
+          {% endif %}
+          {% if product.imagefile3 %}
+          {% set image3 = "https://storage.googleapis.com/"+ bucket +"/"+ product.imgfile3 %}
+          {% endif %}
+          {% if product.imagefile4 %}
+          {% set image4 = "https://storage.googleapis.com/"+ bucket +"/"+ product.imgfile4 %}
+          {% endif %}
+          <div class="carousel slide mb-5" id="single_product" data-ride="carousel">
+            <div class="carousel-inner carousel-product">
+              <div class="carousel-item active">
+                <img class="d-block w-100" src="{{ image1 }}" alt="{{product.title}}1.jpg">
+              </div>
+              <div class="carousel-item">
+                {% if product.imagefile2 %}
+                <img class="d-block w-100" src="{{ image2 }}" alt="{{product.title}}2.jpg">
+                {% else %}
+                <img class="d-block w-100" src="{{ url_for('static', filename='image/icon/frame.png') }}" alt="image2.jpg">
+                {% endif %}
+              </div>
+              <div class="carousel-item">
+                {% if product.imagefile3 %}
+                <img class="d-block w-100" src="{{ image3 }}" alt="{{product.title}}3.jpg">
+                {% else %}
+                <img class="d-block w-100" src="{{ url_for('static', filename='image/icon/frame.png') }}" alt="image3.jpg">
+                {% endif %}
+              </div>
+              <div class="carousel-item">
+                {% if product.imagefile4 %}
+                <img class="d-block w-100" src="{{ image4 }}" alt="{{product.title}}4.jpg">
+                {% else %}
+                <img class="d-block w-100" src="{{ url_for('static', filename='image/icon/frame.png') }}" alt="image4.jpg">
+                {% endif %}
+              </div>
+            </div>
+            <ol class="carousel-indicators mt-3">
+              <li class="active" data-target="#single_product" data-slide-to="0" style="background-image: url({{ image1 }})"></li>
+              {% if product.imagefile2 %}
+              <li data-target="#single_product" data-slide-to="1" style="background-image: url({{ image2 }})"></li>
+              {% else %}
+              <li data-target="#single_product" data-slide-to="1" style="background-image: url({{ url_for('static',filename='image/icon/addimage.png') }})"></li>
+              {% endif %}
+              {% if product.imagefile3 %}
+              <li data-target="#single_product" data-slide-to="2" style="background-image: url({{ image3 }})"></li>
+              {% else %}
+              <li data-target="#single_product" data-slide-to="2" style="background-image: url({{ url_for('static',filename='image/icon/addimage.png') }})"></li>
+              {% endif %}
+              {% if product.imagefile4 %}
+              <li data-target="#single_product" data-slide-to="3" style="background-image: url({{ image4 }})"></li>
+              {% else %}
+              <li data-target="#single_product" data-slide-to="3" style="background-image: url({{ url_for('static',filename='image/icon/addimage.png') }})"></li>
+              {% endif %}
+            </ol>
+          </div>
+          <a class = "btn view-button" href="#">เปลี่ยนรูปภาพ</a>
+        </div>
+
+        <div class="col-12 col-md-4 mb-3">
+          <div class="my-3">
+            <p>กลุ่มสินค้า: {{product.category}}</p>
+            <p>{{product.description}}</p>
+            <a class = "btn btn-primary button" href="#">เปลี่ยนแปลงข้อมูล</a>
+          </div>
+          <div class="my-3">
+            <p>ราคาสินค้า: {{"฿ {:,.2f}".format(product.price|int)}}</p>
+            <p>ค่าส่งสินค้า: {{"฿ {:,.2f}".format(product.shipping_fee|int)}}</p>
+            {% if product.promotion|int > 0 and time<product.promotion_expire %}
+            <p>{{product.promotion}}% <span class="text-alert">OFF</span> <span>(ถึงวันที่ {{ product.promotion_expire.strftime("%Y/%m/%d") }})</span></p>
+            <p>ราคาแสดงบนเวปไซท์:{{"฿ {:,.2f}".format((((product.price|int*(1-(product.promotion|int/100)))*margin)+product.shipping_fee|int)|round)}}</p>
+            {% else %}
+            <p>โปรโมชัน: ไม่มีโปรโมชัน</p>
+            <p>ราคาแสดงบนเวปไซท์: {{"฿ {:,.2f}".format(((product.price|int*margin)+product.shipping_fee|int)|round)}}</p>
+            {% endif %}
+            <p class="mb-3">จำนวนเงินที่คุณได้รับ: {{"฿ {:,.2f}".format((((product.price|int*(1-(product.promotion|int/100))))+product.shipping_fee|int)|round)}}</p>
+            <a class = "btn btn-primary button" href="#">เปลี่ยนแปลงราคาและโปรโมชัน</a>
+          </div>
+          <div class="my-3">
+            <p class="mb-3">จำนวนสินค้าที่มีอยู่: {{product.quantity}} </p>
+            <a class = "btn btn-primary button" href="#">แก้ไขจำนวนสต็อก</a>
+          </div>
+          <div class="my-5">
+            <a class = "btn btn-primary delete-button" href="#">ลบสินค้าชิ้นนี้</a>
+          </div>
+        </div>
+        <div class="col-12 mt-5">
+            <a class="btn btn-primary button float-right" href="{{request.referrer}}">BACK</a>
+        </div>
+        {% endif %}
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

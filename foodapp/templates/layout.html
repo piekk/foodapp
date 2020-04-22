@@ -7,7 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/core-style.css') }}" >
+
     <title></title>
   </head>
   <body>
@@ -29,7 +31,7 @@
       </div>
     </div>
 
-    <header class="container-fluid px-0 sticky-top">
+    <header class="container-fluid px-0 pt-3 sticky-top">
         <nav class="row">
           <div class="container">
             <div class="row mt-2">
@@ -55,6 +57,9 @@
                     <a href="{{url_for('home')}}">หน้าหลัก</a>
                   </li>
                   <li class="d-inline">
+                    <a href="#">เกี่ยวกับเรา</a>
+                  </li>
+                  <li class="d-inline">
                     <a href="{{url_for('articles')}}">บทความ</a>
                   </li>
                   <li class="d-inline dropdown">
@@ -65,8 +70,7 @@
                       <a class="dropdown-item" href="#">ผัก</a>
                       <a class="dropdown-item" href="#">เครื่องดื่ม</a>
                       <a class="dropdown-item" href="#">ชา กาแฟ</a>
-                      <a class="dropdown-item" href="#">อาหารทะเล</a>
-                      <a class="dropdown-item" href="#">หมวดหมู่ 7</a>
+                      <a class="dropdown-item" href="#">ชา กาแฟ</a>
                     </div>
                   </li>
                   <li class="d-none dropdown">
@@ -80,14 +84,37 @@
                     </div>
                   </li>
                   <li class="d-inline">
-                    <a href="#">ติดต่อ</a>
+                    <a class="text-bright" href="#">โซนเด็ก</a>
                   </li>
                   <li class="d-inline">
-                    <a class="highlight" href="#">สมาชิก</a>
+                    <a class="text-bright" href="#">โปรโมชัน</a>
                   </li>
+                  {% if current_user.is_authenticated and current_user.role == 'Seller' %}
                   <li class="d-inline">
-                    <a class="highlight" href="#">โปรโมชัน</a>
+                    <a class="highlight bg-lightblue px-4" href="{{ url_for('dashboard', brand=current_user.username)}}">แดชบอร์ด</a>
                   </li>
+                  {% elif current_user.is_authenticated and current_user.role == 'admin' %}
+                  <li class="d-inline">
+                    <a class="highlight bg-lightblue px-4" class="highlight" href="#">แอดมิน</a>
+                  </li>
+                  {% else %}
+                  <li class="d-inline">
+                    <a class="highlight bg-lightblue px-4" href="{{url_for('register')}}">ลงขาย</a>
+                  </li>
+                  {% endif %}
+                  {% if current_user.is_authenticated and current_user.role == 'Seller' %}
+                  <li class="d-inline">
+                    <a class="highlight bg-lightblue px-4" href="{{ url_for('logout')}}">ออกจากระบบ</a>
+                  </li>
+                  {% elif current_user.is_authenticated and current_user.role == 'admin' %}
+                  <li class="d-inline">
+                    <a class="highlight bg-lightblue px-4" href="{{ url_for('logout')}}">ออกจากระบบ</a>
+                  </li>
+                  {% else%}
+                  <li class="d-inline">
+                    <a class="highlight bg-lightblue px-4" href="{{ url_for('login')}}">เข้าสู่ระบบ</a>
+                  </li>
+                  {% endif %}
                 </ul>
               </div>
             </div>
@@ -121,7 +148,7 @@
               <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
             </ul>
           </div>
-          <div class="col-6 d-md-none mt-4">
+          <div class="col-6 d-md mt-4">
             <img class="main-logo" src="{{ url_for('static', filename='image/logo.png') }}">
             <h6 class="slogan mt-2 white">SLOGAN THIS IS SLOGAN</h6>
             <h4 class="mt-4 white font-weight-light">footer</h4>
@@ -151,9 +178,6 @@
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
     <!-- Bootstrap js -->
   	<script src="{{url_for('static', filename = 'js/bootstrap.bundle.min.js')}}"></script>
-    <!-- Plugins js -->
-  	<script src="{{url_for('static', filename = 'js/plugins.js')}}"></script>
-  	<!-- Active js -->
-  	<script src="{{url_for('static',filename = 'js/active.js')}}"></script>
+
   </body>
 </html>

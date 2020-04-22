@@ -1,9 +1,11 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, PasswordField, SubmitField, BooleanField, SelectField, TextAreaField
+from wtforms import StringField, IntegerField, PasswordField, SubmitField, BooleanField, SelectField, TextAreaField, validators
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 from werkzeug.utils import secure_filename
+from foodapp.models import User
 from flask_login import current_user
+from foodapp import app
 
 
 def check_contact(form, field):
@@ -22,15 +24,15 @@ def check_num(form, field):
 def check_username(form, field):
     if form.username.data != current_user.username:
         user = User.query.filter_by(username=form.username.data).first()
-        if len(form.username.data) < 3 or len(form.username.data) > 12:
-            raise ValidationError('Please choose a username between 3-12 characters')
+        if len(form.username.data) < 3 or len(form.username.data) > 22:
+            raise ValidationError('Please choose a username between 3-22 characters')
         elif user:
             raise ValidationError('Username taken')
 
 def check_name(form, field):
     user = User.query.filter_by(username=form.username.data).first()
-    if len(form.username.data) < 3 or len(form.username.data) > 12:
-        raise ValidationError('Please choose a username between 3-12 characters')
+    if len(form.username.data) < 3 or len(form.username.data) > 22:
+        raise ValidationError('Please choose a username between 3-22 characters')
     elif user:
         raise ValidationError('Username taken')
 
@@ -52,17 +54,12 @@ class ProductForm(FlaskForm):
     shipping_fee = StringField('Shipping', id="ship-set", default=0, validators=[DataRequired(), check_num])
     promotion = IntegerField('Promotion', id="discount-set", default = 0)
     promotion_expire = IntegerField('Promotion Expire', default=90)
-    category = SelectField('Category', id="category", choices=[('illustration', 'ภาพคอมพิวเตอร์กราฟิก อิลัสเตรชัน'),('photograph', 'ภาพถ่าย'),('painting','ภาพเขียน งานปรินท์ภาพเขียน'),('prop','ของแต่งบ้าน'),('book','หนังสือและนิตยสารศิลปะ')])
-    quantity = SelectField('Inventory', choices=[('1', '1'),('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6'), ('7', '7'), ('8', '8'), ('9', '9')])
-    style = StringField('Tag', validators=[DataRequired()])
-    size = StringField('Size')
-    object_size = StringField('Size')
-    frame = StringField('Frame', id="addframe")
-    condition = SelectField('Condition', choices=[('New', 'ของใหม่'),('Vintage','ของ Vintage'),('NewVintage','ของใหม่สไตล์ vintage')])
-    book_condition = SelectField('book_condition', choices=[('New', 'หนังสือใหม่'),('Secondhand','หนังสือมือสอง'),('Collectable','หนังสือสะสมหายาก')])
-    authors = StringField('Authors', id="addauthor")
+    category = SelectField('Category', id="category", choices=[(app.config['CATEGORY_1'], app.config['CAT_1']),(app.config['CATEGORY_2'], app.config['CAT_2']),(app.config['CATEGORY_3'],app.config['CAT_3'])])
+    quantity = IntegerField('Inventory', default=1)
+    tag = StringField('Tag', validators=[DataRequired()])
     description = TextAreaField('Description')
     submit = SubmitField('สร้างสินค้า')
+
 
 class EditImageForm(FlaskForm):
     image  = FileField('Add Main Photo', validators=[FileRequired(), FileAllowed(['jpg', 'jpeg', 'png'])])
@@ -86,69 +83,45 @@ class EditStockForm(FlaskForm):
     quantity = SelectField('Inventory', choices=[('0', '0'),('1', '1'),('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6'), ('7', '7'), ('8', '8'), ('9', '9')])
     submit = SubmitField('ยืนยัน')
 
-class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(),
-                                        Length(min=3, max=12,
-                                        message=('username minimum 3 characters')),
-                                        check_name])
-    email = StringField('Email', validators=[DataRequired(),
-                                             Email(message=('not a valid email address'))])
-    contact = StringField('Contact Number', validators=[DataRequired(),check_contact])
-    password = PasswordField('Password', validators=[DataRequired(),
-                                                     Length(min=6, max=12,
-                                                     message=('use password between 6-12 characters'))])
-    confirm_password = PasswordField('Confirm Password',[DataRequired(),
-                                                         EqualTo('password',
-                                                         message=('password not match'))])
-    accept_terms = BooleanField(validators=[DataRequired()])
-    submit = SubmitField('Register Now')
-
-
-class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(),
-                                             Email(message=('not a valid email address'))])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Login')
 
 
 class MerchantRegistrationForm(FlaskForm):
-    firstname = StringField('Firstname', validators=[DataRequired()])
-    lastname = StringField('Lastname', validators=[DataRequired()])
-    username = StringField('Username', validators=[DataRequired(),
+    firstname = StringField('ชื่อจริง', validators=[DataRequired()])
+    lastname = StringField('นามสกุล', validators=[DataRequired()])
+    username = StringField('ชื่อผู้ใช้', validators=[DataRequired(),
                                         check_name])
-    contact = StringField('Contact Number', validators=[DataRequired(),
+    contact = StringField('เบอร์ติดต่อ', validators=[DataRequired(),
                                              check_contact])
-    email = StringField('Email', validators=[DataRequired(),
+    email = StringField('อีเมลล์', validators=[DataRequired(),
                                              Email(message=('not a valid email address'))])
-    password = PasswordField('Password', validators=[DataRequired(),
+    password = PasswordField('พาสเวิร์ด', validators=[DataRequired(),
                                                      Length(min=6, max=12,
                                                      message=('use password between 6-12 characters'))])
-    confirm_password = PasswordField('Confirm Password',validators=[DataRequired(),
+    confirm_password = PasswordField('ยืนยันพาสเวิร์ด',validators=[DataRequired(),
                                                          EqualTo('password',
                                                          message=('password not match'))])
-    accept_terms = BooleanField(validators=[DataRequired()])
-    submit = SubmitField('Register Now')
+    accept_terms = BooleanField('ยอมรับข้อตกลงในการใช้งาน', validators=[DataRequired()])
+    submit = SubmitField('สมัครสมาชิก')
 
-class ChangeStatusForm(FlaskForm):
-    firstname = StringField('Firstname', validators=[DataRequired()])
-    lastname = StringField('Lastname', validators=[DataRequired()])
-    accept_terms = BooleanField(validators=[DataRequired()])
-    submit = SubmitField('Confirm Change')
+
 
 class MerchantLoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Seller Login')
+    submit = SubmitField('เข้าสู่ระบบ')
 
 
 class Profile(FlaskForm):
     username = StringField('Username', validators=[DataRequired(),
                                         check_username])
-    contact = StringField('Contact Number', validators=[DataRequired(),
-                                             check_contact])
     email = StringField('Email', validators=[DataRequired(),
                                              Email(message=('not a valid email address')),
                                              check_email])
+    submit = SubmitField('Submit')
+
+class AddContact(FlaskForm):
+    contact = StringField('เบอร์ติดต่อสำรอง', validators=[DataRequired(),
+                                             check_contact])
     submit = SubmitField('Submit')
 
 
