@@ -73,9 +73,7 @@ class EditPriceForm(FlaskForm):
     submit = SubmitField('ยืนยัน')
 
 class EditDetailForm(FlaskForm):
-    frame = StringField('Frame')
     tag = StringField('Tag')
-    size = StringField('Size')
     description = TextAreaField('New Description')
     submit = SubmitField('ยืนยัน')
 

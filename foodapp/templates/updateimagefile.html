@@ -1,0 +1,43 @@
+{% extends"layout.html" %}
+{% block content %}
+<!-- เปลี่ยนรูปสินค้า -->
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 my-5">
+        <h5 class="title">เปลี่ยนรูปภาพสินค้า</h5>
+      </div>
+      <div class="col-12 col-md-8 text-center">
+        {% if filename==none %}
+        <img class="img-fluid" src="{{ url_for('static', filename='image/icon/frame.png') }}" alt="image.jpg">
+        {% else %}
+        <img class="img-fluid" style="width: 60%;" src="{{ image_stored + filename }}" alt="image.jpg">
+        {% endif %}
+      </div>
+      <div class="col-12 col-md-4">
+        <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+          <div class="row mt-5">
+            <div class="col-12 mb-3">
+              {{ form.image }}
+              {% if form.image.errors %}
+              <p class="text-danger">{% for error in form.image.errors %}{{ error }}{% endfor %}</p>
+              {% endif %}
+            </div>
+            <div class="col-12 mb-3">
+                {{ form.submit(class_="btn btn-primary button") }}
+            </div>
+
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+
+{% endblock %}

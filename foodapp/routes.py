@@ -6,11 +6,13 @@ from werkzeug.utils import secure_filename
 from foodapp import app, db, bcrypt, margin
 from flask import render_template, request, url_for, redirect, flash, jsonify, json, session
 from foodapp.forms import MerchantRegistrationForm, MerchantLoginForm, Profile, AddContact, ProductForm
+from foodapp.forms import EditImageForm, EditPriceForm, EditDetailForm, EditStockForm
 from foodapp.models import User, Products, Reviews
 from flask_login import login_user, current_user, logout_user, login_required
 from google.cloud import storage
 
 app.config['BUCKET'] = 'foodappproducts'
+app.config['IMAGE_STORED'] = "https://storage.googleapis.com/foodappproducts/"
 
 @app.route('/')
 def home():
@@ -30,7 +32,7 @@ def dashboard(brand):
     if current_user.is_authenticated and current_user.username == brand:
         time = datetime.now()
         product = Products.query.filter_by(owner_id=current_user.id)
-        return render_template("dashboard.html",brand=brand, product=product, time=time, bucket=app.config['BUCKET'])
+        return render_template("dashboard.html",brand=brand, product=product, time=time, image_stored = app.config['IMAGE_STORED'])
     else:
         current_brand = User.query.filter_by(username=brand).first()
         if current_brand:
@@ -221,7 +223,7 @@ def addproduct():
             promotion_expiry_date = datetime.now() + timedelta(days=noofdays)
             expire_on = promotion_expiry_date.strftime("%Y-%m-%d")
             try:
-                save_picture(form.photo1.data, name, category)
+                save_picture_local(form.photo1.data, name, category)
                 db.session.add(Products(productcode=productcode, date_add=time.strftime("%Y-%m-%d, %H:%M"),
                                         title=form.title.data, price=form.price.data, shipping_fee=form.shipping_fee.data,
                                         imgfile1=filename, quantity=form.quantity.data, category=category, promotion=form.promotion.data,
@@ -249,12 +251,54 @@ def edit_product(name):
         #in_cart = CartItems.query.filter(CartItems.product == product.productcode).first()
         if in_cart:
             message = "มีสินค้าอยู่ในตะกร้าสินค้าของผู้ซื้อ ไม่สามารถเปลี่ยนข้อมูลสินค้านี้ได้"
-            return render_template("editproduct.html", time=time,  product=product, margin=margin, message=message, bucket = app.config['BUCKET'])
+            return render_template("editproduct.html", time=time,  product=product, margin=margin, message=message, image_stored = app.config['IMAGE_STORED'])
         else:
-            return render_template("editproduct.html", time=time, product=product, margin=margin, bucket = app.config['BUCKET'])
+            return render_template("editproduct.html", time=time, product=product, margin=margin, image_stored = app.config['IMAGE_STORED'])
     else:
         return redirect (url_for('dashboard', brand=current_user.username))
 
+@app.route('/merchant/product/image/<name>')
+@login_required
+def update_image(name):
+    product=Products.query.filter_by(productcode=name).first()
+    if product.owner_id == current_user.id:
+        return render_template("updateimage.html", product=product, image_stored = app.config['IMAGE_STORED'])
+    else:
+        return redirect (url_for('dashboard', brand=current_user.username))
+
+@app.route('/merchant/product/image/<name>/<file>', methods=['GET', 'POST'])
+@login_required
+def update_imagefile(name,file):
+    product=Products.query.filter_by(productcode=name).first()
+    form = EditImageForm()
+    if form.validate_on_submit():
+        name = str(current_user.id) + 'ID'+uuid.uuid4().hex[:6]
+        category = product.category
+        filename = 'products/'+category+'/'+ secure_filename(name+'.jpg')
+        try:
+            save_picture_local(form.image.data, name, category)
+            return render_template('test.html', filename =filename)
+        except:
+            return "incomplete"
+    elif request.method == 'GET' and product.owner_id == current_user.id:
+        #in_cart = CartItems.query.filter(CartItems.product == name).first()
+        in_cart = False
+        if in_cart:
+            return redirect(url_for('edit_product', name=product.productcode))
+        elif file in {'1','2','3','4'}:
+            if file == '1':
+                filename = product.imgfile1
+            elif file == '2':
+                filename = product.imgfile2
+            elif file == '3':
+                filename = product.imgfile3
+            elif file == '4':
+                    filename = product.imgfile4
+            return render_template("updateimagefile.html", form=form, product=product, filename=filename, image_stored = app.config['IMAGE_STORED'])
+        else:
+            return redirect(url_for('update_image', name=name))
+    else:
+        return redirect (url_for('dashboard', brand=current_user.username))
 
 @app.route('/logout')
 def logout():

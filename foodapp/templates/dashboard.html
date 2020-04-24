@@ -20,9 +20,8 @@
         <h5 class="title">สินค้า</h5>
       </div>
       {% for item in current_user.product %}
-      {% set image = "https://storage.googleapis.com/"+ bucket +"/"+item.imgfile1 %}
       <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-        <img class="d-block w-100" src="{{ image }}" alt="{{item.title}}">
+        <img class="d-block w-100" src="{{ image_stored + item.imgfile1 }}" alt="{{item.title}}">
         <div class="bg-lightblue py-2 my-2">
           <div class="px-2">
             <a href="{{url_for('dashboard', brand="{{current_user.username}}")}}" title="" class="brand-tag">{{current_user.username}}</a>
