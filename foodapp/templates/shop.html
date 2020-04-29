@@ -8,8 +8,11 @@
         <nav>
             <ol class="breadcrumb px-0">
                 <li class="breadcrumb-item"><a href="{{url_for('home')}}">หน้าหลัก</a></li>
-                <li class="breadcrumb-item"><a href="#">แบรนด์</a></li>
-                <li class="breadcrumb-item active"><a href="#">หน้าปัจจุบัน</a></li>
+                <li class="breadcrumb-item"><a href="{{url_for('shop')}}">สินค้า</a></li>
+                {% if filter != 'shop'%}
+                <li class="breadcrumb-item active"><a href="{{url_for('shop', filter=filter)}}">{{filter}}</a></li>
+                {% else %}
+                {% endif %}
             </ol>
         </nav>
       </div>
@@ -18,13 +21,14 @@
 
   <div class="container product mt-5">
     <div class="row">
+      {% for item in product.items %}
       <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3 py-3 position-relative">
         <div class="product-image">
-          <img class="img-fluid" src="{{ url_for('static', filename ='products/sample1.jpg' )}}" alt="">
+          <img class="img-fluid" src="{{image_stored+item.imgfile1}}" alt="">
         </div>
         <div class="product-description">
-          <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
-          <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
+          <a href="{{url_for('dashboard', brand=item.owner_product.username)}}" title="" class="brand-tag">{{item.owner_product.username}}</a>
+          <h6><a href="{{url_for('product', product=item.id) }}" class="product-name">{{item.title}}</a></h6>
         </div>
         <div class="star-ratings mb-2">
           <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
@@ -33,78 +37,57 @@
           <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
           <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
         </div>
+        {% if item.promotion|int > 0 and time < item.promotion_expire %}
         <div class="price">
-          <h6>19.00 Baht</h6>
+          <h6>{{"฿ {:,.2f}".format((((item.price|int*(1-(item.promotion|int/100)))*margin)+item.shipping_fee|int)|round)}}</h6>
         </div>
+        {% else %}
+        <div class="price">
+          <h6>{{"฿ {:,.2f}".format(((item.price|int*margin)+item.shipping_fee|int)|round)}}</h6>
+        </div>
+        {% endif %}
+        {% if item.quantity > 0 %}
         <div class="add-cart text-center">
-          <button type="button" name="button" class="btn btn-primary main-button">Add to cart</button>
+          <form class="cart clearfix" method="POST">
+            <input type="hidden" name="addtocart" value="{{item.id}}">
+            <input  class="btn btn-primary main-button" type="submit" value="ใส่ตะกร้า">
+          </form>
         </div>
+        {% else %}
+        <div class="add-cart text-center">
+          <a href="{{url_for('product', product=item.id)}}"><button class="btn btn-primary main-button">สินค้าหมดชั่วคราว</button></a>
+        </div>
+        {% endif %}
       </div>
-      <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3 py-3 position-relative">
-        <div class="product-image">
-          <img class="img-fluid" src="{{ url_for('static', filename ='products/sample2.jpg' )}}" alt="">
-        </div>
-        <div class="product-description">
-          <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
-          <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
-        </div>
-        <div class="star-ratings mb-2">
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-        </div>
-        <div class="price">
-          <h6>19.00 Baht</h6>
-        </div>
-        <div class="add-cart text-center">
-          <button type="button" name="button" class="btn btn-primary main-button">Add to cart</button>
-        </div>
-      </div>
-      <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3 py-3 position-relative">
-        <div class="product-image">
-          <img class="img-fluid" src="{{ url_for('static', filename ='products/sample3.jpg' )}}" alt="">
-        </div>
-        <div class="product-description">
-          <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
-          <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
-        </div>
-        <div class="star-ratings mb-2">
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-        </div>
-        <div class="price">
-          <h6>19.00 Baht</h6>
-        </div>
-        <div class="add-cart text-center">
-          <button type="button" name="button" class="btn btn-primary main-button">Add to cart</button>
-        </div>
-      </div>
-      <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3 py-3 position-relative">
-        <div class="product-image">
-          <img class="img-fluid" src="{{ url_for('static', filename ='products/sample4.jpg' )}}" alt="">
-        </div>
-        <div class="product-description">
-          <a href="{{url_for('view', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
-          <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
-        </div>
-        <div class="star-ratings mb-2">
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-        </div>
-        <div class="price">
-          <h6>19.00 Baht</h6>
-        </div>
-        <div class="add-cart text-center">
-          <button type="button" name="button" class="btn btn-primary main-button">Add to cart</button>
-        </div>
+      {% endfor %}
+    </div>
+
+    <div class="row my-5">
+      <div class="col-12">
+        {% for page_num in product.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+          {% if page_num %}
+            {% if product.page == page_num %}
+              {% if filter == "shop" %}
+                <a class ="d-inline page-link active" href="{{ url_for('shop', page=page_num) }}">{{page_num}}</a>
+              {% else %}
+                <a class ="d-inline page-link active" href="{{ url_for('shop', filter=filter, page=page_num) }}">{{page_num}}</a>
+              {% endif %}
+            {% else %}
+              {% if filter == "gallery" %}
+                <a class ="d-inline page-link" href="{{ url_for('shop', page=page_num) }}">{{page_num}}</a>
+              {% else %}
+                <a class ="d-inline page-link" href="{{ url_for('shop', filter=filter, page=page_num) }}">{{page_num}}</a>
+              {% endif %}
+            {% endif %}
+          {% else %}
+            <a class ="d-inline page-link">. . .</a>
+          {% endif %}
+        {% endfor %}
+        {% if filter=="shop"%}
+          <a href="{{ url_for('shop', page=product.next_num) }}" class="d-inline btn button">LOAD MORE</a>
+        {% else %}
+        <a href="{{ url_for('shop', filter=filter, page=product.next_num) }}" class="d-inline btn button">LOAD MORE</a>
+        {% endif %}
       </div>
 
     </div>

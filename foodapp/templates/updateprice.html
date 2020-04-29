@@ -1,0 +1,56 @@
+{% extends"layout.html" %}
+{% block content %}
+<!-- เปลี่ยนราคาสินค้า -->
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 my-5">
+        <h5 class="title">{{product.title}}</h5>
+      </div>
+      <div class="col-12">
+          <div class="row">
+            <div class="col-12 col-md-6 text-center">
+              {% if product.imgfile1 %}
+              <img class="img-fluid" style="width: 60%;" src="{{ image_stored + product.imgfile1 }}" alt="image.jpg">
+              {% else %}
+              <img class="img-fluid" src="{{ url_for('static', filename='image/icon/frame.png') }}" alt="image.jpg">
+              {% endif %}
+            </div>
+            <div class="col-12 col-md-6">
+              <form method="POST" enctype="multipart/form-data">
+              {{ form.hidden_tag() }}
+                <div class="row">
+                  <div class="col-12 mb-3">
+                    <h6>ราคาสินค้า</h6>
+                    {{ form.price(class_="form-control") }} <span> บาท </span>
+                  </div>
+                  <div class="col-12 mb-3">
+                    <h6>ราคาค่าส่งสินค้า</h6>
+                    {{ form.shipping_fee(class_="form-control") }} <span> บาท </span>
+                  </div>
+                  <div class="col-12 mb-3">
+                    <h6>โปรโมชันสินค้า</h6>
+                    {{ form.promotion(class_="form-control") }} <span> % </span>
+                  </div>
+                  <div class="col-12 mb-3">
+                    <h6>หมดอายุใน</h6>
+                    {{ form.promotion_expire(class_="form-control") }} <span> วัน </span>
+                  </div>
+                  <div class="col-12 mb-3">
+                      {{ form.submit(class_="btn btn-primary button") }}
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</section>
+
+
+
+
+
+{% endblock %}

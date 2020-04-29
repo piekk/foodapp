@@ -20,7 +20,10 @@ class User(db.Model, UserMixin):
     verified = db.Column(db.String(3), unique=False, default='no', nullable=False)
     date_register = db.Column(db.DateTime, unique=False, nullable=False)
     product = db.relationship("Products", backref="owner_product")
-
+    payment_due = db.relationship("PaymentDue", backref="owner_paymentdue")
+    payment_recieve = db.relationship("PaymentRecieved", backref="owner_paymentrevieve")
+    o_profile = db.relationship("Profile", backref="owner_profile", uselist=False)
+    o_blog = db.relationship("Blog", backref="owner_blog")
 
     def __repr__(self):
         return "(username: %s)" % (self.username)
@@ -60,3 +63,153 @@ class Reviews(db.Model):
 
     def __repr__(self):
         return "(star_rating: {}, by: {})" .format(self.star_rating, self.review_by)
+
+class Cookie(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    cook_id = db.Column(db.String(50), nullable=False)
+    cart = db.relationship("Cart", backref='cartowner', uselist=False)
+
+    def __repr__(self):
+        return "(cookie: %s)" % (self.cook_id)
+
+
+class Cart(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    cartcode = db.Column(db.String(50), unique=True, nullable=False)
+    date_create = db.Column(db.DateTime, nullable=False)
+    date_expire = db.Column(db.DateTime, nullable=False)
+    owner = db.Column(db.Integer, db.ForeignKey('cookie.id'))
+    items = db.relationship("CartItems", backref='cart')
+
+    def __repr__(self):
+        return "(CartCode: %s)" % (self.cartcode)
+
+class CartItems(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    product = db.Column(db.String(50), unique=False, nullable=False)
+    img = db.Column(db.String(50), unique=False, nullable=False)
+    quantity = db.Column(db.Integer, unique=False, nullable=False, default=1)
+    price = db.Column(db.String(7), unique=False, nullable=False)
+    seller = db.Column(db.String(12), unique=False,  nullable=False)
+    cartid = db.Column(db.Integer, db.ForeignKey('cart.id'))
+
+    def __repr__(self):
+        return "(Product: %s)" % (self.product)
+
+
+class Checkout(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    contact = db.Column(db.String(20), unique=False, nullable=False)
+    reference = db.Column(db.String(10), unique = True, nullable=False)
+    payment = db.Column(db.String(2), unique= False, default = 'N')
+    payment_expire = db.Column(db.DateTime, nullable=True)
+    items = db.relationship("CheckoutItems", backref='Checkout')
+    shippingaddress = db.relationship("ShipAddress", backref='CheckoutAddress', uselist=False)
+
+    def __repr__(self):
+        return "(Name: {})" .format(self.contact)
+
+class CheckoutItems(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    product = db.Column(db.String(50), unique=False, nullable=False)
+    img = db.Column(db.String(50), unique=False, nullable=False)
+    quantity = db.Column(db.Integer, unique=False, nullable=False, default=1)
+    price = db.Column(db.String(7), unique=False, nullable=False)
+    seller = db.Column(db.String(12), unique=False,  nullable=False)
+    status = db.Column(db.String(20), unique=False, nullable=False, default = 'pending')
+    tracking = db.Column(db.String(15), unique=False,  nullable=True)
+    checkoutid = db.Column(db.Integer, db.ForeignKey('checkout.id'))
+
+    def __repr__(self):
+        return "(Product: %s)" % (self.product)
+
+
+class ShipAddress(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    firstname = db.Column(db.String(30), unique=False, nullable=False)
+    lastname = db.Column(db.String(30), unique=False, nullable=False)
+    contact = db.Column(db.String(20), unique=False, nullable=False)
+    homeaddress = db.Column(db.String(40), unique=False, nullable=False)
+    housename = db.Column(db.String(30), unique=False, nullable=True)
+    street = db.Column(db.String(40), unique=False, nullable=True)
+    sub_street = db.Column(db.String(50), unique=False, nullable=True)
+    subdistrict = db.Column(db.String(30), unique=False, nullable=False)
+    district = db.Column(db.String(30), unique=False, nullable=False)
+    province = db.Column(db.String(30), unique=False, nullable=False)
+    country = db.Column(db.String(34), unique=False, nullable=False)
+    postcode = db.Column(db.Integer, unique=False, nullable=False)
+    ccheckout_address = db.Column(db.Integer, db.ForeignKey('checkout.id'))
+
+    def __repr__(self):
+        return "(Name: {} {})" .format(self.firstname, self.lastname)
+
+
+class PaymentDue(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    buyer_firstname =  db.Column(db.String(30), unique=False, nullable=True)
+    buyer_lastname =  db.Column(db.String(30), unique=False, nullable=True)
+    item = db.Column(db.String(50), unique=False, nullable=False)
+    order_no = db.Column(db.String(10), unique = False, nullable=False)
+    paid_on = db.Column(db.DateTime, nullable=True)
+    due_date = db.Column(db.DateTime, nullable=True)
+    amount = db.Column(db.String(7), unique=False, nullable=False)
+    recipient = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return "(เลขที่: {})" .format(self.id)
+
+class PaymentRecieved(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    buyer_firstname =  db.Column(db.String(30), unique=False, nullable=True)
+    buyer_lastname =  db.Column(db.String(30), unique=False, nullable=True)
+    item = db.Column(db.String(50), unique=False, nullable=False)
+    order_no = db.Column(db.String(10), unique = False, nullable=False)
+    paid_on = db.Column(db.DateTime, nullable=True)
+    recieve_date = db.Column(db.DateTime, nullable=True)
+    amount = db.Column(db.String(7), unique=False, nullable=False)
+    recipient = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return "(เลขที่: {})" .format(self.id)
+
+class Profile(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(30), unique=True, nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    image1 = db.Column(db.String(50), unique=True, nullable=True)
+    icon = db.Column(db.String(50), unique=True, nullable=True)
+    profile_owner = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return "(Profile: {})" .format(self.title)
+
+
+class Blog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(30), unique=True, nullable=False)
+    sub_title = db.Column(db.Text, nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    image1 = db.Column(db.String(50), unique=True, nullable=True)
+    image2 = db.Column(db.String(50), unique=True, nullable=True)
+    image3 = db.Column(db.String(50), unique=True, nullable=True)
+    date_publish = db.Column(db.DateTime, nullable=False)
+    author = db.Column(db.String(10), unique=False, nullable=False)
+    blog_owner = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return "(Blog: {}, Author: {}, Publish: {})" .format(self.title, self.author, self.date_publish)
+
+class Articles(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(30), unique=True, nullable=False)
+    sub_title = db.Column(db.Text, nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    image1 = db.Column(db.String(50), unique=True, nullable=True)
+    image2 = db.Column(db.String(50), unique=True, nullable=True)
+    image3 = db.Column(db.String(50), unique=True, nullable=True)
+    date_publish = db.Column(db.DateTime, nullable=False)
+
+    author = db.Column(db.String(10), unique=False, nullable=False)
+
+    def __repr__(self):
+        return "(Article: {}, Author: {}, Publish: {})" .format(self.title, self.author, self.date_publish)

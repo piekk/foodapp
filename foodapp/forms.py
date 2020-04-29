@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, PasswordField, SubmitField, BooleanField, SelectField, TextAreaField, validators
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
+from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError, InputRequired
 from werkzeug.utils import secure_filename
 from foodapp.models import User
 from flask_login import current_user
@@ -15,6 +15,11 @@ def check_contact(form, field):
         raise ValidationError('Invalid Phone number')
     elif contact:
         raise ValidationError('Phone number already registered')
+
+def check_validcontact(form, field):
+    phone = str(form.contact.data)
+    if phone.isnumeric()==False:
+        raise ValidationError('invalid number')
 
 def check_num(form, field):
     num = str(field.data)
@@ -55,7 +60,7 @@ class ProductForm(FlaskForm):
     promotion = IntegerField('Promotion', id="discount-set", default = 0)
     promotion_expire = IntegerField('Promotion Expire', default=90)
     category = SelectField('Category', id="category", choices=[(app.config['CATEGORY_1'], app.config['CAT_1']),(app.config['CATEGORY_2'], app.config['CAT_2']),(app.config['CATEGORY_3'],app.config['CAT_3'])])
-    quantity = IntegerField('Inventory', default=1)
+    quantity = IntegerField('Inventory', default = 0)
     tag = StringField('Tag', validators=[DataRequired()])
     description = TextAreaField('Description')
     submit = SubmitField('สร้างสินค้า')
@@ -73,12 +78,13 @@ class EditPriceForm(FlaskForm):
     submit = SubmitField('ยืนยัน')
 
 class EditDetailForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
     tag = StringField('Tag')
     description = TextAreaField('New Description')
     submit = SubmitField('ยืนยัน')
 
 class EditStockForm(FlaskForm):
-    quantity = SelectField('Inventory', choices=[('0', '0'),('1', '1'),('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6'), ('7', '7'), ('8', '8'), ('9', '9')])
+    quantity = IntegerField('Inventory', validators=[InputRequired()])
     submit = SubmitField('ยืนยัน')
 
 
@@ -120,7 +126,19 @@ class Profile(FlaskForm):
 class AddContact(FlaskForm):
     contact = StringField('เบอร์ติดต่อสำรอง', validators=[DataRequired(),
                                              check_contact])
-    submit = SubmitField('Submit')
+    submit = SubmitField('ยืนยัน')
+
+
+class CheckoutContact(FlaskForm):
+    contact = StringField('เบอร์ติดต่อ', validators=[DataRequired(),
+                                             check_validcontact])
+    submit = SubmitField('ยืนยัน')
+
+
+class TrackingForm(FlaskForm):
+    contact = StringField('เบอร์ติดต่อ', validators=[DataRequired()])
+    reference = StringField('รหัสการสั่งซื้อ',  validators=[DataRequired()])
+    submit = SubmitField('ยืนยัน')
 
 
 class Password_change(FlaskForm):
@@ -130,7 +148,7 @@ class Password_change(FlaskForm):
     confirm_password = PasswordField('Confirm Password',validators=[DataRequired(),
                                                              EqualTo('new_password',
                                                              message=('password not match'))])
-    submit = SubmitField('Submit')
+    submit = SubmitField('ยืนยัน')
 
 class Ship_Address(FlaskForm):
     fullname = StringField('ชื่อและนามสกุล', validators=[DataRequired()])

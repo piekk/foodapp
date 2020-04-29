@@ -8,8 +8,8 @@
         <nav>
             <ol class="breadcrumb px-0">
                 <li class="breadcrumb-item"><a href="{{url_for('home')}}">หน้าหลัก</a></li>
-                <li class="breadcrumb-item"><a href="#">แบรนด์</a></li>
-                <li class="breadcrumb-item active"><a href="#">หน้าปัจจุบัน</a></li>
+                <li class="breadcrumb-item"><a href="#">ร้านค้า</a></li>
+                <li class="breadcrumb-item active"><a href="{{url_for('dashboard', brand = brand.username)}}">{{brand.username}}</a></li>
             </ol>
         </nav>
       </div>
@@ -18,13 +18,14 @@
 
   <div class="container product mt-5">
     <div class="row">
+      {% for item in brand.product %}
       <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3 py-3 position-relative">
         <div class="product-image">
-          <img class="img-fluid" src="{{ url_for('static', filename ='products/sample1.jpg' )}}" alt="">
+          <img class="img-fluid" src="{{ image_stored + item.imgfile1 }}" alt="{{item.title}}.jpg">
         </div>
         <div class="product-description">
-          <a href="{{url_for('dashboard', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
-          <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
+          <a href="{{url_for('dashboard', brand = brand.username)}}" title="{{brand}}" class="brand-tag">{{brand.username}}</a>
+          <h6><a href="{{url_for('product', product=item.id)}}" class="product-name">{{item.title}}</a></h6>
         </div>
         <div class="star-ratings mb-2">
           <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
@@ -33,104 +34,51 @@
           <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
           <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
         </div>
+        {% if item.promotion|int > 0 and time < item.promotion_expire %}
         <div class="price">
-          <h6>19.00 Baht</h6>
+          <h6>{{"฿ {:,.2f}".format((((item.price|int*(1-(item.promotion|int/100)))*margin)+item.shipping_fee|int)|round)}}</h6>
         </div>
-        <div class="add-cart text-center">
-          <button type="button" name="button" class="btn btn-primary main-button">Add to cart</button>
-        </div>
-      </div>
-      <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3 py-3 position-relative">
-        <div class="product-image">
-          <img class="img-fluid" src="{{ url_for('static', filename ='products/sample2.jpg' )}}" alt="">
-        </div>
-        <div class="product-description">
-          <a href="{{url_for('dashboard', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
-          <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
-        </div>
-        <div class="star-ratings mb-2">
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-        </div>
+        {% else %}
         <div class="price">
-          <h6>19.00 Baht</h6>
+          <h6>{{"฿ {:,.2f}".format(((item.price|int*margin)+item.shipping_fee|int)|round)}}</h6>
         </div>
+        {% endif %}
+        {% if item.quantity > 0 %}
         <div class="add-cart text-center">
-          <button type="button" name="button" class="btn btn-primary main-button">Add to cart</button>
+          <form class="cart clearfix" method="POST">
+            <input type="hidden" name="addtocart" value="{{item.id}}">
+            <input  class="btn btn-primary main-button" type="submit" value="ใส่ตะกร้า">
+          </form>
         </div>
-      </div>
-      <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3 py-3 position-relative">
-        <div class="product-image">
-          <img class="img-fluid" src="{{ url_for('static', filename ='products/sample3.jpg' )}}" alt="">
-        </div>
-        <div class="product-description">
-          <a href="{{url_for('dashboard', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
-          <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
-        </div>
-        <div class="star-ratings mb-2">
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-        </div>
-        <div class="price">
-          <h6>19.00 Baht</h6>
-        </div>
+        {% else %}
         <div class="add-cart text-center">
-          <button type="button" name="button" class="btn btn-primary main-button">Add to cart</button>
+          <a href="{{url_for('product', product=item.id)}}"><button class="btn btn-primary main-button">สินค้าหมดชั่วคราว</button></a>
         </div>
+        {% endif %}
       </div>
-      <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3 py-3 position-relative">
-        <div class="product-image">
-          <img class="img-fluid" src="{{ url_for('static', filename ='products/sample4.jpg' )}}" alt="">
-        </div>
-        <div class="product-description">
-          <a href="{{url_for('dashboard', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
-          <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
-        </div>
-        <div class="star-ratings mb-2">
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-          <span class="rating"><img src="{{ url_for('static', filename ='image/icon/star.png' )}}" alt=""></span>
-        </div>
-        <div class="price">
-          <h6>19.00 Baht</h6>
-        </div>
-        <div class="add-cart text-center">
-          <button type="button" name="button" class="btn btn-primary main-button">Add to cart</button>
-        </div>
-      </div>
-
-
-
-
+      {% endfor %}
     </div>
   </div>
 
+  {% if brand.o_profile.title %}
   <div class="container brand-story mb-5">
     <div class="row">
       <div class="col-12">
         <div class="title">
-          <h4>เกี่ยวกับเรา</h4>
+          <h4>{{brand.o_profile.title}}</h4>
         </div>
       </div>
     </div>
 
     <div class="row">
       <div class="col-12">
-        <img class="img-fluid" src="{{ url_for('static', filename='image/banner1.jpg')}}">
-        <p>article short detail info Lorem ipsum dolor sit amet,
-        consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mini
+        <img class="img-fluid" src="{{ image_stored + item.imgfile1 }}">
+        <p>{{brand.o_profile.content}}
         </p>
       </div>
     </div>
   </div>
+  {% endif %}
 
 
 </section>

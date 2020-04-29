@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<section>
+  <div class="container">
+    <div class="row">
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      {% for message in messages %}
+      <div class="col-12 mt-5">
+        <p class="text-danger">{{ message }}</p>
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      <div class="col-12">
+        <h5 class="title my-5">ข้อมูลจัดส่ง</h5>
+      </div>
+
+      <div class="col-12">
+        <form method="POST">
+        {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <h6>{{ form.contact.label(class_="text-muted") }}
+                    {{ form.contact(class_="form-control") }}
+                    <p class="text-danger">{% for error in form.contact.errors %}{{ error }}{% endfor %}</p>
+                </div>
+
+
+                <div class="col-12 mb-3">
+                    {{ form.submit(class_="btn btn-primary button") }}
+                </div>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+{% endblock %}

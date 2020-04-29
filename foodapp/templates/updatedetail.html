@@ -1,0 +1,51 @@
+{% extends"layout.html" %}
+{% block content %}
+
+<!-- เปลี่ยนข้อมูลค้า -->
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 my-5">
+        <h5 class="title">{{product.title}}</h5>
+      </div>
+      <div class="col-12">
+          <div class="row">
+            <div class="col-12 col-md-6 text-center">
+              {% if product.imgfile1 %}
+              <img class="img-fluid" style="width: 60%;" src="{{ image_stored + product.imgfile1 }}" alt="image.jpg">
+              {% else %}
+              <img class="img-fluid" src="{{ url_for('static', filename='image/icon/frame.png') }}" alt="image.jpg">
+              {% endif %}
+            </div>
+            <div class="col-12 col-md-6">
+              <form method="POST">
+              {{ form.hidden_tag() }}
+                <div class="row">
+                  <div class="col-12 mb-3">
+                    <h6>ชื่อสินค้า</h6>
+                    {{ form.title(class_="form-control") }}
+                  </div>
+                  <div class="col-12 mb-3">
+                    <h6> เลือกใส่ Hashtag ที่เกี่ยวข้องกับสินค้าของคุณ เช่น #keyword1 #keyword2</h6>
+                    {{ form.tag(class_="form-control") }}
+                  </div>
+                  <div class="col-12 mb-3">
+                    <h6>คำอธิบายเพิ่มเติมของสินค้านี้</h6>
+                    {{ form.description(class_="form-control") }}
+                  </div>
+                  <div class="col-12 mb-3">
+                    {{ form.submit(class_="btn btn-primary button") }}
+                  </div>
+                </div>
+              </form>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+{% endblock %}

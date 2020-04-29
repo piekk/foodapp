@@ -1,0 +1,88 @@
+{% extends"layout.html" %}
+{% block content %}
+<section class="table-area">
+  <div class="container my-100">
+    <div class="row">
+      <div class="col-12 mt-5 mb-3">
+          <div>
+            <h4 class="title">Shopping Cart</h4>
+          </div>
+      </div>
+    </div>
+
+    <div class="row mb-200">
+      <div class="col-12 col-lg-8 mt-2">
+        <div class="clearfix">
+          <table class="table table-responsive">
+            <thead>
+              <tr>
+                <th></th>
+                <th>ชื่อสินค้า</th>
+                <th>ราคา</th>
+                <th>จำนวน</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for item in cart.items %}
+              <tr>
+                <td class="cart_product_img">
+                  <img src="{{ image_stored + item.img }}">
+                </td>
+                <td class="cart_product_desc">
+                  <h6 class="productname">{{product_title[item.product|int]}}</h6>
+                </td>
+                <td class="price">
+                  <span class="d-none">{{ "฿ {:,.2f}".format(price[item.product|int]) }}</span>
+                  <span>฿ </span><span id="totalPrice{{product_title[item.product|int]}}">{{price[item.product|int]*item.quantity}}</span><span>.00</span>
+                  <span class = "d-none" id="price{{ product_title[item.product|int] }}">{{ price[item.product|int] }}</span>
+                </td>
+                <td class="qty">
+                  <div class="qty-btn d-flex">
+                  <div class="quantity">
+                    <h4 class = "d-none" id="no{{product_title[item.product|int]}}">{{item.quantity}}</h4>
+                    {% if product_inventory[item.product]==0 %}
+                    <h4>Not Available</h4>
+                    {% else %}
+                    <form method="POST">
+                      <select name="{{product_title[item.product|int]}}" id="{{product_title[item.product|int]}}" onchange="getVal()">
+                      {% for i in range(product_inventory[item.product|int]) %}
+                        <option value="{{ i+1 }}">{{i+1}}</option>
+                      {% endfor %}
+                      </select>
+                    </form>
+                    {% endif %}
+                  </div>
+                  </div>
+                </td >
+                <td class="remove">
+                  <form method="POST">
+                    <input type="hidden" name="todelete" value="{{item.id}}">
+                    <input type="submit" class="btn button text-white" style="padding: 5px 10px;" value="ลบ">
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-4 mt-2">
+        <div class="cart-summary">
+          <h5>Cart Total</h5>
+          <div class ="summary-table text-right">
+            <span>Total: ฿</span> <span id="t_amount"></span><span>.00</span>
+          </div>
+          <div class="mt-5">
+            <form method="POST">
+              <input class="btn view-button" type="submit" name="checkout" value="CHECKOUT">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script type="text/javascript" src="{{ url_for('static',filename='js/cart.js') }}"></script>
+{% endblock %}

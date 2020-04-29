@@ -3,48 +3,48 @@
 <!-- เปลี่ยนรูปสินค้า -->
 
 <section>
-  <div class="container">
-    <div class="row">
+  <div class="container my-100">
+    <div class="row mb-5">
       <div class="col-12 my-5">
           <h5 class="title">{{product.title}}</h5>
       </div>
       <div class="col-6 col-md-3">
         {% if product.imgfile1 %}
         <img class="img-fluid" src="{{ image_stored + product.imgfile1 }}" alt="{{product.title}}1.jpg">
-        <a class = "btn view-button mt-3" href="{{url_for('update_imagefile', name=product.productcode, file=1)}}">เปลี่ยนรูปภาพ</a>
+        <a class = "btn view-button mt-3" href="{{url_for('update_imagefile', name=product.id, file=1)}}">เปลี่ยนรูปภาพ</a>
         {% else %}
         <img class="img-fluid" src="{{ url_for('static', filename='image/icon/frame.png') }}" alt="image1.jpg">
-        <a class = "btn view-button mt-3" href="{{url_for('update_imagefile', name=product.productcode, file=1)}}">เพิ่มรูปภาพ</a>
+        <a class = "btn view-button mt-3" href="{{url_for('update_imagefile', name=product.id, file=1)}}">เพิ่มรูปภาพ</a>
         {% endif %}
       </div>
 
       <div class="col-6 col-md-3">
         {% if product.imgfile2 %}
         <img class="img-fluid" src="{{ image_stored + product.imgfile2 }}" alt="{{product.title}}2.jpg">
-        <a class = "btn view-button mt-3" href="{{url_for('update_imagefile', name=product.productcode, file=2)}}">เปลี่ยนรูปภาพ</a>
+        <a class = "btn view-button mt-3" href="{{url_for('update_imagefile', name=product.id, file=2)}}">เปลี่ยนรูปภาพ</a>
         {% else %}
         <img class="img-fluid" src="{{ url_for('static', filename='image/icon/frame.png') }}" alt="image2.jpg">
-        <a class = "btn view-button mt-3" href="{{url_for('update_imagefile', name=product.productcode, file=2)}}">เพิ่มรูปภาพ</a>
+        <a class = "btn view-button mt-3" href="{{url_for('update_imagefile', name=product.id, file=2)}}">เพิ่มรูปภาพ</a>
         {% endif %}
       </div>
 
       <div class="col-6 col-md-3">
         {% if product.imgfile3 %}
         <img class="img-fluid" src="{{ image_stored + product.imgfile3 }}" alt="{{product.title}}3.jpg">
-        <a class = "btn view-button mt-3" href="{{url_for('update_imagefile', name=product.productcode, file=3)}}">เปลี่ยนรูปภาพ</a>
+        <a class = "btn view-button mt-3" href="{{url_for('update_imagefile', name=product.id, file=3)}}">เปลี่ยนรูปภาพ</a>
         {% else %}
         <img class="img-fluid" src="{{ url_for('static', filename='image/icon/frame.png') }}" alt="image3.jpg">
-        <a class = "btn view-button mt-3" href="{{url_for('update_imagefile', name=product.productcode, file=3)}}">เพิ่มรูปภาพ</a>
+        <a class = "btn view-button mt-3" href="{{url_for('update_imagefile', name=product.id, file=3)}}">เพิ่มรูปภาพ</a>
         {% endif %}
       </div>
 
-      <div class="col-6 col-md-3">
+      <div class="col-6 col-md-3 mb-5">
         {% if product.imgfile4 %}
         <img class="img-fluid" src="{{ image_stored + product.imgfile4 }}" alt="{{product.title}}4.jpg">
-        <a class = "btn view-button mt-3" href="{{url_for('update_imagefile', name=product.productcode, file=4)}}">เปลี่ยนรูปภาพ</a>
+        <a class = "btn view-button mt-3" href="{{url_for('update_imagefile', name=product.id, file=4)}}">เปลี่ยนรูปภาพ</a>
         {% else %}
         <img class="img-fluid" src="{{ url_for('static', filename='image/icon/frame.png') }}" alt="image4.jpg">
-        <a class = "btn view-button mt-3" href="{{url_for('update_imagefile', name=product.productcode, file=4)}}">เพิ่มรูปภาพ</a>
+        <a class = "btn view-button mt-3" href="{{url_for('update_imagefile', name=product.id, file=4)}}">เพิ่มรูปภาพ</a>
         {% endif %}
       </div>
 

@@ -10,7 +10,7 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/core-style.css') }}" >
 
-    <title></title>
+    <title>{{title}}</title>
   </head>
   <body>
 
@@ -18,13 +18,12 @@
       <div class="row notification d-none d-md-block">
         <div class="container">
           <div class="row py-1">
-            <div class="col-4">
-              <a href="#">Notification</a>
+            <div class="col-3">
             </div>
-            <div class="widget col-8 text-right">
-              <a class="px-3" href="#">Text</a>
-              <a class="px-3" href="#">Text</a>
-              <a class="pl-3" href="#">Text</a>
+            <div class="col-6 text-center">
+              <p class="mb-0 text-white" style="font-size: 0.8rem;">จัดส่งฟรีสำหรับยอดซื้อ 1,000 บาท ต่อร้านค้าขึ้นไป!</p>
+            </div>
+            <div class="col-3">
             </div>
           </div>
         </div>
@@ -46,7 +45,7 @@
                   <div class="line"></div>
                 </div>
                 <div class="float-right d-none d-md-inline align-items-end">
-                  <a href="#"><img src="{{url_for('static', filename='image/core-img/add-to-cart.png')}}" class="mt-2 cart-icon"><span class="align-bottom">(0)</span></a>
+                  <a href="{{ url_for('cart') }}"><img src="{{url_for('static', filename='image/core-img/add-to-cart.png')}}" class="mt-2 cart-icon"><span class="align-bottom">({{cook.cart.items|length}})</span></a>
                 </div>
               </div>
             </div>
@@ -65,12 +64,12 @@
                   <li class="d-inline dropdown">
                     <a class="dropdown-toggle" href="#" role="button" id="product-category" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">สินค้า</a>
                     <div class="dropdown-menu" style="top: 1rem;" aria-labelledby="product-category">
-                      <a class="dropdown-item" href="#">ข้าว</a>
-                      <a class="dropdown-item" href="#">เมล็ดและธัญพืช</a>
-                      <a class="dropdown-item" href="#">ผัก</a>
-                      <a class="dropdown-item" href="#">เครื่องดื่ม</a>
-                      <a class="dropdown-item" href="#">ชา กาแฟ</a>
-                      <a class="dropdown-item" href="#">ชา กาแฟ</a>
+                      <a class="dropdown-item" href="{{url_for('shop', filter = 'grains')}}">ธัญพืช</a>
+                      <a class="dropdown-item" href="{{url_for('shop', filter = 'rice')}}">ข้าว</a>
+                      <a class="dropdown-item" href="{{url_for('shop', filter = 'vegetables')}}">ผัก</a>
+                      <a class="dropdown-item" href="{{url_for('shop', filter = 'drinks')}}">เครื่องดื่ม</a>
+                      <a class="dropdown-item" href="{{url_for('shop', filter = 'grains')}}">ชา กาแฟ</a>
+                      <a class="dropdown-item" href="{{url_for('shop', filter = 'grains')}}">ชา กาแฟ</a>
                     </div>
                   </li>
                   <li class="d-none dropdown">

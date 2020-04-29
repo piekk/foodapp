@@ -1,0 +1,39 @@
+{% extends"layout.html" %}
+{% block content %}
+
+<section>
+  <div class="container mt-100">
+    <div class="row">
+      <div class="col-12 my-5">
+        <h5 class="title">{{product.title}}</h5>
+      </div>
+      <div class="col-12">
+          <div class="row">
+            <div class="col-12 col-md-6 text-center">
+              {% if product.imgfile1 %}
+              <img class="img-fluid" style="width: 60%;" src="{{ image_stored + product.imgfile1 }}" alt="image.jpg">
+              {% else %}
+              <img class="img-fluid" src="{{ url_for('static', filename='image/icon/frame.png') }}" alt="image.jpg">
+              {% endif %}
+            </div>
+            <div class="col-12 col-md-6">
+              <p>คุณยืนยันที่จะลบสินค้าชิ้นนี้ สินค้าชิ้นนี้จะถูกลบออกจากฐานข้อมูลเมื่อคุณกดปุ่มลบสินค้า หากต้องการกลับไปหน้าก่อนหน้ากดปุ่ม Back</p>
+              <form method="POST">
+                <input type="submit" class="btn view-button" value="ลบสินค้า">
+              </form>
+            </div>
+            <div class="col-12 col-md-6">
+
+            </div>
+            <div class="col-12 col-md-6">
+              <a class="btn btn-primary button mt-5 float-right" href="{{request.referrer}}">BACK</a>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+{% endblock %}

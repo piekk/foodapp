@@ -56,7 +56,9 @@ footer{
 .notification a:hover{
   color: #f1bc52;
   text-decoration: none;
+  cursor: pointer;
 }
+
 
 a, span, h1, h2, h3, h4, h5, h6, p{
   color: #0c1019;
@@ -178,7 +180,14 @@ a.product-name{
   color: #f1bc52;
   text-decoration: none;
 }
+.non-link{
+  cursor: default;
+}
 
+.non-link:hover{
+  background-color: #00a8a8 !important;
+  color: white !important;
+}
 .view-button{
   background-color: #00a8a8;
   border: none;
@@ -305,10 +314,77 @@ ul.icon{
   border: 1px solid #00a8a8;
 }
 
+
+/* cart table*/
+.cart_product_img img{
+  height: auto;
+  max-width: 100%;
+}
+.table-area table thead, td {
+    width: 100%;
+    display: block;
+}
+.table thead th{
+  border: none !important;
+}
+.table td{
+  border: none !important;
+}
+.table-area table thead tr {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+    height: 40px;
+    background-color: #f5f7fa;
+}
+.table-area table thead tr th {
+    border-top: none;
+    border-bottom: none;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 20%;
+    flex: 0 0 20%;
+    width: 20%;
+    max-width: 20%;
+    font-size: 12px;
+    color: #242424;
+    text-transform: capitalize;
+    font-weight: 400;
+}
+
+.table-area table tbody tr {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -ms-grid-row-align: center;
+    align-items: center;
+    width: 100%;
+}
+.table-area table tbody tr td {
+    border: none;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 20%;
+    flex: 0 0 20%;
+    width: 20%;
+    max-width: 20%;
+}
+.table-area .cart-summary {
+    background-color: #f5f7fa;
+    position: relative;
+    z-index: 1;
+    padding: 30px 20px;
+}
+
 /* margin */
 .my-100{
   margin-top: 100px;
   margin-bottom: 100px;
+}
+
+.mb-200{
+  margin-bottom: 200px;
 }
 .hash-tag ul{
   list-style: none;
