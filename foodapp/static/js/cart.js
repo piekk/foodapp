@@ -6,12 +6,14 @@ window.addEventListener('load', function() {
     let t = 0;
     for (var i=0; i<num.length; i++){
       // load order for item from db
+      // order = no[1] will give  eg: "the food name"
       let order = document.getElementById('no'+num[i].innerText);
       // load price from db
       let price = document.getElementById('price'+num[i].innerText);
       let totalPrice = document.getElementById('totalPrice'+num[i].innerText);
       // create array of itemname and quantity
       dicNum[num[i].innerText] = order.innerText;
+
       //update select field equal to order from db
       let e = document.getElementById(num[i].innerText);
       e.value = dicNum[num[i].innerText];
@@ -48,3 +50,8 @@ function getVal(){
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.send(quan);
 }
+///let quan = JSON.stringify(quantity)
+///var xhr = new XMLHttpRequest();
+///xhr.open("POST", '/cart/process', true);
+///xhr.setRequestHeader("Content-Type", "application/json");
+///xhr.send(quan);

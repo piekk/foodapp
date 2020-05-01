@@ -1,5 +1,6 @@
 {% extends"layout.html" %}
 {% block content %}
+
 <section class="table-area">
   <div class="container my-100">
     <div class="row">
@@ -25,27 +26,29 @@
             </thead>
             <tbody>
             {% for item in cart.items %}
+
               <tr>
                 <td class="cart_product_img">
                   <img src="{{ image_stored + item.img }}">
                 </td>
                 <td class="cart_product_desc">
-                  <h6 class="productname">{{product_title[item.product|int]}}</h6>
+                  <h6 class="name">{{product_title[item.product|int]}}</h6>
+                  <h6 class="d-none productname">{{ item.product }}</h6>
                 </td>
                 <td class="price">
                   <span class="d-none">{{ "฿ {:,.2f}".format(price[item.product|int]) }}</span>
-                  <span>฿ </span><span id="totalPrice{{product_title[item.product|int]}}">{{price[item.product|int]*item.quantity}}</span><span>.00</span>
-                  <span class = "d-none" id="price{{ product_title[item.product|int] }}">{{ price[item.product|int] }}</span>
+                  <span>฿ </span><span id="totalPrice{{ item.product }}">{{price[item.product|int]*item.quantity}}</span><span>.00</span>
+                  <span class = "d-none" id="price{{ item.product }}">{{ price[item.product|int] }}</span>
                 </td>
                 <td class="qty">
                   <div class="qty-btn d-flex">
                   <div class="quantity">
-                    <h4 class = "d-none" id="no{{product_title[item.product|int]}}">{{item.quantity}}</h4>
+                    <h4 class = "d-none" id="no{{ item.product }}">{{item.quantity}}</h4>
                     {% if product_inventory[item.product]==0 %}
                     <h4>Not Available</h4>
                     {% else %}
                     <form method="POST">
-                      <select name="{{product_title[item.product|int]}}" id="{{product_title[item.product|int]}}" onchange="getVal()">
+                      <select name="{{ item.product }}" id="{{ item.product }}" onchange="getVal()">
                       {% for i in range(product_inventory[item.product|int]) %}
                         <option value="{{ i+1 }}">{{i+1}}</option>
                       {% endfor %}

@@ -8,7 +8,8 @@ env_variables:
   MAIL_PASSWORD: 'Chipperfield01'
   DB_USER: 'root'
   DB_PASS: 'artapp01'
-
+  NEXMO_API_SECRET: 'lo8NT1TNj6UsHz8u'
+  NEXMO_API_KEY: 'ad2030ed'
 
 
 handlers:

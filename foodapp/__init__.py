@@ -15,8 +15,8 @@ app = Flask(__name__)
 
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://'+os.environ.get('DB_USER')+':'+os.environ.get('DB_PASS')+'@/farmerdiary_main_db?unix_socket=/cloudsql/f-d-2020:asia-southeast1:farmerdiary'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:artapp01@localhost/farmerdiary_main_db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://'+os.environ.get('DB_USER')+':'+os.environ.get('DB_PASS')+'@/farmerdiary_main_db?unix_socket=/cloudsql/f-d-2020:asia-southeast1:farmerdiary'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:artapp01@localhost/farmerdiary_main_db'
 app.config['SECRET_KEY'] = os.urandom(12).hex()
 app.config['SQLALCHEMY_POOL_SIZE'] = 1
 app.config['SQLALCHEMY_MAX_OVERFLOW'] = 0
@@ -24,6 +24,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['BUCKET'] = os.environ.get('BUCKET')
 app.config['UPLOAD_FOLDER'] = os.environ.get('UPLOAD_FOLDER')
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=31)
+app.config['SM_KEY'] = os.environ.get['NEXMO_API_KEY']
+app.config['SM_SCR'] = os.environ.get['NEXMO_API_SECRET']
 app.config['CATEGORY_1'] = 'grains'
 app.config['CATEGORY_2'] = 'rice'
 app.config['CATEGORY_3'] = 'drinks'

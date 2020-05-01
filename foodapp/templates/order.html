@@ -6,21 +6,18 @@
     <div class="row">
 
       <div class="col-12">
-        <h5 class="title my-5">เช็คสถานะสินค้า</h5>
+        <h5 class="title my-3">เช็คสถานะสินค้า</h5>
       </div>
-
       <div class="col-12">
-
           {% if cart.payment=='N' %}
           <h6>รอการชำระเงิน</h6>
           {% endif %}
           {% if cart.shippingaddress %}
           <h6>ที่อยู่จัดส่ง</h6>
           {% else %}
-          <h6>กรอกที่อยู่จัดส่ง หรือ สามารถแจ้งทางไลน์ ID: atpie</h6>
+          <h6><a href="{{url_for('shipaddress', cart = cart.reference)}}">เพิ่มที่อยู่จัดส่ง</a> หรือ สามารถแจ้งที่อยู่ทางไลน์ ID: atpie</h6>
           <h6>QR CODE HERE</h6>
           {% endif %}
-
       </div>
     </div>
   </div>

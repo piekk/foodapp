@@ -17,9 +17,8 @@ app.config['BUCKET'] = 'foodappproducts'
 app.config['IMAGE_STORED'] = "https://storage.googleapis.com/foodappproducts/"
 app.config['PROFILE_IMAGE'] = "https://storage.googleapis.com/seller_profile/"
 pagename = "farmer diary"
+app.config['UPLOAD_FOLDER'] = 'static'
 
-NEXMO_API_KEY = 'ad2030ed'
-NEXMO_API_SECRET = 'lo8NT1TNj6UsHz8u'
 
 
 
@@ -47,6 +46,12 @@ def before_request_func():
             db.session.add(Cookie(cook_id = user))
             db.session.commit()
             print("")
+
+
+def set_new(id):
+    resp = make_response(redirect('/repeat'))
+    resp.set_cookie("id", id, max_age=60*60*30)
+    return resp
 
 def create_cart(ref):
     timecreate = datetime.now().strftime("%Y-%m-%d  %H:%M")
@@ -244,19 +249,20 @@ def process():
     cook = Cookie.query.filter_by(cook_id = user).first()
     cart = cook.cart
     data = request.json
-    json_path = os.path.join(app.config['UPLOAD_FOLDER'], user+'item.json')
+    name = secure_filename(user + '.json')
+    json_path = os.path.join(app.root_path, app.config['UPLOAD_FOLDER']+'/'+name)
     with open(json_path, 'w') as f:
             json.dump(data, f)
     for item in cart.items:
         item.quantity = data[item.product]
         db.session.commit()
-    pass
+    return jsonify(data)
 
 def send_message(number, text):
-    client = nexmo.Client(key=NEXMO_API_KEY, secret=NEXMO_API_SECRET)
+    client = nexmo.Client(key=app.config['SM_KEY'], secret=app.config['SM_SCR')
     TO_NUMBER = number
     message = text
-    responseData = client.send_message({'from': 'Acme Inc','to': TO_NUMBER,'text': message,'type': 'unicode'})
+    responseData = client.send_message({'from': pagename,'to': TO_NUMBER,'text': message,'type': 'unicode'})
     return responseData["messages"][0]["status"] == "0"
 
 
@@ -270,7 +276,7 @@ def checkout():
     reference = datetime.now().strftime("%m%d")+uuid.uuid4().hex[:6].upper()
     expire = datetime.now() + timedelta(days=3)
     timeexpire = expire.strftime("%Y-%m-%d  %H:%M")
-    if form.validate_on_submit():
+    if form.validate_on_submit() and cart and cart.items:
         #send sms confirmation to phone number
         phone_contact = str(form.contact.data)
         db.session.add(Checkout(contact=phone_contact, reference=reference, payment_expire = timeexpire))
@@ -282,25 +288,17 @@ def checkout():
         text = "เราได้รับการยืนยันการสั่งซื้อของคุณ รหัสการสั่งซื้อของคุณเลขที: " + reference + " ตรวจสอบการสั่งซื้อของคุณได้ที่ www.f-d-2020.appspot.com/tracking"
         to = '66' + phone_contact[1:]
         #ส่งสำเร็จ return true
-        if send_message(to, text):
-            for item in cart.items:
-                db.session.delete(item)
-                db.session.commit()
-            db.session.delete(cart)
-            return redirect(url_for('fasttrack'))
+        if True:
+        #if send_message(to, text):
+            flash("เราได้ส่งรหัสการสั่งซื้อไปยังหมายเลขโทรศัพท์ของคุณ หากคุณไมไ่ด้รับข้อความกรุณาใส่หมายเลขโทรศัพท์ใหม่")
+            return redirect(url_for('tracking'))
         else:
             flash("เบอร์ติดต่อไม่ถูกต้อง")
-            return redirect(url_for('tracking'))
+            return redirect(url_for('checkout'))
     else:
+        flash("เบอร์ติดต่อไม่ถูกต้อง")
         return render_template("checkout.html", form=form, cook=cook)
 
-@app.route('/fasttrack/', methods=['GET', 'POST'])
-def fasttrack():
-    user = request.cookies.get('cook_id')
-    cook = Cookie.query.filter_by(cook_id = user).first()
-    cart = cook.cart
-    form = FastTrack()
-    return render_template("fasttrack.html", form=form, cook =cook)
 
 
 @app.route('/tracking', methods=['GET', 'POST'])
@@ -308,11 +306,27 @@ def tracking():
     form = TrackingForm()
     user = request.cookies.get('cook_id')
     cook = Cookie.query.filter_by(cook_id = user).first()
+    cart_temp = cook.cart
     if form.validate_on_submit():
         cart = Checkout.query.filter_by(reference = form.reference.data).first()
-        return render_template("order.html", cook =cook, cart=cart)
+        if cart and cart.contact == form.contact.data:
+            # ตั้งค่าคุ้กกี้ใหม่ ใช้ reference เชคตะกร้าแทนล้อกอิน
+            set_new(cart.reference)
+            if cart_temp:
+                for item in cart_temp.items:
+                    db.session.delete(item)
+                    db.session.commit()
+                db.session.delete(cart_temp)
+            return render_template("order.html", cook =cook, cart=cart)
+        else:
+            flash('ข้อมูลไม่ถูกต้อง')
+            return redirect(url_for('tracking'))
     else:
         return render_template("tracking.html", form=form, cook =cook)
+
+@app.route('/shipaddress', methods=['GET', 'POST'])
+def shipaddress():
+    return render_template('shipaddress.html')
 
 
 @app.route('/articles/', defaults={'filter':None})

@@ -8,13 +8,14 @@
       {% if messages %}
       {% for message in messages %}
       <div class="col-12 mt-5">
-        <p class="text-danger">{{ message }}</p>
+        <p class="font-weight-bold">{{ message }}</p>
+        <a class ="d-block btn text-white button" href="{{request.referrer}}">กลับไปใส่เบอร์โทรศัพท์</a>
       </div>
       {% endfor %}
       {% endif %}
       {% endwith %}
       <div class="col-12">
-        <h5 class="title my-5">ข้อมูลจัดส่ง</h5>
+        <h5 class="title my-5">ติดตามสถานะสินค้า</h5>
       </div>
 
       <div class="col-12">
@@ -27,7 +28,6 @@
                     <p class="text-danger">{% for error in form.contact.errors %}{{ error }}{% endfor %}</p>
                 </div>
                 <div class="col-12 mb-3">
-                    <p>เราได้ส่งรหัสการสั่งซื้อของคุณไปที่หมายเลขโทรศัพท์ กรุณาใช้รหัสในการติดตามสถานะการสั่งซื้อ</p>
                     <h6>{{ form.reference.label(class_="text-muted") }}
                     {{ form.reference(class_="form-control") }}
                     <p class="text-danger">{% for error in form.reference.errors %}{{ error }}{% endfor %}</p>
