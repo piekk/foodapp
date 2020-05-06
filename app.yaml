@@ -3,12 +3,13 @@ env: standard
 
 env_variables:
   UPLOAD_FOLDER: '/tmp'
-  BUCKET: 'foodappproducts'
+  BUCKET: 'https://storage.googleapis.com/foodappproducts/'
+  BUCKET_NAME: 'foodappproducts'
   MAIL_ACCOUNT: 'admin@onedaystory.co'
   MAIL_PASSWORD: 'Chipperfield01'
   DB_USER: 'root'
   DB_PASS: 'artapp01'
-  NEXMO_API_SECRET: 'lo8NT1TNj6UsHz8u'
+  NEXMO_API_SECRET: '2F0d2CE301A@6C7'
   NEXMO_API_KEY: 'ad2030ed'
 
 

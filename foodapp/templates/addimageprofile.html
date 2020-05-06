@@ -1,0 +1,46 @@
+{% extends"layout.html" %}
+{% block content %}
+
+
+<section>
+  <div class="container">
+    <div class="row">
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      {% for message in messages %}
+      <div class="col-12 mt-5">
+        <p class="text-danger">{{ message }}</p>
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      <div class="col-12">
+        <h5 class="title my-5">รูปร้านค้า</h5>
+      </div>
+      <div class="col-12">
+        <form method="post">
+            {{ form.hidden_tag() }}
+          <div class="row">
+            <div class="col-12 mb-3">
+              <p>สามารถใช้รูปแบนเนอร์ขนาดใหญ่ รูปภาพนี้จะอยู่บนหน้าเพจของคุณ</p>
+              {{ form.img.label(class_="text-muted mr-3") }}
+              {{ form.img }}
+              {% if form.img.errors %}
+              <p class="text-danger">{% for error in form.img.errors %}{{ error }}{% endfor %}</p>
+              {% endif %}
+            </div>
+            <div class="col-12">
+              {{ form.submit(class_="btn btn-primary button") }}
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+
+</section>
+
+
+{% endblock %}

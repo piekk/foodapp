@@ -2,23 +2,147 @@
 {% block content %}
 
 <section>
-  <div class="container">
+  <div class="container my-3">
     <div class="row">
+      <div class="col-12">
+        <h5 class="title my-5">การติดต่อทางไลน์</h5>
+      </div>
+      <div class="col-12 col-sm-6 col-md-4">
+        <div class="text-center">
+          <img src="{{url_for('static', filename ='image/qrcode.png')}}" class = "img-fluid" alt="lineqr.png">
+          <h6 class="text-blue">LINE QR CODE</h6>
+        </div>
+        <a class="d-block btn text-white button my-3" href="#">เชื่อมต่อไลน์</a>
+      </div>
+      <div class="d-none d-sm-block col-sm-6 col-md-8 text-right mt-5">
+        <h6>ข้อมูลติดต่อบริษัท</h6>
+        <p>บริษัท </p>
+        <p>เบอร์ติดต่อ:  </p>
+        <p>อีเมลล์: </p>
+      </div>
 
-      <div class="col-12">
-        <h5 class="title my-3">เช็คสถานะสินค้า</h5>
-      </div>
-      <div class="col-12">
-          {% if cart.payment=='N' %}
-          <h6>รอการชำระเงิน</h6>
+      <div class="col-12 col-md-6">
+          <h5 class="title my-5">เช็คสถานะสินค้า</h5>
+          {% if cart.payment=='n' %}
+          <h6>รอการชำระเงิน ส่งหลักฐานการโอนเงินมาทางไลน์ ID</h6>
+          <div class="bg-lightblue py-3 text-center">
+            <h6>เลขที่บัญชีสำหรับการโอนเงิน</h6>
+            <p>ธนาคาร:</p>
+            <p>ชื่อบัญชี:</p>
+            <p>เลขที่บัญชี:</p>
+            <p>สาขา:</p>
+            <p class="font-weight-bold font-italic">รอการชำระเงิน ส่งหลักฐานการโอนเงินมาทางไลน์ ID</p>
+          </div>
           {% endif %}
-          {% if cart.shippingaddress %}
-          <h6>ที่อยู่จัดส่ง</h6>
-          {% else %}
-          <h6><a href="{{url_for('shipaddress', cart = cart.reference)}}">เพิ่มที่อยู่จัดส่ง</a> หรือ สามารถแจ้งที่อยู่ทางไลน์ ID: atpie</h6>
-          <h6>QR CODE HERE</h6>
-          {% endif %}
       </div>
+
+      <div class="col-12 col-md-6">
+        <h5 class="title my-5">ที่อยู่จัดส่งสินค้า</h5>
+        {% if cart.shippingaddress and cart.confirm_address == 'y' %}
+        <h6 class="font-italic font-weight-bold">ยืนยันที่อยู่จัดส่ง</h6>
+        <h6>ผู้รับ: <span class="font-italic">{{cart.shippingaddress.firstname }} {{cart.shippingaddress.lastname }}</span></h6>
+      	<h6>เบอร์ติดต่อ: {{ cart.shippingaddress.contact }}</h6>
+      	<h6>
+      		<span>บ้านเลขที่: {{ cart.shippingaddress.homeaddress }}</span>
+      		<span>หมู่บ้าน คอนโด: {{cart.shippingaddress.housename }} </span>
+      	</h6>
+      	<h6>
+      		<span>ซอย: {{cart.shippingaddress.sub_street }} </span>
+      		<span>ถนน: {{cart.shippingaddress.street }} </span>
+      	</h6>
+      	<h6>
+      		<span>แขวง/ตำบล: {{cart.shippingaddress.subdistrict }} </span>
+      		<span>เขต/อำเภอ: {{cart.shippingaddress.district }} </span>
+      	</h6>
+      	<h6>
+      		<span>จังหวัด: {{cart.shippingaddress.province }} </span>
+      		<span>รหัรหัสไปรษณีย์: {{cart.shippingaddress.postcode }} </span>
+      	</h6>
+      	<h6>
+      		<span>ประเทศ: {{cart.shippingaddress.country }} </span>
+      	</h6>
+
+        {% elif cart.shippingaddress and cart.confirm_address == 'n' %}
+        <h6 class="font-italic font-weight-bold">กรุณายืนยันที่อยู่จัดส่ง</h6>
+      	<h6>ชื้อผู้รับ: {{cart.shippingaddress.firstname }} {{cart.shippingaddress.lastname }}</h6>
+      	<h6>เบอร์ติดต่อ: {{ cart.shippingaddress.contact }}</h6>
+      	<h6>
+      		<span>บ้านเลขที่: {{ cart.shippingaddress.homeaddress }}</span>
+      		<span>หมู่บ้าน คอนโด: {{cart.shippingaddress.housename }} </span>
+      	</h6>
+      	<h6>
+      		<span>ซอย: {{cart.shippingaddress.sub_street }} </span>
+      		<span>ถนน: {{cart.shippingaddress.street }} </span>
+      	</h6>
+      	<h6>
+      		<span>แขวง/ตำบล: {{cart.shippingaddress.subdistrict }} </span>
+      		<span>เขต/อำเภอ: {{cart.shippingaddress.district }} </span>
+      	</h6>
+      	<h6>
+      		<span>จังหวัด: {{cart.shippingaddress.province }} </span>
+      		<span>รหัรหัสไปรษณีย์: {{cart.shippingaddress.postcode }} </span>
+      	</h6>
+      	<h6>
+      		<span>ประเทศ: {{cart.shippingaddress.country }} </span>
+      	</h6>
+        <a class="d-inline-block btn text-white button mb-3" href="{{url_for('address')}}">เปลี่ยนที่อยู่จัดส่ง</a>
+        <form method="POST">
+          <input type="submit" name="confirm_address" class="btn view-button text-white" value="ยืนยันที่อยู่จัดส่ง">
+        </form>
+
+        {% else %}
+        <h6>ยังไม่มีที่อยู่จัดส่ง</h6>
+        <h6> สามารถแจ้งที่อยู่ทางไลน์ ID: atpie</h6>
+        <h6> หรือ</h6>
+        <a class="d-inline-block btn text-white button mb-3" href="{{url_for('address')}}">เพิ่มที่อยู่จัดส่ง</a>
+        {% endif %}
+
+      </div>
+      <div class="col-12 table-area">
+        <h5 class="title my-5">รายการสั่งซื้อสินค้า</h5>
+
+        <table class="table table-responsive text-center">
+          <thead>
+            <tr>
+              <th>รูปภาพ</th>
+              <th>ชื่อสินค้า</th>
+              <th>จำนวน</th>
+              <th class="d-none d-md-block">ราคาต่อชิ้น</th>
+              <th>ราคารวม</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for item in cart.items %}
+
+            <tr>
+              <td class="cart_product_img">
+                <img src="{{ image_stored + item.img }}">
+              </td>
+              <td class="cart_product_desc">
+                <h6 class="name">{{product_title[item.product|int]}}</h6>
+              </td>
+              <td class="qty">
+                <span>{{item.quantity}}</span>
+              </td >
+              <td class="d-none d-md-block">
+                <span>฿ </span><span>{{(item.price|int/item.quantity)|int}}</span><span>.00</span>
+              </td>
+              <td class="total_price">
+                <span>฿ </span><span>{{item.price}}</span><span>.00</span>
+                <h6>{{ item.status }}</h6>
+              </td>
+            </tr>
+
+          {% endfor %}
+          </tbody>
+        </table>
+
+        <div class="bg-lightgrey text-right">
+          <h5 class="py-2 mr-3">ราคารวม: ฿ {{ total_price }}.00</h5>
+        </div>
+
+      </div>
+
     </div>
   </div>
 </section>

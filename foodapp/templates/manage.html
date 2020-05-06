@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="robots" content="noindex">
+  <link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/core-style.css') }}" >
+	<title></title>
+
+</head>
+  <body>
+      <nav>
+				<ul>
+					<li><a href="{{ url_for('home') }}">HOME</a></li>
+					<li><span>ADMIN</span>
+						<ul>
+							<li><a href="{{ url_for('user_verify') }}">VERIFY USER</a></li>
+							<li><a href="{{ url_for('payment_verify') }}">PAYMENT</a></li>
+							<li><a href="#">COMPLETED PAYMENT</a></li>
+						</ul>
+					</li>
+					<li><span>ARTICLES</span>
+						<ul>
+							<li><a href="#">Articles</a></li>
+							<li><a href="#">Update Articles</a></li>
+						</ul>
+					</li>
+					<li>Contact</li>
+				</ul>
+			</nav>
+    <section>
+
+			{% block content%}{% endblock %}
+
+
+    </section>
+  </body>
+</html>

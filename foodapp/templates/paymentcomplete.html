@@ -1,0 +1,47 @@
+
+
+{{seller}}
+<div class="break"></div>
+{% for cart in carts %}
+<div class="norm">
+	<h4>CART REFERENCE: Ref: <a href = "{{ url_for('cartref_confirmation', c_id=cart.reference) }}">#{{ cart.reference }}</a></h4>
+	<h6>ชำระเมื่อวันที่: {{cart.payment_complete}}</h6>
+	<div class="break"></div>
+	<div class="norm">
+		<div class = "grid-container">
+			<div class = "grid-item">
+				<h3>ที่อยู่จัดส่ง</h3>
+				<h5>ชื้อผู้รับ: {{cart.shippingaddress.firstname }} {{cart.shippingaddress.lastname }}</h5>
+				<h5>เบอร์ติดต่อ: {{ cart.shippingaddress.contact }}</h5>
+				<h5>
+					<span>บ้านเลขที่: {{ cart.shippingaddress.homeaddress }}</span>
+					<span>หมู่บ้าน คอนโด: {{cart.shippingaddress.housename }} </span>
+				</h5>
+				<h5>
+					<span>ซอย: {{cart.shippingaddress.sub_street }} </span>
+					<span>ถนน: {{cart.shippingaddress.street }} </span>
+				</h5>
+				<h5>
+					<span>แขวง/ตำบล: {{cart.shippingaddress.subdistrict }} </span>
+					<span>เขต/อำเภอ: {{cart.shippingaddress.district }} </span>
+				</h5>
+				<h5>
+					<span>จังหวัด: {{cart.shippingaddress.province }} </span>
+					<span>รหัรหัสไปรษณีย์: {{cart.shippingaddress.postcode }} </span>
+				</h5>
+				<h5>
+					<span>ประเทศ: {{cart.shippingaddress.country }} </span>
+				</h5>
+			</div>
+
+			<div class = "grid-item">
+				<h3>รายละเอียดผู้ซื้อ</h3>
+
+				<h5>เบอร์ติดต่อผู้ซื้อ: {{ cart.contact }}</h5>
+
+			</div>
+		</div>
+	</div>
+</div>
+<div class="break"></div>
+{% endfor %}

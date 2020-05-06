@@ -18,7 +18,7 @@
             <thead>
               <tr>
                 <th></th>
-                <th>ชื่อสินค้า</th>
+                <th class="d-none d-md-block">ชื่อสินค้า</th>
                 <th>ราคา</th>
                 <th>จำนวน</th>
                 <th></th>
@@ -31,7 +31,7 @@
                 <td class="cart_product_img">
                   <img src="{{ image_stored + item.img }}">
                 </td>
-                <td class="cart_product_desc">
+                <td class="cart_product_desc d-none d-md-block">
                   <h6 class="name">{{product_title[item.product|int]}}</h6>
                   <h6 class="d-none productname">{{ item.product }}</h6>
                 </td>
@@ -39,6 +39,11 @@
                   <span class="d-none">{{ "฿ {:,.2f}".format(price[item.product|int]) }}</span>
                   <span>฿ </span><span id="totalPrice{{ item.product }}">{{price[item.product|int]*item.quantity}}</span><span>.00</span>
                   <span class = "d-none" id="price{{ item.product }}">{{ price[item.product|int] }}</span>
+                  {% if item.seller in seller %}
+                  <h6 class="text-sm text-blue">จัดส่งฟรี</h6>
+                  {% else %}
+                  {% endif %}
+                  
                 </td>
                 <td class="qty">
                   <div class="qty-btn d-flex">

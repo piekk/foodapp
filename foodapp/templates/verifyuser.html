@@ -1,0 +1,30 @@
+<div class="break"></div>
+<table>
+  <thead>
+    <th>ID</th>
+    <th>USERNAME</th>
+    <th>EMAIL</th>
+    <th>NAME</th>
+    <th>CONTACT</th>
+    <th>DATE REGISTER</th>
+    <th>VERIFY</th>
+  </thead>
+  <tbody>
+  {% for user in pending_user %}
+    <tr>
+      <td>{{ user.id }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.firstname }} {{ user.lastname }}</td>
+      <td>{{ user.contact }}</td>
+      <td>{{ user.date_register.strftime('%Y/%m/%d') }}</td>
+      <td>
+        <form method="POST">
+          <input type="hidden" name="confirm_user" value="{{ user.id }}">
+          <input class ="button" type="submit" value="คอนเฟิร์ม">
+        </form>
+      </td>
+    </tr>
+  {%endfor%}
+  </tbody>
+</table>

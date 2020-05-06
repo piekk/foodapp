@@ -1,0 +1,110 @@
+{% extends"layout.html" %}
+{% block content %}
+
+<section>
+  <div class="container my-5">
+    <div class="row">
+      <div class="col-12 my-5">
+        <h5 class="title">รายการสั่งซื้อ</h5>
+      </div>
+      <div class="table-area col-12 my-5">
+        <table class="table table-responsive">
+          <thead>
+            <tr>
+              <th class="text-center">รายการสินค้า</th>
+              <th class="text-center">จำนวน</th>
+              <th class="text-center">ราคารวม</th>
+              <th class="text-center">ข้อมูลจัดส่ง</th>
+              <th class="text-center d-none d-md-block">ยืนยันการจัดส่ง</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {% for item in product %}
+              {% for i in current_user.product %}
+                {% if i.id == item.product|int %}
+            <tr>
+              <td class="cart_product_img">
+                <img src="{{ image_stored + item.img }}">
+                <div class="text-sm">
+                  <span>{{ i.title }}</span>
+                </div>
+              </td>
+              <td class ="text-center">{{item.quantity}}</td>
+              <td class="text-center">{{ "฿ {:,.2f}".format(item.seller_price|int) }}</td>
+              <td class="text-center">รหัส {{ item.Checkout.reference }}</td>
+              {% if item.status == 'จัดส่งแล้ว'%}
+              <td class="text-center d-none d-md-block">{{item.status}}</td>
+              {% else %}
+              <td class="text-center d-none d-md-block">{{item.status}}
+                <h6>ภายในวันที่ {{item.ship_date.strftime('%Y-%m-%d')}}</h6>
+              </td>
+              {% endif %}
+            </tr>
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <h5 class="title my-5">รายละเอียดผู้ซื้อ</h5>
+      </div>
+      <div class="col-12 col-md-6">
+        <h6 class="font-italic">รหัสผู้ซื้อ {{cart.reference}}</h6>
+        <h6 class="font-italic">เบอร์ติดต่อผู้ซื้อ {{cart.contact}}</h6>
+        <h6 class="font-weight-bold">ที่อยู่จัดส่ง</h6>
+        <div class="address-print">
+          <div class="ml-2 py-4 px-5">
+            <h6>ผู้รับ: <span class="font-italic">{{cart.shippingaddress.firstname }} {{cart.shippingaddress.lastname }}</span></h6>
+            <h6>เบอร์ติดต่อ: {{ cart.shippingaddress.contact }}</h6>
+            <h6>
+              <span>บ้านเลขที่: {{ cart.shippingaddress.homeaddress }}</span>
+              <span>หมู่บ้าน คอนโด: {{cart.shippingaddress.housename }} </span>
+            </h6>
+            <h6>
+              <span>ซอย: {{cart.shippingaddress.sub_street }} </span>
+              <span>ถนน: {{cart.shippingaddress.street }} </span>
+            </h6>
+            <h6>
+              <span>แขวง/ตำบล: {{cart.shippingaddress.subdistrict }} </span>
+              <span>เขต/อำเภอ: {{cart.shippingaddress.district }} </span>
+            </h6>
+            <h6>
+              <span>จังหวัด: {{cart.shippingaddress.province }} </span>
+              <span>รหัรหัสไปรษณีย์: {{cart.shippingaddress.postcode }} </span>
+            </h6>
+            <h6>
+              <span>ประเทศ: {{cart.shippingaddress.country }} </span>
+            </h6>
+          </div>
+        </div>
+      </div>
+
+
+      {% if product[0].status == 'จัดส่งแล้ว' %}
+      <div class="col-12 col-md-6 text-center">
+        <p class="font-weight-bold font-italic">สินค้าได้รับการจัดส่งแล้ว </p>
+      </div>
+      {% else %}
+      <div class="col-12 col-md-6 text-center">
+        <p class="font-weight-bold">เมื่อคุณส่งสินค้าแล้ว กรุณากลับมาที่หน้านี้เพื่อกดปุ่มยินยันการส่งสินค้าของคุณได้ คุณสามารถใส่ข้อความสั้นๆขอบคุณลูกค้าในฟอร์มข้างล่าง</p>
+        <form method="post">
+          {{ form.hidden_tag() }}
+          <div class="mt-5">
+            {{ form.message(style ="width:100%" ) }}
+            <p class="text-danger">{% for error in form.message.errors %}{{ error }}{% endfor %}</p>
+          </div>
+          <div class="my-4">
+            {{ form.submit(class_="btn btn-primary main-button") }}
+          </div>
+        </form>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

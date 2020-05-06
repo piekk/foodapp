@@ -4,8 +4,11 @@ from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError, InputRequired
 from werkzeug.utils import secure_filename
 from foodapp.models import User
+from foodapp.province import province_list
 from flask_login import current_user
 from foodapp import app
+
+
 
 
 def check_contact(form, field):
@@ -52,14 +55,16 @@ def check_email(form, field):
 class ProductForm(FlaskForm):
     title = StringField('Title', id="producttitle", validators=[DataRequired()])
     photo1 = FileField('Add Main Photo', validators=[FileRequired(), FileAllowed(['jpg', 'jpeg', 'png'])])
-    photo2 = FileField('Add More', validators=[FileAllowed(['jpg'])])
-    photo3 = FileField('Add More', validators=[FileAllowed(['jpg'])])
-    photo4 = FileField('Add More', validators=[FileAllowed(['jpg'])])
+    photo2 = FileField('Add More', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
+    photo3 = FileField('Add More', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
+    photo4 = FileField('Add More', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
     price = StringField('Price', id="pr-set", validators=[DataRequired(), check_num])
     shipping_fee = StringField('Shipping', id="ship-set", default=0, validators=[DataRequired(), check_num])
     promotion = IntegerField('Promotion', id="discount-set", default = 0)
     promotion_expire = IntegerField('Promotion Expire', default=90)
-    category = SelectField('Category', id="category", choices=[(app.config['CATEGORY_1'], app.config['CAT_1']),(app.config['CATEGORY_2'], app.config['CAT_2']),(app.config['CATEGORY_3'],app.config['CAT_3'])])
+    category = SelectField('Category', id="category", choices=[(app.config['CATEGORY_1'], app.config['CAT_1']),(app.config['CATEGORY_2'], app.config['CAT_2']),(app.config['CATEGORY_3'],app.config['CAT_3']),
+                                                               (app.config['CATEGORY_4'],app.config['CAT_4']), (app.config['CATEGORY_5'],app.config['CAT_5']), (app.config['CATEGORY_6'],app.config['CAT_6']),
+                                                               (app.config['CATEGORY_7'],app.config['CAT_7'])])
     quantity = IntegerField('Inventory', default = 0)
     tag = StringField('Tag', validators=[DataRequired()])
     description = TextAreaField('Description')
@@ -92,7 +97,7 @@ class EditStockForm(FlaskForm):
 class MerchantRegistrationForm(FlaskForm):
     firstname = StringField('ชื่อจริง', validators=[DataRequired()])
     lastname = StringField('นามสกุล', validators=[DataRequired()])
-    username = StringField('ชื่อผู้ใช้', validators=[DataRequired(),
+    username = StringField('ชื่อแบรนด์', validators=[DataRequired(),
                                         check_name])
     contact = StringField('เบอร์ติดต่อ', validators=[DataRequired(),
                                              check_contact])
@@ -151,7 +156,8 @@ class Password_change(FlaskForm):
     submit = SubmitField('ยืนยัน')
 
 class Ship_Address(FlaskForm):
-    fullname = StringField('ชื่อและนามสกุล', validators=[DataRequired()])
+    firstname = StringField('ชื่อ', validators=[DataRequired()])
+    lastname = StringField('นามสกุล', validators=[DataRequired()])
     contact = StringField('เบอร์ติดต่อ', validators=[DataRequired()])
     homeaddress = StringField('บ้านเลขที่', validators=[DataRequired()])
     housename = StringField('หมู่บ้าน/คอนโด')
@@ -159,9 +165,24 @@ class Ship_Address(FlaskForm):
     substreet = StringField('ซอย')
     subdistrict = StringField('แขวง/ตำบล', validators=[DataRequired()])
     district = StringField('เขต/อำเภอ', validators=[DataRequired()])
-    province = StringField('จังหวัด', validators=[DataRequired()])
+    province = SelectField('จังหวัด', choices=province_list)
     postcode = IntegerField('รหัสไปรษณีย์', validators=[DataRequired()])
+    make_mainaddress = BooleanField('จดจำเป็นที่อยู่หลักในการสั่งซื้อครั้งต่อไป')
     submit = SubmitField('ยืนยัน')
 
-class ChoosePayment(FlaskForm):
-    submit = SubmitField('confirm')
+class ConfirmShipmentForm(FlaskForm):
+    message = StringField('ส่งข้อความขอบคุณลูกค้า')
+    submit = SubmitField('ยืนยันการส่งสินค้า')
+
+class ShopProfile(FlaskForm):
+    title = StringField('ข้อความแนะนำตัวสั้นๆ', validators=[DataRequired()])
+    content = TextAreaField('แนะนำสินค้าที่คุณขาย', validators=[DataRequired()])
+    submit = SubmitField('ยืนยัน')
+
+class ImageProfile(FlaskForm):
+    img = FileField('รูปกิจการ', validators=[DataRequired(), FileAllowed(['jpg', 'jpeg', 'png'])])
+    submit = SubmitField('ยืนยัน')
+
+class IconProfile(FlaskForm):
+    icon = FileField('รูปโลโกร้านถ้ามี', validators=[DataRequired(), FileAllowed(['jpg', 'jpeg', 'png'])])
+    submit = SubmitField('ยืนยัน')

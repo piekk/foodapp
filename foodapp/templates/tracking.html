@@ -2,14 +2,18 @@
 {% block content %}
 
 <section>
-  <div class="container">
+  <div class="container my-5">
     <div class="row">
       {% with messages = get_flashed_messages() %}
       {% if messages %}
       {% for message in messages %}
-      <div class="col-12 mt-5">
-        <p class="font-weight-bold">{{ message }}</p>
-        <a class ="d-block btn text-white button" href="{{request.referrer}}">กลับไปใส่เบอร์โทรศัพท์</a>
+      <div class="col-12 col-md-6 mt-5">
+        <p class="font-weight-bold">{{ message }}  </p>
+        <a class="btn text-white button" href="#">ลิงค์ไปที่ไลน์</a>
+      </div>
+      <div class="col-12 col-md-6 mt-5 text-center">
+        <img src="{{url_for('static', filename = 'image/qrcode.png' )}}" alt="">
+        <h6 class="text-blue">LINE QR CODE  </h6>
       </div>
       {% endfor %}
       {% endif %}
@@ -34,8 +38,10 @@
                 </div>
 
 
-                <div class="col-12 mb-3">
+                <div class="col-12">
                     {{ form.submit(class_="btn btn-primary button") }}
+                </div>
+                <div class="clearfix d-none d-xl-block mb-200">
                 </div>
             </div>
         </form>

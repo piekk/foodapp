@@ -1,0 +1,89 @@
+
+<div class="break"></div>
+<div class="norm">
+	<h4> Cart REFERENCE: #{{cart.reference}}</h4>
+	{% if cart.payment == 'C' %}
+		<h4> Payment Status: ชำระเงินแล้ว</h4>
+	{% else %}
+		<h4> Payment Status: รอการชำระเงิน</h4>
+	{% endif %}
+</div>
+<div class="break"></div>
+<div class="norm">
+	<h4>Username ลูกค้า: {{cart.contact }}</h4>
+
+</div>
+<div class="break"></div>
+{% if cart.confirm_address =='y' %}
+<div class="norm">
+	<h4>ที่อยู่จัดส่ง</h4>
+	<h5>ชื้อผู้รับ: {{cart.shippingaddress.firstname }} {{cart.shippingaddress.lastname }}</h5>
+	<h5>เบอร์ติดต่อ: {{ cart.shippingaddress.contact }}</h5>
+	<h5>
+		<span>บ้านเลขที่: {{ cart.shippingaddress.homeaddress }}</span>
+		<span>หมู่บ้าน คอนโด: {{cart.shippingaddress.housename }} </span>
+	</h5>
+	<h5>
+		<span>ซอย: {{cart.shippingaddress.sub_street }} </span>
+		<span>ถนน: {{cart.shippingaddress.street }} </span>
+	</h5>
+	<h5>
+		<span>แขวง/ตำบล: {{cart.shippingaddress.subdistrict }} </span>
+		<span>เขต/อำเภอ: {{cart.shippingaddress.district }} </span>
+	</h5>
+	<h5>
+		<span>จังหวัด: {{cart.shippingaddress.province }} </span>
+		<span>รหัรหัสไปรษณีย์: {{cart.shippingaddress.postcode }} </span>
+	</h5>
+	<h5>
+		<span>ประเทศ: {{cart.shippingaddress.country }} </span>
+	</h5>
+</div>
+{% else %}
+<div class="norm">
+	<h4>ยังไม่มีที่อยู่จัดส่ง</h4>
+</div>
+{% endif %}
+
+<div class = "break"></div>
+<div>
+	<table>
+		<caption>รายการสั่งซื้อ</caption>
+		<thead>
+			<th>ชื่อสินค้า</th>
+			<th>ราคา</th>
+			<th>จำนวน</th>
+			<th>ราคารวม</th>
+		</thead>
+		<tbody>
+		{% for item in cart.items %}
+			<tr>
+				<td>
+	        <img class="thumbnail" src="{{image_stored+item.img}}">
+	        <h5 class="productname">{{ item.product }}</h5>
+	      </td>
+				<td>{{ "฿ {:,.2f}".format((item.price|int)/item.quantity) }}</td>
+				<td>{{item.quantity}}</td>
+				<td>{{ "฿ {:,.2f}".format(item.price|int) }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td></td>
+				<td></td>
+				<td>ราคารวม</td>
+				<td> {{ "฿ {:,.2f}".format(cart.totalprice|int) }}</td>
+			</tr>
+		</tfoot>
+	</table>
+	<div class="break"></div>
+	{% if cart.payment=='n' %}
+	<div class=" norm">
+		<form method="POST">
+	    <input class="button w40" type="submit" name="confirm_payment" value="ยืนยันการชำระเงิน">
+	  </form>
+	</div>
+	{% else %}
+	{% endif %}
+</div>

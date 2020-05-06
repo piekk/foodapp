@@ -49,6 +49,7 @@ function getVal(){
   xhr.open("POST", '/cart/process', true);
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.send(quan);
+  window.location.reload()
 }
 ///let quan = JSON.stringify(quantity)
 ///var xhr = new XMLHttpRequest();

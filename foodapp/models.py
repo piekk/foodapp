@@ -19,6 +19,7 @@ class User(db.Model, UserMixin):
     role = db.Column(db.String(6), unique=False, nullable=False)
     verified = db.Column(db.String(3), unique=False, default='no', nullable=False)
     date_register = db.Column(db.DateTime, unique=False, nullable=False)
+    minimum_shippingfee = db.Column(db.String(10), unique=False, default='1000', nullable=True)
     product = db.relationship("Products", backref="owner_product")
     payment_due = db.relationship("PaymentDue", backref="owner_paymentdue")
     payment_recieve = db.relationship("PaymentRecieved", backref="owner_paymentrevieve")
@@ -101,8 +102,11 @@ class Checkout(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     contact = db.Column(db.String(20), unique=False, nullable=False)
     reference = db.Column(db.String(10), unique = True, nullable=False)
-    payment = db.Column(db.String(2), unique= False, default = 'N')
+    confirm_address = db.Column(db.String(20), unique= False, default = 'n')
+    payment = db.Column(db.String(20), unique= False, default = 'n')
     payment_expire = db.Column(db.DateTime, nullable=True)
+    payment_complete = db.Column(db.DateTime, nullable=True)
+    totalprice  = db.Column(db.String(20), unique=False, nullable=True)
     items = db.relationship("CheckoutItems", backref='Checkout')
     shippingaddress = db.relationship("ShipAddress", backref='CheckoutAddress', uselist=False)
 
@@ -115,9 +119,11 @@ class CheckoutItems(db.Model):
     img = db.Column(db.String(50), unique=False, nullable=False)
     quantity = db.Column(db.Integer, unique=False, nullable=False, default=1)
     price = db.Column(db.String(7), unique=False, nullable=False)
+    seller_price = db.Column(db.String(7), unique=False, nullable=False)
     seller = db.Column(db.String(12), unique=False,  nullable=False)
-    status = db.Column(db.String(20), unique=False, nullable=False, default = 'pending')
-    tracking = db.Column(db.String(15), unique=False,  nullable=True)
+    status = db.Column(db.String(20), unique=False, nullable=False, default = 'รอการชำระเงิน')
+    ship_date = db.Column(db.DateTime, nullable=True)
+    tracking = db.Column(db.String(100), unique=False,  nullable=True)
     checkoutid = db.Column(db.Integer, db.ForeignKey('checkout.id'))
 
     def __repr__(self):
@@ -142,6 +148,26 @@ class ShipAddress(db.Model):
 
     def __repr__(self):
         return "(Name: {} {})" .format(self.firstname, self.lastname)
+
+
+
+class MainAddress(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    firstname = db.Column(db.String(30), unique=False, nullable=False)
+    lastname = db.Column(db.String(30), unique=False, nullable=False)
+    contact = db.Column(db.String(20), unique=True, nullable=False)
+    homeaddress = db.Column(db.String(40), unique=False, nullable=False)
+    housename = db.Column(db.String(30), unique=False, nullable=True)
+    street = db.Column(db.String(40), unique=False, nullable=True)
+    sub_street = db.Column(db.String(50), unique=False, nullable=True)
+    subdistrict = db.Column(db.String(30), unique=False, nullable=False)
+    district = db.Column(db.String(30), unique=False, nullable=False)
+    province = db.Column(db.String(30), unique=False, nullable=False)
+    country = db.Column(db.String(34), unique=False, nullable=False)
+    postcode = db.Column(db.Integer, unique=False, nullable=False)
+
+    def __repr__(self):
+        return "(Name: {} {}, contact: {)" .format(self.firstname, self.lastname, self.contact)
 
 
 class PaymentDue(db.Model):
@@ -174,7 +200,7 @@ class PaymentRecieved(db.Model):
 
 class Profile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(30), unique=True, nullable=False)
+    title = db.Column(db.String(30), nullable=False)
     content = db.Column(db.Text, nullable=False)
     image1 = db.Column(db.String(50), unique=True, nullable=True)
     icon = db.Column(db.String(50), unique=True, nullable=True)

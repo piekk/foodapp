@@ -4,7 +4,86 @@
 
 <section>
   <div class="container product my-5">
+    {% if product_confirm %}
     <div class="row">
+      <div class="col-12 my-3">
+        <h5 class="title">คำสั่งซื้อสินค้า</h5>
+      </div>
+      <div class="table-area col-12 my-5">
+        <table class="table table-responsive">
+          <thead>
+            <tr>
+              <th class="text-center">รายการสินค้า</th>
+              <th class="text-center">จำนวน</th>
+              <th class="text-center">ราคารวม</th>
+              <th class="text-center">ข้อมูลจัดส่ง</th>
+              <th class="text-center d-none d-md-block">ยืนยันการจัดส่ง</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in product_confirm %}
+              {% for i in product %}
+                {% if i.id == item.product|int %}
+            <tr>
+              <td class="cart_product_img">
+                <img src="{{ image_stored + item.img }}">
+                <div class="text-center">
+                  <span>{{ i.title }}</span>
+                </div>
+              </td>
+              <td class ="text-center">{{item.quantity}}</td>
+              <td class="text-center">{{ "฿ {:,.2f}".format(item.seller_price|int) }}</td>
+              <td class="text-center"><a class="text-blue" href="{{url_for('confirmshipment', brand = current_user.username, c_id = item.Checkout.reference)}}">รหัส {{ item.Checkout.reference }}</a></td>
+              <td class="text-center d-none d-md-block">{{item.status}}
+                <h6>ภายในวันที่ {{item.Checkout.payment_complete.strftime('%Y-%m-%d')}}</h6>
+              </td>
+            </tr>
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if current_user.payment_due %}
+    <div class="row">
+      <div class="col-12 my-3">
+        <h5 class="title">รายได้ที่คุณจะได้รับ</h5>
+      </div>
+      <div class="table-area col-12 mt-2 mb-3">
+        <table class="table table-responsive">
+          <thead>
+            <tr>
+              <th class="text-center">รายการ</th>
+              <th class="text-center">รหัส</th>
+              <th class="text-center">ราคารวม</th>
+              <th class="text-center">วันที่จัดส่ง</th>
+              <th class="text-center d-none d-md-block">วันที่จะได้รับเงิน</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for payment in current_user.payment_due %}
+            <tr>
+              <td class="text-center">{{ current_user.payment_due.index(payment) + 1 }}</td>
+              <td class ="text-center"><a class="text-blue" href="{{url_for('confirmshipment', brand = current_user.username, c_id = payment.order_no)}}" target="_blank">รหัส {{ payment.order_no }}</a></td>
+              <td class="text-center">{{ "฿ {:,.2f}".format(payment.amount|int) }}</td>
+              <td class="text-center">{{ payment.paid_on.strftime('%Y-%m-%d') }}</td>
+              <td class="text-center">{{ payment.due_date.strftime('%Y-%m-%d') }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endif %}
+
+
+    <div class="row">
+      <div class="col-12 my-5">
+        <h5 class="title">เพิ่มสินค้า</h5>
+      </div>
       <div class="add-product col-12 col-md-4 col-lg-3 py-3">
         {% if current_user.verified=='y' %}
         <div class="card">
@@ -33,7 +112,7 @@
         <img class="d-block w-100" src="{{ image_stored + item.imgfile1 }}" alt="{{item.title}}">
         <div class="bg-lightblue py-2 my-2">
           <div class="px-2">
-            <a href="{{url_for('dashboard', brand="{{current_user.username}}")}}" title="" class="brand-tag">{{current_user.username}}</a>
+            <a href="{{url_for('dashboard', brand=current_user.username)}}" title="" class="brand-tag">{{current_user.username}}</a>
             <h6><a href="{{url_for('product', product = item.id)}}" class="product-name">{{item.title}}</a></h6>
             {% if item.promotion|int > 0 and item.promotion_expire > time %}
             <p class="text-sm mb-1">ส่วนลด: {{item.promotion}} % ถึง: {{item.promotion_expire.strftime("%d-%m-%Y")}}</p>
@@ -60,30 +139,50 @@
 
 
 
-  <div class="container brand-story mb-5">
+  <div class="container brand-story mb-3">
     <div class="row">
       <div class="col-12">
-        <h5 class="title mb-5">เกี่ยวกับแบรนด์</h5>
+        <h5 class="title mb-3">เกี่ยวกับแบรนด์</h5>
       </div>
 
+      {% if current_user.o_profile.image1 %}
+      <div class="col-12 my-3">
+        <a href="{{url_for('myimageprofile', brand = current_user.username)}}" class="btn btn-primary button">เปลียนรูปภาพ</a>
+      </div>
+      {% else %}
+      <div class="col-12 my-2">
+        <a href="{{url_for('myimageprofile', brand = current_user.username)}}" class="btn btn-primary button">เพิ่มรูปภาพ</a>
+      </div>
+      {% endif %}
+
       <div class="col-12">
+        {% if current_user.o_profile.image1 %}
+        <div class="card" style="background-image: url({{ image_stored + current_user.o_profile.image1 }})">
+        {% else %}
         <div class="card">
+        {% endif %}
           <div class="card-body">
             <h5 class="card-title">เรื่องราวของคุณ</h5>
+            {% if current_user.o_profile.content %}
+            <h6 class="card-text">{{current_user.o_profile.title}}</h6>
+            <p class="card-text">{{current_user.o_profile.content}}</p>
+            <a href="{{url_for('myprofile', brand = current_user.username)}}" class="btn btn-primary view-button">แก้ไข</a>
+            {% else %}
             <p class="card-text">คุณสามารถอธิบายความเป็นมาของสินค้าคุณ คุณอาจเล่าเรื่องประสบการณ์การทำงาน
               แรงบันดาลใจของคุณ อุปสรรคที่คนพบเจอ และเป่าหมายขของคุณเพื่อเป็นแรงบันดาลใจสำหรับเกษตรกรคนอื่นๆ
               ที่อาจกำลังประสบปัญหาแบบเดียวกับคุณ
               และใส่รูปโพรไฟล์เพื่อสร้างความเป็นกันเองกับลูกค้า
               ข้อมูลและที่คุณใส่จะปรากฎบนหน้าเพจแบรนด์ของคุณ </p>
-            <a href="#" class="btn btn-primary view-button">เล่าเรื่องราวของคุณ</a>
+            <a href="{{url_for('myprofile', brand = current_user.username)}}" class="btn btn-primary view-button">เล่าเรื่องราวของคุณ</a>
+            {% endif %}
           </div>
         </div>
       </div>
     </div>
 
     <div class="row mt-5">
-      <div class="col-12">
-        <h5 class="title mb-5">ข้อมูลติดต่อ</h5>
+      <div class="col-12 col-md-6 mb-4">
+        <h5 class="title mb-2">ข้อมูลติดต่อ</h5>
         <p> Shop: {{ current_user.username }} </p>
         <p> Email: <span class="italic">{{ current_user.email }}</span></p>
         <p> เบอร์ติดต่อ: <span class="italic">{{ current_user.contact }}</span></p>
@@ -92,6 +191,27 @@
         {% else %}
         {% endif %}
         <a class="btn-primary button" href="{{url_for('user_edit', name=current_user.username)}}">แก้ไขข้อมูล</a>
+      </div>
+
+      <div class="col-12 col-md-6">
+        {% if current_user.o_profile.icon %}
+        <div class="card">
+          <div class="card-body text-center">
+            <a href="{{url_for('myiconprofile', brand=brand)}}">
+            <img class="img-fluid mt-3" src="{{ image_stored+current_user.o_profile.icon }}" style="max-width: 50px;" alt="">
+            <h6 class="mt-3 text-blue">เปลี่ยนโลโก</h6></a>
+          </div>
+        </div>
+        {% else %}
+        <div class="card">
+          <div class="card-body text-center">
+            <a href="{{url_for('myiconprofile', brand=brand)}}">
+            <img class="img-fluid mt-3" src="{{url_for('static', filename='image/icon/more.png')}}" style="max-width: 50px;" alt="">
+            <h6 class="mt-3 text-blue">ใส่โลโกของคุณ</h6></a>
+            <p>หากคุณต้องการความช่วยเหลือในการออกแบบโลโก สามารถติดต่อเราได้ ไม่มีค่าใช้จ่าย</p>
+          </div>
+        </div>
+        {% endif %}
       </div>
     </div>
   </div>

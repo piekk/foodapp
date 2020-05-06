@@ -1,0 +1,95 @@
+{% extends"layout.html" %}
+{% block content %}
+
+<section class="mb-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h5 class="title my-5">ที่อยู่จัดส่ง</h5>
+      </div>
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      {% for message in messages %}
+      <div class="col-12">
+        <p class="text-danger">{{ message }}</p>
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+
+      <div class="col-12">
+        <form method="POST">
+        {{ form.hidden_tag() }}
+          <div class="row">
+            <div class="col-12 col-md-6 mb-3">
+              <h6>{{form.firstname.label(class_="text-muted")}}</h6>
+              {{form.firstname(class_="form-control halfw") }}
+              <p class="text-danger">{% for error in form.firstname.errors %}{{ error }}{% endfor %}</p>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+              <h6>{{form.lastname.label(class_="text-muted")}}</h6>
+              {{form.lastname(class_="form-control halfw") }}
+              <p class="text-danger">{% for error in form.lastname.errors %}{{ error }}{% endfor %}</p>
+            </div>
+            <div class="col-12 mb-3">
+              <h6>{{ form.contact.label(class_="text-muted") }}</h6>
+              {{form.contact(class_="form-control small") }}
+              <p class="text-danger">{% for error in form.contact.errors %}{{ error }}{% endfor %}</p>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+              <h6>{{ form.homeaddress.label(class_="text-muted") }}</h6>
+              {{ form.homeaddress(class_="form-control halfw") }}
+              <p class="text-danger">{% for error in form.homeaddress.errors %}{{ error }}{% endfor %}</p>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+              <h6>{{ form.housename.label(class_="text-muted") }}</h6>
+              {{ form.housename(class_="form-control halfw") }}
+              <p class="text-danger">{% for error in form.homeaddress.errors %}{{ error }}{% endfor %}</p>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+              <h6>{{ form.substreet.label(class_="text-muted") }}</h6>
+              {{ form.substreet(class_="form-control halfw") }}
+              <p class="text-danger">{% for error in form.substreet.errors %}{{ error }}{% endfor %}</p>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+              <h6>{{ form.street.label(class_="text-muted") }}</h6>
+              {{ form.street(class_="form-control") }}
+              <p class="text-danger">{% for error in form.street.errors %}{{ error }}{% endfor %}</p>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+              <h6>{{ form.subdistrict.label(class_="text-muted") }}</h6>
+              {{ form.subdistrict(class_="form-control halfw") }}
+              <p class="text-danger">{% for error in form.subdistrict.errors %}{{ error }}{% endfor %}</p>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+              <h6>{{ form.district.label(class_="text-muted") }}</h6>
+              {{ form.district(class_="form-control halfw") }}
+              <p class="text-danger">{% for error in form.district.errors %}{{ error }}{% endfor %}</p>
+            </div>
+            <div class="col-12 mb-3">
+              <h6>จังหวัด</h6>
+              {{ form.province(class_="nice-select small") }}
+              <p class="text-danger">{% for error in form.province.errors %}{{ error }}{% endfor %}</p>
+            </div>
+            <div class="col-12 mb-3">
+              <h6>{{ form.postcode.label(class_="text-muted") }}</h6>
+              {{ form.postcode(class_="form-control small") }}
+              <p class="text-danger">{% for error in form.postcode.errors %}{{ error }}{% endfor %}</p>
+            </div>
+            <div class="col-12 mb-3">
+              {{form.make_mainaddress}} {{form.make_mainaddress.label}}
+            </div>
+            <div class="col-12 mb-3">
+              {{ form.submit(class_="btn btn-primary main-button") }}
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+{% endblock %}

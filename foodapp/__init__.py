@@ -15,27 +15,38 @@ app = Flask(__name__)
 
 
 
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://'+os.environ.get('DB_USER')+':'+os.environ.get('DB_PASS')+'@/farmerdiary_main_db?unix_socket=/cloudsql/f-d-2020:asia-southeast1:farmerdiary'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:artapp01@localhost/farmerdiary_main_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://'+os.environ.get('DB_USER')+':'+os.environ.get('DB_PASS')+'@/farmerdiary_main_db?unix_socket=/cloudsql/f-d-2020:asia-southeast1:farmerdiary'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:artapp01@localhost/farmerdiary_main_db'
 app.config['SECRET_KEY'] = os.urandom(12).hex()
 app.config['SQLALCHEMY_POOL_SIZE'] = 1
 app.config['SQLALCHEMY_MAX_OVERFLOW'] = 0
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['BUCKET'] = os.environ.get('BUCKET')
+app.config['IMAGE_STORED'] = os.environ.get('BUCKET')
+
+app.config['BUCKET_NAME'] = os.environ.get('BUCKET_NAME')
+
 app.config['UPLOAD_FOLDER'] = os.environ.get('UPLOAD_FOLDER')
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=31)
-app.config['SM_KEY'] = os.environ.get['NEXMO_API_KEY']
-app.config['SM_SCR'] = os.environ.get['NEXMO_API_SECRET']
+app.config['SM_KEY'] = os.environ.get('NEXMO_API_KEY')
+app.config['SM_SCR'] = os.environ.get('NEXMO_API_SECRET')
+
+
 app.config['CATEGORY_1'] = 'grains'
 app.config['CATEGORY_2'] = 'rice'
-app.config['CATEGORY_3'] = 'drinks'
-app.config['CATEGORY_4'] = 'vegetables'
-app.config['CATEGORY_5'] = 'bread'
+app.config['CATEGORY_3'] = 'tea'
+app.config['CATEGORY_4'] = 'coffee'
+app.config['CATEGORY_5'] = 'vegetables'
+app.config['CATEGORY_6'] = 'bread'
+app.config['CATEGORY_7'] = 'supplements'
+app.config['CATEGORY_7'] = 'kids'
 app.config['CAT_1'] = 'ธัญพืช'
 app.config['CAT_2'] = 'ข้าว'
-app.config['CAT_3'] = 'เครื่องดื่ม'
-app.config['CAT_4'] = 'ผัก'
-app.config['CAT_5'] = 'ขนมปัง'
+app.config['CAT_3'] = 'ชา'
+app.config['CAT_4'] = 'กาแฟ'
+app.config['CAT_5'] = 'ผักผลไม้'
+app.config['CAT_6'] = 'ขนมปัง'
+app.config['CAT_7'] = 'อาหารเสริม'
+app.config['CAT_7'] = 'อาหารเด็ก'
 
 
 
@@ -44,6 +55,6 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
-margin = 1.15
+margin = 1.22
 
 from foodapp import routes

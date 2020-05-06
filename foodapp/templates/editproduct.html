@@ -2,37 +2,37 @@
 {% block content %}
 
 <section>
+  {% if message %}
   <div class="container">
     <div class="row">
-
-        {% if message %}
-        <div class="col-12 mb-3">
-          <h5 class="mb-4">{{product.title}}</h5>
-          <p>{{message}}</p>
-          {% set image1 = "https://storage.googleapis.com/"+ bucket +"/"+ product.imgfile1 %}
-          <img class="mb-3" src="{{ image1 }}">
-          <p>กลุ่มสินค้า: {{product.category}}</p>
-          <p>ข้อมูลสินค้า: {{product.description}}</p>
-        </div>
-        <div class="col-12 mb-3">
-            <p>ราคาสินค้า: {{"฿ {:,.2f}".format(product.price|int)}}</p>
-            <p>ค่าส่งสินค้า: {{"฿ {:,.2f}".format(product.shipping_fee|int)}}</p>
-            {% if product.promotion|int > 0 and time<product.promotion_expire %}
-            <p>{{product.promotion}}% <span class="text-alert">OFF</span> <span>(ถึงวันที่ {{ product.promotion_expire.strftime("%Y/%m/%d") }})</span></p>
-            <p>ราคาแสดงบนเวปไซท์:{{"฿ {:,.2f}".format((((product.price|int*(1-(product.promotion|int/100)))*margin)+product.shipping_fee|int)|round)}}</p>
-            {% else %}
-            <p>โปรโมชัน: ไม่มีโปรโมชัน</p>
-            <p>ราคาแสดงบนเวปไซท์: {{"฿ {:,.2f}".format(((product.price|int*margin)+product.shipping_fee|int)|round)}}</p>
-            {% endif %}
-            <p>จำนวนเงินที่คุณได้รับ: {{"฿ {:,.2f}".format((((product.price|int*(1-(product.promotion|int/100))))+product.shipping_fee|int)|round)}}</p>
-            <h6>เหลือจำนวน: {{product.quantity}} </h6>
-        </div>
-        <div class="col-12 mb-3">
-            <a class="btn btn-primary button" href="{{request.referrer}}">BACK</a>
-        </div>
+      <div class="col-12 mt-5 mb-2">
+        <p class="font-weight-bold font-italic">{{message}}</p>
+      </div>
+      <div class="col-12 my-2">
+        <h5 class="title">{{product.title}}</h5>
+      </div>
+      <div class="col-12 col-md-8 text-center standard_size">
+        <img class="mb-3" class="img-fluid" src="{{ image_stored + product.imgfile1 }}">
+      </div>
+      <div class="col-12 col-md-4 mt-3">
+        <p>กลุ่มสินค้า: {{product.category}}</p>
+        <p>ข้อมูลสินค้า: {{product.description}}</p>
+        <p>ราคาสินค้า: {{"฿ {:,.2f}".format(product.price|int)}}</p>
+        <p>ค่าส่งสินค้า: {{"฿ {:,.2f}".format(product.shipping_fee|int)}}</p>
+        {% if product.promotion|int > 0 and time<product.promotion_expire %}
+        <p>{{product.promotion}}% <span class="text-alert">OFF</span> <span>(ถึงวันที่ {{ product.promotion_expire.strftime("%Y/%m/%d") }})</span></p>
+        <p>ราคาแสดงบนเวปไซท์:{{"฿ {:,.2f}".format((((product.price|int*(1-(product.promotion|int/100)))*margin)+product.shipping_fee|int)|round)}}</p>
+        {% else %}
+        <p>โปรโมชัน: ไม่มีโปรโมชัน</p>
+        <p>ราคาแสดงบนเวปไซท์: {{"฿ {:,.2f}".format(((product.price|int*margin)+product.shipping_fee|int)|round)}}</p>
+        {% endif %}
+        <p>จำนวนเงินที่คุณได้รับ: {{"฿ {:,.2f}".format((((product.price|int*(1-(product.promotion|int/100))))+product.shipping_fee|int)|round)}}</p>
+        <h6>เหลือจำนวน: {{product.quantity}} </h6>
+        <a class="btn btn-primary button" href="{{request.referrer}}">BACK</a>
       </div>
     </div>
-        {% else %}
+  </div>
+    {% else %}
 
     <div class="container">
       <div class="row">

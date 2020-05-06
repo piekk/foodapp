@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <meta name= "{{m_name}}" content= "{{m_content}}">
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/core-style.css') }}" >
 
@@ -30,7 +31,11 @@
       </div>
     </div>
 
+
+
+
     <header class="container-fluid px-0 pt-3 sticky-top">
+
         <nav class="row">
           <div class="container">
             <div class="row mt-2">
@@ -39,7 +44,7 @@
                 <span class="d-inline-block slogan text-primary pl-2" style="position:absolute;bottom:0;">SLOGAN THIS IS SLOGAN</span>
               </div>
               <div class="col-3 pr-4 pr-md-3">
-                <div class="float-right d-md-none" id="hamburger" onclick="toggle">
+                <div class="float-right d-md-none" id="hamburger" onclick="toggle()">
                   <div class="line"></div>
                   <div class="line"></div>
                   <div class="line"></div>
@@ -94,7 +99,7 @@
                   </li>
                   {% elif current_user.is_authenticated and current_user.role == 'admin' %}
                   <li class="d-inline">
-                    <a class="highlight bg-lightblue px-4" class="highlight" href="#">แอดมิน</a>
+                    <a class="highlight bg-lightblue px-4" class="highlight" href="{{url_for('manage')}}">แอดมิน</a>
                   </li>
                   {% else %}
                   <li class="d-inline">
@@ -119,13 +124,37 @@
             </div>
           </div>
         </nav>
-
     </header>
 
+    <div class="mobile-nav d-md-none col-6 pl-0 pr-1" id ="sidemenu">
 
+      <div class="mobile-content pb-2">
+        <div class="mobile social-info d-flex my-2">
+  					<a href="#"><img class="social ml-0" src="{{url_for('static', filename='image/icon/facebook.png')}}" ></a>
+            <a href="#"><img class="social ml-3" src="{{url_for('static', filename='image/icon/line.png')}}"></a>
+  			</div>
 
+				<ul>
+					<li class="py-2"><a href="{{ url_for('home') }}">หน้าหลัก</a></li>
+					<li class="py-2"><a href="{{ url_for('shop') }}">ร้านค้า</a></li>
+					<li class="py-2"><a href="{{ url_for('articles') }}">บทความ</a></li>
+          <li class="py-2"><a href="{{ url_for('articles') }}">ติดตามสินค้า</a></li>
+        </ul>
 
-    </header>
+        <div class="mobile my-2">
+          <a class="mobile-button text-white" href="{{url_for('register')}}">ลงขาย</a>
+        </div>
+
+        <div class="mobile my-2">
+          <a class="mobile-button text-white" href="{{url_for('login')}}">เข้าสู่ระบบ</a>
+        </div>
+
+        <div class="mobile mt-2">
+          <a href="{{ url_for('cart') }}"><img src="{{url_for('static', filename='image/core-img/add-to-cart.png')}}" class="mt-2 cart-icon"><span class="align-bottom">({{cook.cart.items|length}})</span></a>
+        </div>
+      </div>
+    </div>
+
 
 
     {%block content%}
@@ -177,6 +206,7 @@
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
     <!-- Bootstrap js -->
   	<script src="{{url_for('static', filename = 'js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{ url_for('static', filename = 'js/layout.js')}}"></script>
 
   </body>
 </html>
