@@ -4,7 +4,7 @@ from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError, InputRequired
 from werkzeug.utils import secure_filename
 from foodapp.models import User
-from foodapp.province import province_list
+from foodapp.list import province_list, category_list
 from flask_login import current_user
 from foodapp import app
 
@@ -62,9 +62,7 @@ class ProductForm(FlaskForm):
     shipping_fee = StringField('Shipping', id="ship-set", default=0, validators=[DataRequired(), check_num])
     promotion = IntegerField('Promotion', id="discount-set", default = 0)
     promotion_expire = IntegerField('Promotion Expire', default=90)
-    category = SelectField('Category', id="category", choices=[(app.config['CATEGORY_1'], app.config['CAT_1']),(app.config['CATEGORY_2'], app.config['CAT_2']),(app.config['CATEGORY_3'],app.config['CAT_3']),
-                                                               (app.config['CATEGORY_4'],app.config['CAT_4']), (app.config['CATEGORY_5'],app.config['CAT_5']), (app.config['CATEGORY_6'],app.config['CAT_6']),
-                                                               (app.config['CATEGORY_7'],app.config['CAT_7'])])
+    category = SelectField('Category', id="category", choices= category_list)
     quantity = IntegerField('Inventory', default = 0)
     tag = StringField('Tag', validators=[DataRequired()])
     description = TextAreaField('Description')

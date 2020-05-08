@@ -10,11 +10,13 @@ from flask import render_template, request, url_for, redirect, flash, jsonify, j
 from foodapp.forms import MerchantRegistrationForm, MerchantLoginForm, Profile, AddContact, ProductForm, ShopProfile, ImageProfile, IconProfile
 from foodapp.forms import EditImageForm, EditPriceForm, EditDetailForm, EditStockForm, CheckoutContact, TrackingForm, Ship_Address, ConfirmShipmentForm
 from foodapp.models import User, Products, Reviews, Cookie, Cart, CartItems, Checkout, CheckoutItems, ShipAddress, MainAddress, PaymentDue, Profile
+from foodapp.list import category_list
 from flask_login import login_user, current_user, logout_user, login_required
 from google.cloud import storage
 
 
-
+app.config['IMAGE_STORED'] = 'https://storage.googleapis.com/foodappproducts/'
+app.config['UPLOAD_FOLDER'] = 'static'
 pagename = "farmer diary"
 
 
@@ -98,7 +100,7 @@ def home():
             db.session.commit()
         return redirect(redirect_url())
     else:
-        return render_template("home.html", latest=latest, title = pagename, margin=margin, time=time, image_stored = app.config['IMAGE_STORED'], cook =cook)
+        return render_template("home.html", latest=latest, title = pagename, category_list= category_list, margin=margin, time=time, image_stored = app.config['IMAGE_STORED'], cook =cook)
 
 
 @app.route('/<brand>', methods=['GET', 'POST'])
@@ -125,11 +127,11 @@ def dashboard(brand):
         product = Products.query.filter_by(owner_id=current_user.id).all()
         # แสดงสินค้าที่จ่ายเงินแล้ว
         product_confirm = CheckoutItems.query.filter(CheckoutItems.seller == current_user.username, CheckoutItems.status == "รอการจัดส่ง").all()
-        return render_template("dashboard.html",brand=brand, product=product, time=time, image_stored = app.config['IMAGE_STORED'], cook =cook, product_confirm=product_confirm)
+        return render_template("dashboard.html",brand=brand, category_list= category_list, product=product, time=time, image_stored = app.config['IMAGE_STORED'], cook =cook, product_confirm=product_confirm)
     else:
         current_brand = User.query.filter_by(username=brand).first()
         if current_brand:
-            return render_template("view.html", brand=current_brand, margin=margin, title = current_brand.username, time = time, image_stored = app.config['IMAGE_STORED'], cook =cook)
+            return render_template("view.html", brand=current_brand, category_list= category_list, margin=margin, title = current_brand.username, time = time, image_stored = app.config['IMAGE_STORED'], cook =cook)
         else:
             return redirect(url_for('home'))
 
@@ -171,7 +173,7 @@ def confirmshipment(brand,c_id):
             except:
                 return redirect(url_for('dashboard', brand = current_user.username))
     elif current_user.is_authenticated and current_user.username == brand and product:
-        return render_template("confirmshipment.html", cook=cook, product=product, cart=cart, image_stored = app.config['IMAGE_STORED'], form=form)
+        return render_template("confirmshipment.html", cook=cook, category_list= category_list, product=product, cart=cart, image_stored = app.config['IMAGE_STORED'], form=form)
     else:
         return render_template('404.html')
 
@@ -225,9 +227,9 @@ def myprofile(brand):
         if current_user.o_profile:
             form.title.data = current_user.o_profile.title
             form.content.data = current_user.o_profile.content
-            return render_template('addprofile.html', cook = cook, form = form)
+            return render_template('addprofile.html', category_list= category_list, cook = cook, form = form)
         else:
-            return render_template('addprofile.html', cook = cook, form = form)
+            return render_template('addprofile.html', category_list= category_list, cook = cook, form = form)
     else:
         return render_template('404.html')
 
@@ -264,7 +266,7 @@ def myimageprofile(brand):
     elif request.method == 'GET' and current_user.is_anonymous:
         return render_template('404.html')
     elif request.method == 'GET' and current_user.username == brand:
-            return render_template('addimageprofile.html', cook = cook, form = form)
+            return render_template('addimageprofile.html', category_list= category_list, cook = cook, form = form)
     else:
         return render_template('404.html')
 
@@ -301,7 +303,7 @@ def myiconprofile(brand):
     elif request.method == 'GET' and current_user.is_anonymous:
         return render_template('404.html')
     elif request.method == 'GET' and current_user.username == brand:
-            return render_template('addiconprofile.html', cook = cook, form = form)
+            return render_template('addiconprofile.html', category_list= category_list, cook = cook, form = form)
     else:
         return render_template('404.html')
 
@@ -312,7 +314,7 @@ def shop(filter):
     user = request.cookies.get('cook_id')
     cook = Cookie.query.filter_by(cook_id = user).first()
     page = request.args.get('page', 1,type=int)
-    productcategory = [app.config['CATEGORY_1'], app.config['CATEGORY_2'], app.config['CATEGORY_3'], app.config['CATEGORY_4'], app.config['CATEGORY_5']]
+    productcategory = [i[1] for i in category_list]
     if request.method == 'POST':
         if not cook.cart:
             create_cart(cook)
@@ -330,18 +332,18 @@ def shop(filter):
     elif request.method == 'GET' and filter == None:
         time = datetime.now()
         product = Products.query.order_by(Products.view.desc()).paginate(per_page=16, page=page)
-        return render_template("shop.html", title="shop", product = product, margin=margin, time=time, filter='shop', image_stored = app.config['IMAGE_STORED'], cook =cook)
+        return render_template("shop.html", title="shop", product = product, category_list= category_list, margin=margin, time=time, filter='shop', image_stored = app.config['IMAGE_STORED'], cook =cook)
     elif request.method == 'GET' and filter in productcategory:
         time = datetime.now()
         product = Products.query.filter(Products.category==filter).paginate(per_page=16, page=page)
-        return render_template("shop.html", title="shop", product = product, margin=margin, time=time, filter=filter, image_stored = app.config['IMAGE_STORED'], cook =cook)
+        return render_template("shop.html", title="shop", product = product, category_list= category_list, margin=margin, time=time, filter=filter, image_stored = app.config['IMAGE_STORED'], cook =cook)
     else:
         time = datetime.now()
         fil = secure_filename(filter)
         searchwordlower = fil.lower()
         searchword = searchwordlower.replace(" ","")
         product = Products.query.filter(Products.tag.contains(searchword)).paginate(per_page=16, page=page)
-        return render_template("shop.html", title=pagename+"ร้านค้า"+filter, product = product, margin=margin, time=time, filter=filter, image_stored = app.config['IMAGE_STORED'], cook =cook)
+        return render_template("shop.html", title=pagename+"ร้านค้า"+filter, product = product, category_list= category_list, margin=margin, time=time, filter=filter, image_stored = app.config['IMAGE_STORED'], cook =cook)
 
 
 @app.route('/product/<product>', methods=['GET', 'POST'])
@@ -366,7 +368,7 @@ def product(product):
             db.session.commit()
         return redirect(redirect_url())
     elif request.method == 'GET' and product:
-        return render_template("product.html", product = product, title=pagename+product.title, time=time, margin=margin, image_stored = app.config['IMAGE_STORED'], cook =cook)
+        return render_template("product.html", product = product, title=pagename+product.title, time=time, category_list= category_list, margin=margin, image_stored = app.config['IMAGE_STORED'], cook =cook)
     else:
         return redirect(url_for('home'))
 
@@ -452,7 +454,7 @@ def cart():
                 else:
                     db.session.delete(item)
                     db.session.commit()
-            return render_template("cart.html", seller=q_seller, cart = cart, product_title = product_title, product_inventory = product_inventory, image_stored = app.config['IMAGE_STORED'], cook=cook, price=price, m_name="robots", m_content="noindex")
+            return render_template("cart.html", seller=q_seller, cart = cart, category_list= category_list,  product_title = product_title, product_inventory = product_inventory, image_stored = app.config['IMAGE_STORED'], cook=cook, price=price, m_name="robots", m_content="noindex")
         else:
             return redirect(redirect_url())
 
@@ -550,7 +552,7 @@ def checkout():
         flash(message)
         return redirect(url_for('tracking'))
     else:
-        return render_template("checkout.html", form=form, cook=cook, m_name="robots", m_content="noindex")
+        return render_template("checkout.html", form=form, cook=cook, category_list= category_list, m_name="robots", m_content="noindex")
 
 
 
@@ -578,7 +580,7 @@ def tracking():
             flash('ข้อมูลไม่ถูกต้อง')
             return redirect(url_for('tracking'))
     else:
-        return render_template("tracking.html", form=form, cook =cook, m_name="robots", m_content="noindex")
+        return render_template("tracking.html", form=form, cook =cook, category_list= category_list, m_name="robots", m_content="noindex")
 
 
 @app.route('/order', methods=['GET', 'POST'])
@@ -609,7 +611,7 @@ def order():
             product=Products.query.get(int(item.product))
             product_title[product.id] = product.title
             total_price += int(item.price)
-        return render_template("order.html", cook = cook, cart=cart, product_title = product_title, image_stored = app.config['IMAGE_STORED'], total_price = total_price, m_name="robots", m_content="noindex")
+        return render_template("order.html", cook = cook, cart=cart, category_list= category_list, product_title = product_title, image_stored = app.config['IMAGE_STORED'], total_price = total_price, m_name="robots", m_content="noindex")
     else:
         return redirect(url_for('tracking'))
 
@@ -696,9 +698,9 @@ def address():
         if main_address:
             form.firstname.data = main_address.firstname
             form.lastname.data = main_address.lastname
-            return render_template('address.html', cook=cook, form=form, m_name="robots", m_content="noindex")
+            return render_template('address.html', cook=cook, category_list= category_list, form=form, m_name="robots", m_content="noindex")
         else:
-            return render_template('address.html', cook=cook, form=form, m_name="robots", m_content="noindex")
+            return render_template('address.html', cook=cook, category_list= category_list, form=form, m_name="robots", m_content="noindex")
     else:
         return redirect(url_for('order'))
 
@@ -709,9 +711,9 @@ def articles(filter):
     user = request.cookies.get('cook_id')
     cook = Cookie.query.filter_by(cook_id = user).first()
     if filter == None:
-        return render_template("articles.html", cook =cook)
+        return render_template("articles.html", category_list= category_list, cook =cook)
     else:
-        return render_template("articles.html", article=filter, cook =cook)
+        return render_template("articles.html", article=filter, category_list= category_list, cook =cook)
 
 
 
@@ -724,6 +726,7 @@ def register():
         hashed_pw = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         phone = str(form.contact.data)
         time = datetime.now()
+        send_sms('66814219606', "มีผู้สมัครใหม่")
         try:
             db.session.add(User(firstname=form.firstname.data, lastname=form.lastname.data, username=form.username.data, email=form.email.data, password=hashed_pw, verified='no', contact=phone, role='Seller', date_register=time.strftime("%Y-%m-%d  %H:%M")))
             db.session.commit()
@@ -736,7 +739,7 @@ def register():
     elif current_user.is_authenticated:
         return redirect (url_for('home'))
     else:
-        return render_template("register.html", title='', form=form, cook =cook, m_name="robots", m_content="noindex")
+        return render_template("register.html", title='', category_list= category_list, form=form, cook =cook, m_name="robots", m_content="noindex")
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -757,7 +760,7 @@ def login():
         else:
             flash("พาสเวิร์ดไม่ถูกต้อง")
             return redirect(url_for('login'))
-    return render_template("login.html", form=form, cook =cook, m_name="robots", m_content="noindex")
+    return render_template("login.html", form=form, category_list= category_list, cook =cook, m_name="robots", m_content="noindex")
 
 
 @app.route('/admin')
@@ -856,14 +859,14 @@ def user_edit(name):
                 return redirect(url_for('dashboard', brand=current_user.username))
             except:
                 flash("ข้อมูลไม่ถูกต้อง")
-                return render_template("edit.html", form=form, cook =cook, m_name="robots", m_content="noindex")
+                return render_template("edit.html", form=form, cook =cook, category_list= category_list, m_name="robots", m_content="noindex")
         elif request.method == 'POST':
             flash("ข้อมูลไม่ถูกต้อง")
-            return render_template("edit.html", form=form, cook =cook, m_name="robots", m_content="noindex")
+            return render_template("edit.html", form=form, cook =cook, category_list= category_list, m_name="robots", m_content="noindex")
         elif request.method == 'GET':
             form.username.data = current_user.username
             form.email.data = current_user.email
-            return render_template("edit.html", form=form, cook =cook, m_name="robots", m_content="noindex")
+            return render_template("edit.html", form=form, cook =cook, category_list= category_list, m_name="robots", m_content="noindex")
     else:
         return redirect(url_for('home'))
 
@@ -888,7 +891,7 @@ def addcontact(name):
             return redirect(url_for('addcontact', name=current_user.username))
         elif request.method == 'GET':
             form.contact.data = current_user.alter_contact
-            return render_template("addcontact.html", form=form, cook =cook, m_name="robots", m_content="noindex")
+            return render_template("addcontact.html", form=form, category_list= category_list, cook =cook, m_name="robots", m_content="noindex")
     else:
         return redirect(url_for('home'))
 
@@ -960,9 +963,9 @@ def addproduct():
                 flash("unsuccess")
                 return redirect(url_for('addproduct'))
         else:
-            return render_template("addproduct.html", form=form, margin=margin, cook =cook, m_name="robots", m_content="noindex")
+            return render_template("addproduct.html", form=form, margin=margin, category_list= category_list, cook =cook, m_name="robots", m_content="noindex")
     elif current_user.role == 'Seller' and current_user.verified == 'no':
-        return render_template("addproduct.html", form=form, margin=margin, cook =cook, m_name="robots", m_content="noindex")
+        return render_template("addproduct.html", form=form, margin=margin, cook =cook, category_list= category_list, m_name="robots", m_content="noindex")
     else:
         return redirect(url_for('home'))
 
@@ -977,9 +980,9 @@ def edit_product(name):
         in_cart = CheckoutItems.query.filter(CheckoutItems.product == str(product.id), CheckoutItems.status != 'จัดส่งแล้ว').first()
         if in_cart:
             message = "มีสินค้าอยู่ในตะกร้าสินค้าของผู้ซื้อ ไม่สามารถเปลี่ยนข้อมูลสินค้านี้ได้"
-            return render_template("editproduct.html", time=time,  product=product, margin=margin, message=message, image_stored = app.config['IMAGE_STORED'], cook =cook, m_name="robots", m_content="noindex")
+            return render_template("editproduct.html", time=time,  product=product, category_list= category_list, margin=margin, message=message, image_stored = app.config['IMAGE_STORED'], cook =cook, m_name="robots", m_content="noindex")
         else:
-            return render_template("editproduct.html", time=time, product=product, margin=margin, image_stored = app.config['IMAGE_STORED'], cook =cook, m_name="robots", m_content="noindex")
+            return render_template("editproduct.html", time=time, product=product, category_list= category_list, margin=margin, image_stored = app.config['IMAGE_STORED'], cook =cook, m_name="robots", m_content="noindex")
     else:
         return redirect (url_for('dashboard', brand=current_user.username))
 
@@ -990,7 +993,7 @@ def update_image(name):
     cook = Cookie.query.filter_by(cook_id = user).first()
     product=Products.query.get(name)
     if product.owner_id == current_user.id:
-        return render_template("updateimage.html", product=product, image_stored = app.config['IMAGE_STORED'], cook =cook, m_name="robots", m_content="noindex")
+        return render_template("updateimage.html", product=product, category_list= category_list, image_stored = app.config['IMAGE_STORED'], cook =cook, m_name="robots", m_content="noindex")
     else:
         return redirect (url_for('dashboard', brand=current_user.username))
 
@@ -1066,7 +1069,7 @@ def update_imagefile(name,file):
                 filename = product.imgfile3
             elif file == '4':
                 filename = product.imgfile4
-            return render_template("updateimagefile.html", form=form, product=product, filename=filename, image_stored = app.config['IMAGE_STORED'], cook =cook, m_name="robots", m_content="noindex")
+            return render_template("updateimagefile.html", form=form, product=product, category_list= category_list, filename=filename, image_stored = app.config['IMAGE_STORED'], cook =cook, m_name="robots", m_content="noindex")
         else:
             return redirect(url_for('update_image', name=name))
     else:
@@ -1095,7 +1098,7 @@ def update_detail(name):
             form.title.data = product.title
             form.tag.data = product.tag
             form.description.data = product.description
-            return render_template("updatedetail.html", form=form, product=product, image_stored = app.config['IMAGE_STORED'], cook =cook, m_name="robots", m_content="noindex")
+            return render_template("updatedetail.html", form=form, product=product, category_list= category_list, image_stored = app.config['IMAGE_STORED'], cook =cook, m_name="robots", m_content="noindex")
     else:
         return redirect (url_for('dashboard', brand=current_user.username))
 
@@ -1125,7 +1128,7 @@ def update_price(name):
             form.price.data = product.price
             form.shipping_fee.data = product.shipping_fee
             form.promotion.data = product.promotion
-            return render_template("updateprice.html", form=form, time=time, product=product, image_stored = app.config['IMAGE_STORED'], cook =cook, m_name="robots", m_content="noindex")
+            return render_template("updateprice.html", form=form, time=time, category_list= category_list, product=product, image_stored = app.config['IMAGE_STORED'], cook =cook, m_name="robots", m_content="noindex")
     else:
         return redirect (url_for('dashboard', brand=current_user.username))
 
@@ -1146,7 +1149,7 @@ def update_stock(name):
             return redirect (url_for('edit_product', name = product.id))
         else:
 
-            return render_template("updatestock.html", form=form, product=product, image_stored = app.config['IMAGE_STORED'], cook =cook, m_name="robots", m_content="noindex")
+            return render_template("updatestock.html", form=form, product=product, category_list= category_list, image_stored = app.config['IMAGE_STORED'], cook =cook, m_name="robots", m_content="noindex")
     else:
         return redirect (url_for('dashboard', brand=current_user.username))
 
@@ -1171,7 +1174,7 @@ def edit_delete_product(name):
     elif current_user.id == product.owner_id:
         in_cart = CheckoutItems.query.filter(CheckoutItems.product == str(product.id), CheckoutItems.status != 'จัดส่งแล้ว').first()
         if not in_cart:
-            return render_template("deleteproduct.html", product=product, image_stored = app.config['IMAGE_STORED'], cook =cook, m_name="robots", m_content="noindex")
+            return render_template("deleteproduct.html", product=product, category_list= category_list, image_stored = app.config['IMAGE_STORED'], cook =cook, m_name="robots", m_content="noindex")
         else:
             return redirect(url_for("edit_product", name=product.id))
     else:
