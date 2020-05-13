@@ -12,13 +12,12 @@
           <img src="{{url_for('static', filename ='image/qrcode.png')}}" class = "img-fluid" alt="lineqr.png">
           <h6 class="text-blue">LINE QR CODE</h6>
         </div>
-        <a class="d-block btn text-white button my-3" href="#">เชื่อมต่อไลน์</a>
+        <a class="d-block btn text-white button my-3" href="https://lin.ee/14INE6FU3" target="_blank">FARMSTORY LINE OFFCIAL</a>
       </div>
       <div class="d-none d-sm-block col-sm-6 col-md-8 text-right mt-5">
-        <h6>ข้อมูลติดต่อบริษัท</h6>
-        <p>บริษัท </p>
-        <p>เบอร์ติดต่อ:  </p>
-        <p>อีเมลล์: </p>
+        <h6>ข้อมูลติดต่อ</h6>
+        <p>เบอร์ติดต่อ: {{main_contact}} </p>
+        <p>อีเมลล์: {{contact_emaili}}</p>
       </div>
 
       <div class="col-12 col-md-6">
@@ -27,11 +26,12 @@
           <h6>รอการชำระเงิน ส่งหลักฐานการโอนเงินมาทางไลน์ ID</h6>
           <div class="bg-lightblue py-3 text-center">
             <h6>เลขที่บัญชีสำหรับการโอนเงิน</h6>
-            <p>ธนาคาร:</p>
-            <p>ชื่อบัญชี:</p>
-            <p>เลขที่บัญชี:</p>
-            <p>สาขา:</p>
-            <p class="font-weight-bold font-italic">รอการชำระเงิน ส่งหลักฐานการโอนเงินมาทางไลน์ ID</p>
+            <p>ธนาคาร: {{account_bank}}</p>
+            <p>ชื่อบัญชี: {{account_name}}</p>
+            <p>เลขที่บัญชี: {{account_no}}</p>
+            <p class="font-weight-bold font-italic">รอการชำระเงิน์</p>
+            <p class="font-italic">สามารถส่งหลักฐานการโอนเงินมาทางไลน์</p>
+            <p class="font-italic">Voucher สามารถใช้แทนเงินสดได้เลยโดยส่งหมายเลข Voucher มาทางไลน์แทนการโอนเงิน + ชำรเงินจำนวนที่ขาด</p>
           </div>
           {% endif %}
       </div>

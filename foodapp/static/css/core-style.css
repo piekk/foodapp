@@ -7,6 +7,7 @@
 /* main 03444a*/
 /* blue 00a8a8 */
 
+
 @import url(../css/bootstrap.min.css);
 
 @font-face {
@@ -40,6 +41,8 @@
 body {
   font-family: "Prompt-Regular";
   box-sizing: border-box;
+  width: calc(100vw);
+
 }
 footer{
   margin-top: 100px;
@@ -162,7 +165,6 @@ img.main-logo{
 
 
 .sticky-top{
-  border-bottom: 1px solid #0c1019;
   background-color: white;
   position: sticky;
   top: 0px;
@@ -286,6 +288,7 @@ a.product-name{
 
 
 .footer-area{
+  width: 100%;
   background-color: #00a8a8;
   bottom: 0;
 }
@@ -304,21 +307,7 @@ ul.icon{
   color: white;
 }
 
-.overlay-text{
-  background-color: black;
-  color: white;
-  opacity: 0.6;
-  width: 30%;
-  height: 100%;
-  position: absolute;
-  right: 1rem;
-  top: 0;
-  text-align: center;
-}
-.overlay-text:hover{
-  opacity: 1;
-  text-decoration: underline;
-}
+
 
 /* Shop page */
 .breadcrumb{
@@ -347,9 +336,8 @@ ul.icon{
 .product-details p{
   font-size: 0.8rem;
 }
-.text-main{
-  color: #03444a;
-}
+
+
 .text-blue{
   color: #00a8a8;
 }
@@ -450,9 +438,15 @@ ul.icon{
   margin-top: 100px;
   margin-bottom: 100px;
 }
+.mb-100{
+  margin-bottom: 100px;
+}
 
 .mb-200{
   margin-bottom: 200px;
+}
+.mb-350{
+  margin-bottom: 350px;
 }
 .hash-tag ul{
   list-style: none;

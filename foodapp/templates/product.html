@@ -178,24 +178,26 @@
             <div class="carousel-inner">
               <div class="carousel-item active">
                 <div class="row">
+
                   <div class="col-6">
-                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample1.jpg')}}" alt="1 slide">
+                    <img class="d-block w-100" src="{{ image_stored+suggest[0].imgfile1 }}" alt="1 slide">
                     <div class="product-description bg-lightblue">
-                      <a href="{{url_for('dashboard', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
-                      <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
+                      <a href="{{url_for('dashboard', brand=suggest[0].owner_product.username)}}" title="" class="brand-tag">{{suggest[0].owner_product.username}}</a>
+                      <h6><a href="{{url_for('product', product=suggest[0].id)}}" class="product-name">{{suggest[0].title}}</a></h6>
                     </div>
                     <div class="text-center mt-3">
-                      <a class="view-button" href="#">ดูเพิ่มเติม</a>
+                      <a class="view-button" href="{{url_for('product', product=suggest[0].id)}}">ดูเพิ่มเติม</a>
                     </div>
                   </div>
+
                   <div class="col-6">
-                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample2.jpg')}}" alt="2 slide">
+                    <img class="d-block w-100" src="{{ image_stored+suggest[1].imgfile1 }}" alt="2 slide">
                     <div class="product-description bg-lightblue">
-                      <a href="{{url_for('dashboard', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
-                      <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
+                      <a href="{{url_for('dashboard', brand=suggest[1].owner_product.username)}}" title="" class="brand-tag">{{suggest[1].owner_product.username}}</a>
+                      <h6><a href="{{url_for('product', product=suggest[1].id)}}" class="product-name">{{suggest[1].title}}</a></h6>
                     </div>
                     <div class="text-center mt-3">
-                      <a class="view-button" href="#">ดูเพิ่มเติม</a>
+                      <a class="view-button" href="{{url_for('product', product=suggest[1].id)}}">ดูเพิ่มเติม</a>
                     </div>
                   </div>
                 </div>
@@ -203,14 +205,37 @@
 
               <div class="carousel-item">
                 <div class="row">
+                  {% for item in suggest[2:4] %}
                   <div class="col-6">
-                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample3.jpg')}}" alt="1 slide">
+                    <img class="d-block w-100" src="{{ image_stored+item.imgfile1 }}" alt="3 slide">
+                    <div class="product-description bg-lightblue">
+                      <a href="{{url_for('dashboard', brand=item.owner_product.username)}}" title="" class="brand-tag">{{item.owner_product.username}}</a>
+                      <h6><a href="{{url_for('product', product=item.id)}}" class="product-name">{{item.title}}</a></h6>
+                    </div>
+                    <div class="text-center mt-3">
+                      <a class="view-button" href="{{url_for('product', product=item.id)}}">ดูเพิ่มเติม</a>
+                    </div>
                   </div>
-                  <div class="col-6">
-                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample4.jpg')}}" alt="2 slide">
-                  </div>
+                  {% endfor %}
                 </div>
               </div>
+              <div class="carousel-item">
+                <div class="row">
+                  {% for item in suggest[4:6] %}
+                  <div class="col-6">
+                    <img class="d-block w-100" src="{{ image_stored+item.imgfile1 }}" alt="{{item.index}} slide">
+                    <div class="product-description bg-lightblue">
+                      <a href="{{url_for('dashboard', brand=item.owner_product.username)}}" title="" class="brand-tag">{{item.owner_product.username}}</a>
+                      <h6><a href="{{url_for('product', product=item.id)}}" class="product-name">{{item.title}}</a></h6>
+                    </div>
+                    <div class="text-center mt-3">
+                      <a class="view-button" href="{{url_for('product', product=item.id)}}">ดูเพิ่มเติม</a>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+
 
 
             </div>
@@ -236,33 +261,33 @@
               <div class="carousel-item active">
                 <div class="row">
                   <div class="col-4">
-                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample1.jpg')}}" alt="1 slide">
+                    <img class="d-block w-100" src="{{ image_stored+suggest[0].imgfile1 }}" alt="1 slide">
                     <div class="product-description bg-lightblue">
-                      <a href="{{url_for('dashboard', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
-                      <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
+                      <a href="{{url_for('dashboard', brand=suggest[0].owner_product.username)}}" title="" class="brand-tag">{{ suggest[0].owner_product.username }}</a>
+                      <h6><a href="{{url_for('product', product=suggest[0].id)}}" class="product-name">{{suggest[0].title}}</a></h6>
                     </div>
                     <div class="text-center mt-3">
-                      <a class="view-button" href="#">ดูเพิ่มเติม</a>
+                      <a class="view-button" href="{{url_for('product', product=suggest[0].id)}}">ดูเพิ่มเติม</a>
                     </div>
                   </div>
                   <div class="col-4">
-                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample2.jpg')}}" alt="2 slide">
+                    <img class="d-block w-100" src="{{ image_stored+suggest[1].imgfile1 }}" alt="2 slide">
                     <div class="product-description bg-lightblue">
-                      <a href="{{url_for('dashboard', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
-                      <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
+                      <a href="{{url_for('dashboard', brand=suggest[1].owner_product.username)}}" title="" class="brand-tag">{{ suggest[1].owner_product.username }}</a>
+                      <h6><a href="{{url_for('product', product=suggest[1].id)}}" class="product-name">{{suggest[1].title}}</a></h6>
                     </div>
                     <div class="text-center mt-3">
-                      <a class="view-button" href="#">ดูเพิ่มเติม</a>
+                      <a class="view-button" href="{{url_for('product', product=suggest[1].id)}}">ดูเพิ่มเติม</a>
                     </div>
                   </div>
                   <div class="col-4">
-                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample2.jpg')}}" alt="2 slide">
+                    <img class="d-block w-100" src="{{ image_stored+suggest[2].imgfile1 }}" alt="3 slide">
                     <div class="product-description bg-lightblue">
-                      <a href="{{url_for('dashboard', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
-                      <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
+                      <a href="{{url_for('dashboard', brand=suggest[2].owner_product.username)}}" title="" class="brand-tag">{{ suggest[2].owner_product.username }}</a>
+                      <h6><a href="{{url_for('product', product=suggest[2].id)}}" class="product-name">{{suggest[2].title}}</a></h6>
                     </div>
                     <div class="text-center mt-3">
-                      <a class="view-button" href="#">ดูเพิ่มเติม</a>
+                      <a class="view-button" href="{{url_for('product', product=suggest[2].id)}}">ดูเพิ่มเติม</a>
                     </div>
                   </div>
                 </div>
@@ -270,15 +295,35 @@
 
               <div class="carousel-item">
                 <div class="row">
+                  {% for item in suggest[3:6] %}
                   <div class="col-4">
-                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample3.jpg')}}" alt="1 slide">
+                    <img class="d-block w-100" src="{{ image_stored+item.imgfile1 }}" alt="{{item.index}} slide">
+                    <div class="product-description bg-lightblue">
+                      <a href="{{url_for('dashboard', brand=item.owner_product.username)}}" title="" class="brand-tag">{{item.owner_product.username}}</a>
+                      <h6><a href="{{url_for('product', product=item.id)}}" class="product-name">{{item.title}}</a></h6>
+                    </div>
+                    <div class="text-center mt-3">
+                      <a class="view-button" href="{{url_for('product', product=item.id)}}">ดูเพิ่มเติม</a>
+                    </div>
                   </div>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <div class="carousel-item">
+                <div class="row">
+                  {% for item in suggest[7:] %}
                   <div class="col-4">
-                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample4.jpg')}}" alt="2 slide">
+                    <img class="d-block w-100" src="{{ image_stored+item.imgfile1 }}" alt="{{item.index}} slide">
+                    <div class="product-description bg-lightblue">
+                      <a href="{{url_for('dashboard', brand=item.owner_product.username)}}" title="" class="brand-tag">{{item.owner_product.username}}</a>
+                      <h6><a href="{{url_for('product', product=item.id)}}" class="product-name">{{item.title}}</a></h6>
+                    </div>
+                    <div class="text-center mt-3">
+                      <a class="view-button" href="{{url_for('product', product=item.id)}}">ดูเพิ่มเติม</a>
+                    </div>
                   </div>
-                  <div class="col-4">
-                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample4.jpg')}}" alt="2 slide">
-                  </div>
+                  {% endfor %}
                 </div>
               </div>
 
@@ -306,36 +351,62 @@
               <div class="carousel-item active">
                 <div class="row">
                   <div class="col-3">
-                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample1.jpg')}}" alt="1 slide">
+                    <img class="d-block w-100" src="{{ image_stored+suggest[0].imgfile1 }}" alt="1 slide">
                     <div class="product-description bg-lightblue">
-                      <a href="{{url_for('dashboard', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
-                      <h6><a href="#" class="product-name">Coconut flour organic 500g kkjklsdfajlskdjfaldfjlkfdsa</a></h6>
-                    </div>
-                  </div>
-                  <div class="col-3">
-                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample2.jpg')}}" alt="2 slide">
-                    <div class="product-description bg-lightblue">
-                      <a href="{{url_for('dashboard', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
-                      <h6><a href="#" class="product-name">Coconut flour organic 500g</a></h6>
+                      <a href="{{url_for('dashboard', brand=suggest[0].owner_product.username)}}" title="" class="brand-tag">{{ suggest[0].owner_product.username }}</a>
+                      <h6><a href="{{url_for('product', product=suggest[0].id)}}" class="product-name">{{ suggest[0].title }}</a></h6>
                     </div>
                     <div class="text-center mt-3">
-                      <a class="view-button" href="#">ดูเพิ่มเติม</a>
+                      <a class="view-button" href="{{url_for('product', product=suggest[0].id)}}">ดูเพิ่มเติม</a>
                     </div>
                   </div>
                   <div class="col-3">
-                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample2.jpg')}}" alt="2 slide">
+                    <img class="d-block w-100" src="{{ image_stored+suggest[1].imgfile1 }}" alt="2 slide">
                     <div class="product-description bg-lightblue">
-                      <a href="{{url_for('dashboard', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
-                      <h6><a href="#" class="product-name">Coconut flour organic 500g kkjklsdfajlskdjfaldfjlkfdsa</a></h6>
+                      <a href="{{url_for('dashboard', brand=suggest[1].owner_product.username)}}" title="" class="brand-tag">{{ suggest[1].owner_product.username }}</a>
+                      <h6><a href="{{url_for('product', product=suggest[1].id)}}" class="product-name">{{ suggest[1].title }}</a></h6>
+                    </div>
+                    <div class="text-center mt-3">
+                      <a class="view-button" href="{{url_for('product', product=suggest[1].id)}}">ดูเพิ่มเติม</a>
                     </div>
                   </div>
                   <div class="col-3">
-                    <img class="d-block w-100" src="{{url_for('static', filename='products/sample2.jpg')}}" alt="2 slide">
+                    <img class="d-block w-100" src="{{ image_stored+suggest[2].imgfile1 }}" alt="3 slide">
                     <div class="product-description bg-lightblue">
-                      <a href="{{url_for('dashboard', brand="Current brand")}}" title="" class="brand-tag">Brand example</a>
-                      <h6><a href="#" class="product-name">Coconut flour organic 500g kkjklsdfajlskdjfaldfjlkfdsa</a></h6>
+                      <a href="{{url_for('dashboard', brand=suggest[2].owner_product.username)}}" title="" class="brand-tag">{{ suggest[2].owner_product.username }}</a>
+                      <h6><a href="{{url_for('dashboard', brand=suggest[2].owner_product.username)}}" class="product-name">{{ suggest[2].title }}</a></h6>
+                    </div>
+                    <div class="text-center mt-3">
+                      <a class="view-button" href="{{url_for('product', product=suggest[2].id)}}">ดูเพิ่มเติม</a>
                     </div>
                   </div>
+                  <div class="col-3">
+                    <img class="d-block w-100" src="{{ image_stored+suggest[3].imgfile1 }}" alt="4 slide">
+                    <div class="product-description bg-lightblue">
+                      <a href="{{url_for('dashboard', brand=suggest[3].owner_product.username)}}" title="" class="brand-tag">{{ suggest[3].owner_product.username }}</a>
+                      <h6><a href="{{url_for('dashboard', brand=suggest[3].owner_product.username)}}" class="product-name">{{ suggest[3].title }}</a></h6>
+                    </div>
+                    <div class="text-center mt-3">
+                      <a class="view-button" href="{{url_for('product', product=suggest[3].id)}}">ดูเพิ่มเติม</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="carousel-item">
+                <div class="row">
+                  {% for item in suggest[4:8] %}
+                  <div class="col-3">
+                    <img class="d-block w-100" src="{{ image_stored+item.imgfile1 }}" alt="{{item.index}} slide">
+                    <div class="product-description bg-lightblue">
+                      <a href="{{url_for('dashboard', brand=item.owner_product.username)}}" title="" class="brand-tag">{{item.owner_product.username}}</a>
+                      <h6><a href="{{url_for('product', product=item.id)}}" class="product-name">{{item.title}}</a></h6>
+                    </div>
+                    <div class="text-center mt-3">
+                      <a class="view-button" href="{{url_for('product', product=item.id)}}">ดูเพิ่มเติม</a>
+                    </div>
+                  </div>
+                  {% endfor %}
                 </div>
               </div>
 

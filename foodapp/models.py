@@ -239,3 +239,12 @@ class Articles(db.Model):
 
     def __repr__(self):
         return "(Article: {}, Author: {}, Publish: {})" .format(self.title, self.author, self.date_publish)
+
+class PasswordChange(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    contact = db.Column(db.String(12), unique=True, nullable=False)
+    otp = db.Column(db.String(12), unique=True, nullable=False)
+    expire = db.Column(db.DateTime, nullable=False)
+
+    def __repr__(self):
+        return "(contact: {}, otp: {}, expire{})" .format(self.contact, self.otp, self.expire)

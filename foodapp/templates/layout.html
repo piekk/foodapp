@@ -22,7 +22,7 @@
             <div class="col-3">
             </div>
             <div class="col-6 text-center">
-              <p class="mb-0 text-white" style="font-size: 0.8rem;">จัดส่งฟรีสำหรับยอดซื้อ 1,000 บาท ต่อร้านค้าขึ้นไป!</p>
+              <p class="mb-0 text-white" style="font-size: 0.8rem;">Marketplace online สำหรับสินค้าเกษตรและอาหารเพื่อสุขภาพ จัดส่งฟรีเงื่อนไขตามร้านค้าที่กำหนด!</p>
             </div>
             <div class="col-3">
             </div>
@@ -39,11 +39,11 @@
         <nav class="row">
           <div class="container">
             <div class="row mt-2">
-              <div class="col-6 col-md-9 pl-4 pl-md-3 position-relative">
+              <div class="col-6 col-md-9 position-relative">
                 <a href="{{url_for('home')}}"><img class="main-logo" src="{{ url_for('static', filename='image/logo.png') }}"></a>
-                <span class="d-none d-md-inline-block slogan text-primary pl-2" style="position:absolute;bottom:0;">SLOGAN THIS IS SLOGAN</span>
+                <span class="d-none d-md-inline-block slogan text-main font-weight-light pl-4" style="position:absolute;bottom:0;">local market from local farmers</span>
               </div>
-              <div class="col-6 col-md-3 d-flex justify-content-end pr-4 pr-md-3">
+              <div class="col-6 col-md-3 d-flex justify-content-end">
                 <div class="d-md-none px-3">
                   <a href="{{ url_for('cart') }}"><img src="{{url_for('static', filename='image/core-img/add-to-cart.png')}}" class="mt-1 cart-icon"><span class="align-bottom">({{cook.cart.items|length}})</span></a>
                 </div>
@@ -64,9 +64,12 @@
                     <a href="{{url_for('home')}}">หน้าหลัก</a>
                   </li>
                   <li class="d-inline">
-                    <a href="#">เกี่ยวกับเรา</a>
+                    <a href="{{ url_for('tracking' )}}">ติดตามสินค้า</a>
                   </li>
                   <li class="d-inline">
+                    <a href="{{ url_for('aboutus' )}}">เกี่ยวกับเรา</a>
+                  </li>
+                  <li class="d-none">
                     <a href="{{url_for('articles')}}">บทความ</a>
                   </li>
                   <li class="d-inline dropdown">
@@ -88,7 +91,7 @@
                     </div>
                   </li>
                   <li class="d-inline">
-                    <a class="text-bright" href="{{url_for('shop', filter = 'kids')}}">โซนเด็ก</a>
+                    <a href="{{url_for('shop', filter = 'kids')}}">โซนเด็ก</a>
                   </li>
                   <li class="d-inline">
                     <a class="text-bright" href="#">โปรโมชัน</a>
@@ -124,21 +127,22 @@
             </div>
           </div>
         </nav>
+
     </header>
 
     <div class="mobile-nav d-md-none col-6 pl-0 pr-1" id ="sidemenu">
 
       <div class="mobile-content pb-2">
         <div class="mobile social-info d-flex my-2">
-  					<a href="#"><img class="social ml-0" src="{{url_for('static', filename='image/icon/facebook.png')}}" ></a>
-            <a href="#"><img class="social ml-3" src="{{url_for('static', filename='image/icon/line.png')}}"></a>
+  					<a href="https://fb.me/farmstory.co" target="_blank"><img class="social ml-0" src="{{url_for('static', filename='image/icon/facebook.png')}}" ></a>
+            <a href="https://lin.ee/14INE6FU3" target="_blank"><img class="social ml-3" src="{{url_for('static', filename='image/icon/line.png')}}"></a>
   			</div>
 
 				<ul>
 					<li class="py-2"><a href="{{ url_for('home') }}">หน้าหลัก</a></li>
-					<li class="py-2"><a href="{{ url_for('shop') }}">ร้านค้า</a></li>
+					<li class="py-2"><a href="{{ url_for('shop') }}">สินค้า</a></li>
 					<li class="py-2"><a href="{{ url_for('articles') }}">บทความ</a></li>
-          <li class="py-2"><a href="{{ url_for('articles') }}">ติดตามสินค้า</a></li>
+          <li class="py-2"><a href="{{ url_for('tracking') }}">ติดตามสินค้า</a></li>
         </ul>
 
         <div class="mobile my-2">
@@ -160,40 +164,33 @@
     {%block content%}
     {%endblock%}
 
-    <footer class="footer-area clearfix">
-      <div class="container">
+    <footer class="footer-area clearfix pb-4">
+      <div class="container-fluid">
         <div class="row">
-          <div class="col-6 d-md-none mt-4">
-            <h4 class="white font-weight-light">footer</h4>
+          <div class="col-5 mt-4">
+            <h5 class="text-main">FARMSTORY</h5>
             <ul class="px-0">
-              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
-              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
-              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
-              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
-              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
-              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
-              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
-              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
+              <li><a class="text-main font-weight-light" href="{{url_for('aboutus')}}">เกี่ยวกับเรา</a></li>
+              <li><a class="d-none text-main font-weight-light" href="{{ url_for('view') }}">ร้านค้าทั้งหมด</a></li>
+              <li><a class="text-main font-weight-light" href="{{url_for('howtoaddproduct')}}">วิธีใช้งานระบบ</a></li>
+              <li><a class="text-main font-weight-light" href="{{url_for('tracking')}}">ติดตามสินค้า</a></li>
             </ul>
           </div>
-          <div class="col-6 d-md mt-4">
+          <div class="col-7 mt-4">
             <img class="main-logo" src="{{ url_for('static', filename='image/logo.png') }}">
-            <h6 class="slogan mt-2 white">SLOGAN THIS IS SLOGAN</h6>
-            <h4 class="mt-4 white font-weight-light">footer</h4>
+            <h6 class="slogan mt-2 text-main">local market from local farmers</h6>
+            <h5 class="mt-2 text-main">ติดต่อ</h5>
             <ul class="px-0">
-              <li><a class="white font-weight-light" href="{{url_for('tracking')}}">ติดตามสินค้า</a></li>
-              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
-              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
-              <li><a class="white font-weight-light" href="#">แบรนด์ของเรา</a></li>
+              <p class ="text-main mb-0">admin@onedaystory.com </p>
+              <p class ="text-main">เบอร์: 0814219606</p>
             </ul>
           </div>
           <div class="col-9">
-            <h4 class="white font-weight-light">Follow us</h4>
-            <ul class="px-0 icon">
-              <li class="d-inline font-weight-light"><a class="white" href="#">Face</a></li>
-              <li class="d-inline font-weight-light"><a class="white" href="#">etc</a></li>
-              <li class="d-inline font-weight-light"><a class="white" href="#">etc</a></li>
-              <li class="d-inline font-weight-light"><a class="white" href="#">etc</a></li>
+            <h5 class="text-main">ติดตาม</h5>
+            <ul class="px-0 icon justify-content-start" style="line-height: 40px;">
+              <li class="d-inline font-weight-light mr-4"><a class="white" href="https://fb.me/farmstory.co" target="_blank"><img src="{{url_for('static', filename='image/icon/face-50.png')}}", style="width: 36px;"></a></li>
+              <li class="d-inline font-weight-light mr-4"><a class="white" href="https://lin.ee/14INE6FU3" target="_blank"><img src="{{url_for('static', filename='image/icon/line-50.png')}}", style="width: 36px;"></a></li>
+              <li class="d-none font-weight-light mr-4"><a class="white" href="#"><img src="{{url_for('static', filename='image/icon/instagram-50.png')}}", style="width: 36px;"></a></li>
             </ul>
           </div>
         </div>
@@ -203,9 +200,13 @@
 
 
     <!-- Google jquery -->
-    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!--<script src="{{ url_for('static', filename='js/jquery.js') }}"></script> -->
     <!-- Bootstrap js -->
-  	<script src="{{url_for('static', filename = 'js/bootstrap.bundle.min.js')}}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  	<!--<script src="{{url_for('static', filename = 'js/bootstrap.bundle.min.js')}}"></script>-->
     <script src="{{ url_for('static', filename = 'js/layout.js')}}"></script>
 
   </body>

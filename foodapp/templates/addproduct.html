@@ -2,7 +2,7 @@
 {% block content %}
 
 
-<section class="my-5">
+<section class="mb-200">
   <div class="container">
     <div class="row">
       {% with messages = get_flashed_messages() %}
@@ -10,7 +10,7 @@
       {% for message in messages %}
       <div class="col-12 mb-3">
         <p class="text-danger">{{ message }}</p>
-      </div>        
+      </div>
       {% endfor %}
       {% endif %}
       {% endwith %}
@@ -37,13 +37,12 @@
 
           <div class="col-12 mb-3" id="add-image">
             <h5 class="title">วิธีการเพิ่มรูปสินค้า</h5>
-            <a class="d-block text-blue" href="#">ดูตัวอย่างการลงรูปภาพ</a>
+            <p>รูปความละเอียดขนาด 500x500 pixel ขั้นต่ำ</p>
             {{ form.photo1 }}
             {% if form.photo1.errors %}
             <p class="text-danger">{% for error in form.photo1.errors %}{{ error }}{% endfor %}</p>
             {% endif %}
             <p> เลือกใส่ Hashtag ที่เกี่ยวข้องกับสินค้าของคุณ เช่น #organic #vegan #superfood</p>
-            <a class="d-block text-blue mb-2" href="#">ดูวิธีการเลือกใช้ Hashtag ที่เหมาะสม</a>
             {{ form.tag(class_="form-control") }}
           </div>
           <div class="col-12 my-3">

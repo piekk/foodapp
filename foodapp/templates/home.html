@@ -2,15 +2,44 @@
 {% block content %}
 
 <section>
-  <div class="container banner mb-5">
+
+  <div class="d-md-none mobile-tab container">
+    <div class="row justify-content-start">
+      {% for cat in category_list %}
+      <h6 class="text-sm px-2 my-2"><a href="{{url_for('shop', filter = cat[0])}}"><u>{{cat[1]}}</u></a></h6>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="container banner d-none d-md-block mb-5">
     <div class="row">
-      <div class="d-none d-md-block col-12">
-        <img class="img-fluid w-100" src="{{ url_for('static', filename='image/banner2.jpg')}}">
+      <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner pl-3">
+          <div class="carousel-item active">
+            <img class="d-block w-100" src="{{ url_for('static', filename ='image/banner2.jpg') }}" alt="First slide">
+            <div class="text-caption" style="position: absolute; top: 50px;" >
+              <a href="{{url_for('shop')}}"><img src="{{ url_for('static', filename = 'image/textcaption.png')}}" class="img-fluid" style="width: 500px;" alt=""></a>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img class="d-block w-100" src="{{ url_for('static', filename = 'image/banner1.jpg') }}" alt="Second slide">
+            <div class="text-caption" style="position: absolute; top: 50px; left: 100px;" >
+              <a href="{{url_for('register')}}"><img src="{{ url_for('static', filename = 'image/sellwithus.png')}}" class="img-fluid" style="width: 900px;" alt=""></a>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img class="d-block w-100" src="{{ url_for('static', filename = 'image/banner3.jpg') }}" alt="Second slide">
+
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="container banner mb-5">
+
+
+  <div class="container banner mb-5 mt-3">
     <div class="row">
       <div class=" col-12 text-center">
         <div class="bg-lightblue p-4">
@@ -26,8 +55,7 @@
   </div>
 
 
-
-  <div class="container product mb-5">
+  <div class="container product mb-5 ">
     <div class="row mb-3">
       <div class="col-12">
         <div class="title">
@@ -89,7 +117,7 @@
     </div>
   </div>
 
-  <div class="container articles mb-5">
+  <div class="container d-none articles mb-5">
     <div class="row mb-3">
       <div class="col-12">
         <div class="title">
@@ -131,36 +159,6 @@
           consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mini
         </p>
       </div>
-      <div class="article-card col-12 col-sm-6 col-md-4 col-lg-3">
-        <img class="img-fluid mb-3" src="{{ url_for('static', filename ='articles/sample4.jpg' )}}" alt="">
-        <a href="#">
-        <h5>article title</h5>
-        <p>article short detail info Lorem ipsum dolor sit amet,
-          consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mini
-        </p>
-        </a>
-      </div>
-      <div class="article-card col-12 col-sm-6 col-md-4 col-lg-3">
-        <img class="img-fluid mb-3" src="{{ url_for('static', filename ='articles/sample3.jpg' )}}" alt="">
-        <h5>article title</h5>
-        <p>article short detail info Lorem ipsum dolor sit amet,
-          consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mini
-        </p>
-      </div>
-      <div class="article-card col-12 col-sm-6 col-md-4 col-lg-3">
-        <img class="img-fluid mb-3" src="{{ url_for('static', filename ='articles/sample1.jpg' )}}" alt="">
-        <h5>article title</h5>
-        <p>article short detail info Lorem ipsum dolor sit amet,
-          consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mini
-        </p>
-      </div>
-      <div class="article-card col-12 col-sm-6 col-md-4 col-lg-3">
-        <img class="img-fluid mb-3" src="{{ url_for('static', filename ='articles/sample2.jpg' )}}" alt="">
-        <h5>article title</h5>
-        <p class="align-baseline">article short detail info Lorem ipsum dolor sit amet,
-          consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mini
-        </p>
-      </div>
     </div>
   </div>
 
@@ -172,12 +170,15 @@
         </div>
       </div>
     </div>
-    <div class="row position-relative text-center">
-      <img class="img-fluid col-12" src="{{ url_for('static', filename ='articles/sample1.jpg' )}}" alt="">
-      <p class="overlay-text pt-3 mb-0">article short detail info Lorem ipsum dolor sit amet,
-      consectetur adipisicing elit, sed do eiusmod tempor
-      incididunt ut labore et dolore magna aliqua. Ut enim ad mini
-      </p>
+    <div class="row position-relative">
+      <img class="d-block w-100" src="{{ url_for('static', filename ='image/banner4.jpg' )}}" alt="">
+      <div class="text-caption position-absolute ml-md-5 mt-md-5"  style="left: 15px; top:10px;">
+        <h6 class="text-blue">FARMSTORY</h6>
+        <p class="text-blue">ตลาดเกษตรออนไลน์</p>
+        <p class="text-blue">อาหารเพื่อสุขภาพ</p>
+        <p class="text-blue">จัดส่งตรงถึงบ้าน</p>
+        <a class="btn button white mt-4 mt-md-5 px-3 px-md-5" href="{{url_for('aboutus')}}">เกี่ยวกับเรา</a>
+      </div>
 
     </div>
   </div>

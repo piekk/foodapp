@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<section class="mb-5">
+  <div class="container mb-4">
+    <div class="row"">
+      <div class="col-12">
+        <h5 class="title">วิธีใช้งานระบบ</h5>
+      </div>
+      <div class="col-12">
+        <p>หลังจากท่าได้สมัครสมาชิกเป็นผู้ขายท่านสามารถ ล็อกอินเข้าสู่ระบบโดยใช้ชื่อแบรนด์และพาสเวิร์ดตามที่ได้ลงทะเบียนไว้</p>
+        <p>ท่านจะเข้าสู่หน้า Dashboard สำหรับผู้ขาย</p>
+      </div>
+      <div class="col-12 bg-lightblue">
+        <h6 class ="py-1 mt-2 ml-4">Dashboard ของคุณ</h6>
+        <p class ="py-1 mt-2 ml-4">หน้านี้จะแสดงรายการสินค้าของท่าน รายการสั่งซื้อ และรายได้ของท่านวันที่ท่านจะได้รับ(จะแสดงเมื่อมีคำสั่งซื้อและรายได้เข้ามาเท่านั้น)</p>
+        <p class ="py-1 mt-1 ml-4">เมื่อท่านต้องการเพิ่มสินค้ากดปุ่มเพิ่มสินค้า</p>
+        <div class="text-center">
+          <img class="img-fluid pt-2 pb-2" style="width: 75%;" src="{{url_for('static', filename = 'image/sample.jpg')}}" alt="sample.jpg">
+        </div>
+      </div>
+      <div class="col-12 bg-lightblue mt-2">
+        <h6 class ="py-1 mt-2 ml-4">หน้าเพิ่มสินค้า</h6>
+        <p class ="py-1 mt-1 ml-4">1. เลือกประเภทสินค้า ชื่อสินค้า</p>
+        <p class ="py-1 mt-1 ml-4">2. ใส่รูปโดยเลือกรูปที่มีความชัดเจนเป็นสี่เหลี่ยม จตุรัส ขนาดมากกว่า 500x500 pixel</p>
+        <p class ="py-1 mt-1 ml-4">3. ใสคีย์เวิร์ดเช่น #organic #riceberry #vegan โดยใส่ได้หลายคีย์เวิร์ดและสินค้าจะถูกแสดงเวลาผู้ซื้อหาคีย์เวิร์ดต่างๆ</p>
+        <p class ="py-1 mt-1 ml-4">4. กำหนดสต็อกสินค้าที่ต้องการขาย</p>
+        <p class ="py-1 mt-1 ml-4">5. กำหนดราคา ค่าจัดส่ง รวมถึงโปรโมชัน และวันที่โปรโมชันหมดอายุ (ถ้าไม่กำหนดระบบจะตั้งไว้เป็น 90 วัน) สามารถกดปุ่มตรวจสอบราคาเพื่อดูราคาที่แสดงทางเวปไซท์และจำนวนเงินที่ท่านจะได้รับ</p>
+        <p class ="py-1 mt-1 ml-4">6. เมื่อเสร็จแล้วกดปุ่มสร้างสินค้า สินค้าจะถูกแสดงบนหน้าเวปทันที</p>
+        <div class="text-center">
+          <img class="img-fluid pt-2 pb-2" style="width: 75%;" src="{{url_for('static', filename = 'image/productsample.jpg')}}" alt="productsample.jpg">
+        </div>
+      </div>
+      <div class="col-12 bg-lightblue mt-2">
+        <h6 class ="py-1 mt-2 ml-4">การเปลี่ยนแปลงข้อมูลสินค้า</h6>
+        <p class ="py-1 mt-1 ml-4">คุณสามารถเปลี่ยนแปลง และ เพิ่มรูปภาพสินค้าของคุณได้จากหน้า Dashboard ของคุณในขณะที่สินค้าไม่อยู่ในตะกร้าของลูกค้า</p>
+        <p class ="py-1 mt-1 ml-4">สิ่งที่คุณสามารถเปลี่ยนได้คือ ชื่อสินค้า รูปภาพสามารถเพิ่มรูปภาพได้ 4 รูป ราคา สต็อก และโปรโมชัน</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+{% endblock %}

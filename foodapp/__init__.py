@@ -29,15 +29,16 @@ app.config['UPLOAD_FOLDER'] = os.environ.get('UPLOAD_FOLDER')
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=31)
 app.config['SM_KEY'] = os.environ.get('NEXMO_API_KEY')
 app.config['SM_SCR'] = os.environ.get('NEXMO_API_SECRET')
-
-
-
-
+app.config['MAIN_CONTACT'] = os.environ.get('MAIN_CONTACT')
+app.config['A_NAME'] = 'บจก แมมมอส เมมโมรี'
+app.config['A_NO'] = os.environ.get('A_NO')
+app.config['A_BANK'] = 'ธนาคารกสิกรไทย'
+app.config['CONTACT_EMAIL'] = os.environ.get('CONTACT_EMAIL')
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
-margin = 1.22
+margin = 1.12
 
 from foodapp import routes

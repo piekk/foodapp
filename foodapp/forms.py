@@ -19,6 +19,8 @@ def check_contact(form, field):
     elif contact:
         raise ValidationError('Phone number already registered')
 
+
+
 def check_validcontact(form, field):
     phone = str(form.contact.data)
     if phone.isnumeric()==False:
@@ -107,7 +109,6 @@ class MerchantRegistrationForm(FlaskForm):
     confirm_password = PasswordField('ยืนยันพาสเวิร์ด',validators=[DataRequired(),
                                                          EqualTo('password',
                                                          message=('password not match'))])
-    accept_terms = BooleanField('ยอมรับข้อตกลงในการใช้งาน', validators=[DataRequired()])
     submit = SubmitField('สมัครสมาชิก')
 
 
@@ -118,7 +119,7 @@ class MerchantLoginForm(FlaskForm):
     submit = SubmitField('เข้าสู่ระบบ')
 
 
-class Profile(FlaskForm):
+class ChangeProfile(FlaskForm):
     username = StringField('Username', validators=[DataRequired(),
                                         check_username])
     email = StringField('Email', validators=[DataRequired(),
@@ -145,12 +146,19 @@ class TrackingForm(FlaskForm):
 
 
 class Password_change(FlaskForm):
+    otp = StringField('รหัสยืนยันตัวตน', validators=[DataRequired()])
     new_password = PasswordField('New Password', validators=[DataRequired(),
                                                          Length(min=6, max=12,
                                                          message=('use password between 6-12 characters'))])
     confirm_password = PasswordField('Confirm Password',validators=[DataRequired(),
                                                              EqualTo('new_password',
                                                              message=('password not match'))])
+    submit = SubmitField('ยืนยัน')
+
+class Reset_Pass(FlaskForm):
+    email = StringField('อีเมลล์', validators=[DataRequired(),
+                                             Email(message=('not a valid email address'))])
+    contact = StringField('เบอร์ติดต่อ', validators=[DataRequired()])
     submit = SubmitField('ยืนยัน')
 
 class Ship_Address(FlaskForm):

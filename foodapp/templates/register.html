@@ -54,9 +54,7 @@
                     {{ form.confirm_password(class_="form-control small") }}
                     <p class="text-danger">{% for error in form.confirm_password.errors %}{{ error }}{% endfor %}</p>
                 </div>
-                <div class="col-12 mb-3">
-                    {{ form.accept_terms }}<p class="d-inline"> I accept the <a href="#">Terms of use & Privacy policy</a></p>
-                </div>
+                
                 <div class="col-12 mb-3">
                     {{ form.submit(class_="btn btn-primary main-button") }}
                 </div>

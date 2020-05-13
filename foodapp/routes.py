@@ -7,17 +7,17 @@ from datetime import datetime, timedelta
 from werkzeug.utils import secure_filename
 from foodapp import app, db, bcrypt, margin
 from flask import render_template, request, url_for, redirect, flash, jsonify, json, session, make_response
-from foodapp.forms import MerchantRegistrationForm, MerchantLoginForm, Profile, AddContact, ProductForm, ShopProfile, ImageProfile, IconProfile
+from foodapp.forms import MerchantRegistrationForm, MerchantLoginForm, ChangeProfile, AddContact, ProductForm, ShopProfile, ImageProfile, IconProfile, Reset_Pass, Password_change
 from foodapp.forms import EditImageForm, EditPriceForm, EditDetailForm, EditStockForm, CheckoutContact, TrackingForm, Ship_Address, ConfirmShipmentForm
-from foodapp.models import User, Products, Reviews, Cookie, Cart, CartItems, Checkout, CheckoutItems, ShipAddress, MainAddress, PaymentDue, Profile
+from foodapp.models import User, Products, Reviews, Cookie, Cart, CartItems, Checkout, CheckoutItems, ShipAddress, MainAddress, PaymentDue, Profile, PasswordChange
 from foodapp.list import category_list
 from flask_login import login_user, current_user, logout_user, login_required
 from google.cloud import storage
 
-
 app.config['IMAGE_STORED'] = 'https://storage.googleapis.com/foodappproducts/'
 app.config['UPLOAD_FOLDER'] = 'static'
-pagename = "farmer diary"
+
+pagename = "farmstory"
 
 
 def redirect_url(default='home'):
@@ -135,7 +135,14 @@ def dashboard(brand):
         else:
             return redirect(url_for('home'))
 
-@app.route('/<brand>/<c_id>', methods=['GET','POST'])
+@app.route('/view')
+def view():
+    time = datetime.now()
+    user = request.cookies.get('cook_id')
+    cook = Cookie.query.filter_by(cook_id = user).first()
+    return render_template('viewshop.html', category_list=category_list, margin=margin, cook=cook, time=time)
+
+@app.route('/confirmshipment/<brand>/<c_id>', methods=['GET','POST'])
 def confirmshipment(brand,c_id):
     time = datetime.now()
     user = request.cookies.get('cook_id')
@@ -146,12 +153,10 @@ def confirmshipment(brand,c_id):
     if form.validate_on_submit():
         text = form.message.data
         for p in product:
-            due = datetime.now() + timedelta(days=7)
+            due = datetime.now() + timedelta(days=3)
             stock = Products.query.get(int(p.product))
             if p.seller == brand:
                 p.status = 'จัดส่งแล้ว'
-                # อัเดทสต้อก ลบจากจำนวนที่จัดส่ง
-                stock.quantity -= p.quantity
                 # track จำนวนที่ขายได้
                 stock.number_bought += p.quantity
                 db.session.add(PaymentDue(buyer_firstname = p.Checkout.shippingaddress.firstname, buyer_lastname = p.Checkout.shippingaddress.lastname,
@@ -175,35 +180,12 @@ def confirmshipment(brand,c_id):
     elif current_user.is_authenticated and current_user.username == brand and product:
         return render_template("confirmshipment.html", cook=cook, category_list= category_list, product=product, cart=cart, image_stored = app.config['IMAGE_STORED'], form=form)
     else:
-        return render_template('404.html')
+        return render_template('404.html', category_list= category_list)
 
-
-def save_profile(form_picture,name,filetype):
-    picture_fn = secure_filename(name + '.jpg')
-    picture_path = os.path.join(app.config['UPLOAD_FOLDER'], picture_fn)
-    output_size = (1000,1000)
-    i = Image.open(form_picture)
-    i.thumbnail(output_size)
-    i.save(picture_path)
-
-    storage_client = storage.Client()
-    bucket = storage_client.get_bucket(app.config['BUCKET_NAME'])
-    blob = bucket.blob('profile/'+filetype+'/'+picture_fn)
-    blob.upload_from_filename(picture_path)
-
-    return picture_path
-
-def delete_profile(blob_name):
-    bucket_name = app.config['BUCKET_NAME']
-    storage_client = storage.Client()
-    bucket = storage_client.get_bucket(bucket_name)
-    blob = bucket.blob(blob_name)
-    blob.delete()
-
-    return blob_name
 
 
 @app.route('/<brand>/profile', methods=['GET','POST'])
+@login_required
 def myprofile(brand):
     user = request.cookies.get('cook_id')
     cook = Cookie.query.filter_by(cook_id = user).first()
@@ -231,79 +213,96 @@ def myprofile(brand):
         else:
             return render_template('addprofile.html', category_list= category_list, cook = cook, form = form)
     else:
-        return render_template('404.html')
+        return render_template('404.html', category_list= category_list)
 
 
 @app.route('/<brand>/imageprofile', methods=['GET','POST'])
+@login_required
 def myimageprofile(brand):
     user = request.cookies.get('cook_id')
     cook = Cookie.query.filter_by(cook_id = user).first()
     form = ImageProfile()
     if request.method == 'POST' and form.validate_on_submit and current_user.username == brand:
-        if current_user.o_profile.image1:
+        profile = Profile.query.filter_by(profile_owner = current_user.id).first()
+        if profile and profile.image1 is None:
             try:
-                delete_profile(current_user.o_profile.image1)
                 name = str(current_user.id) + uuid.uuid4().hex[:4]
                 category = 'main'
-                filename = 'profile/'+category+ '/'+ secure_filename(name+'.jpg')
-                save_profile(form.img.data, name, category)
-                current_user.o_profile.image1 = filename
+                filename = 'products/'+category+ '/'+ secure_filename(name+'.jpg')
+                save_picture(form.img.data, name, category)
+                profile.image1 = filename
+                db.session.commit()
+                return redirect(url_for('dashboard', brand = brand))
+
+            except:
+                return redirect(url_for('dashboard', brand = brand))
+        elif profile and profile.image1:
+            try:
+                name = str(current_user.id) + uuid.uuid4().hex[:4]
+                category = 'main'
+                filename = 'products/'+category+ '/'+ secure_filename(name+'.jpg')
+                save_picture(form.img.data, name, category)
+                delete_blob(profile.image1)
+                profile.image1 = filename
                 db.session.commit()
                 return redirect(url_for('dashboard', brand = brand))
             except:
                 return redirect(url_for('dashboard', brand = brand))
         else:
-            try:
-                name = str(current_user.id) + uuid.uuid4().hex[:4]
-                category = 'main'
-                filename = 'profile/'+category+ '/'+ secure_filename(name+'.jpg')
-                save_profile(form.img.data, name, category)
-                current_user.o_profile.image1 = filename
-                db.session.commit()
-                return redirect(url_for('dashboard', brand = brand))
-            except:
-                return redirect(url_for('dashboard', brand = brand))
+            return redirect(url_for('myprofile', brand = brand))
     elif request.method == 'GET' and current_user.is_anonymous:
         return render_template('404.html')
     elif request.method == 'GET' and current_user.username == brand:
+        profile = Profile.query.filter_by(profile_owner = current_user.id).first()
+        if profile:
             return render_template('addimageprofile.html', category_list= category_list, cook = cook, form = form)
+        else:
+            return redirect(url_for('myprofile', brand = brand))
     else:
         return render_template('404.html')
 
 
 @app.route('/<brand>/iconprofile', methods=['GET','POST'])
+@login_required
 def myiconprofile(brand):
     user = request.cookies.get('cook_id')
     cook = Cookie.query.filter_by(cook_id = user).first()
     form = IconProfile()
     if request.method == 'POST' and form.validate_on_submit and current_user.username == brand:
-        if current_user.o_profile.icon:
+        profile = Profile.query.filter_by(profile_owner = current_user.id).first()
+        if profile and profile.icon is None:
             try:
-                delete_profile(current_user.o_profile.icon)
+                name = str(current_user.id) + uuid.uuid4().hex[:4]
+                category = 'icon'
+                filename = 'products/'+category+ '/'+ secure_filename(name+'.jpg')
+                save_picture(form.icon.data, name, category)
+                profile.icon = filename
+                db.session.commit()
+                return redirect(url_for('dashboard', brand = brand))
+            except:
+                return redirect(url_for('dashboard', brand = brand))
+        elif profile and profile.icon:
+            try:
                 name = str(current_user.id) + uuid.uuid4().hex[:4]
                 category = 'icon'
                 filename = 'profile/'+category+ '/'+ secure_filename(name+'.jpg')
-                save_profile(form.icon.data, name, category)
-                current_user.o_profile.icon = filename
+                save_picture(form.icon.data, name, category)
+                delete_blob(profile.icon)
+                profile.icon = filename
                 db.session.commit()
                 return redirect(url_for('dashboard', brand = brand))
             except:
                 return redirect(url_for('dashboard', brand = brand))
         else:
-            try:
-                name = str(current_user.id) + uuid.uuid4().hex[:4]
-                category = 'icon'
-                filename = 'profile/'+category+ '/'+ secure_filename(name+'.jpg')
-                save_profile(form.icon.data, name, category)
-                current_user.o_profile.icon = filename
-                db.session.commit()
-                return redirect(url_for('dashboard', brand = brand))
-            except:
-                return redirect(url_for('dashboard', brand = brand))
+            return redirect(url_for('myprofile', brand = brand))
     elif request.method == 'GET' and current_user.is_anonymous:
         return render_template('404.html')
     elif request.method == 'GET' and current_user.username == brand:
+        profile = Profile.query.filter_by(profile_owner = current_user.id).first()
+        if profile:
             return render_template('addiconprofile.html', category_list= category_list, cook = cook, form = form)
+        else:
+            return redirect(url_for('myprofile', brand = brand))
     else:
         return render_template('404.html')
 
@@ -314,7 +313,7 @@ def shop(filter):
     user = request.cookies.get('cook_id')
     cook = Cookie.query.filter_by(cook_id = user).first()
     page = request.args.get('page', 1,type=int)
-    productcategory = [i[1] for i in category_list]
+    productcategory = [i[0] for i in category_list]
     if request.method == 'POST':
         if not cook.cart:
             create_cart(cook)
@@ -332,18 +331,21 @@ def shop(filter):
     elif request.method == 'GET' and filter == None:
         time = datetime.now()
         product = Products.query.order_by(Products.view.desc()).paginate(per_page=16, page=page)
-        return render_template("shop.html", title="shop", product = product, category_list= category_list, margin=margin, time=time, filter='shop', image_stored = app.config['IMAGE_STORED'], cook =cook)
+        return render_template("shop.html", title=pagename+" ร้านค้า", product = product, category_list= category_list, margin=margin, time=time, filter='shop', image_stored = app.config['IMAGE_STORED'], cook =cook)
     elif request.method == 'GET' and filter in productcategory:
         time = datetime.now()
         product = Products.query.filter(Products.category==filter).paginate(per_page=16, page=page)
-        return render_template("shop.html", title="shop", product = product, category_list= category_list, margin=margin, time=time, filter=filter, image_stored = app.config['IMAGE_STORED'], cook =cook)
+        return render_template("shop.html", title=pagename+" ร้านค้า"+" "+filter, product = product, category_list= category_list, margin=margin, time=time, filter=filter, image_stored = app.config['IMAGE_STORED'], cook =cook)
     else:
         time = datetime.now()
         fil = secure_filename(filter)
         searchwordlower = fil.lower()
         searchword = searchwordlower.replace(" ","")
         product = Products.query.filter(Products.tag.contains(searchword)).paginate(per_page=16, page=page)
-        return render_template("shop.html", title=pagename+"ร้านค้า"+filter, product = product, category_list= category_list, margin=margin, time=time, filter=filter, image_stored = app.config['IMAGE_STORED'], cook =cook)
+        if product:
+            return render_template("shop.html", title=pagename+" "+filter, product = product, category_list= category_list, margin=margin, time=time, filter=filter, image_stored = app.config['IMAGE_STORED'], cook =cook)
+        else:
+            return render_template('404.html', category_list= category_list)
 
 
 @app.route('/product/<product>', methods=['GET', 'POST'])
@@ -353,6 +355,7 @@ def product(product):
     time = datetime.now()
     product = Products.query.get(product)
     time = datetime.now()
+    suggest = Products.query.filter(Products.quantity>=0).order_by(Products.view.desc()).limit(9).all()
     if request.method == 'POST':
         if not cook.cart:
             create_cart(cook)
@@ -368,9 +371,9 @@ def product(product):
             db.session.commit()
         return redirect(redirect_url())
     elif request.method == 'GET' and product:
-        return render_template("product.html", product = product, title=pagename+product.title, time=time, category_list= category_list, margin=margin, image_stored = app.config['IMAGE_STORED'], cook =cook)
+        return render_template("product.html", product = product, suggest=suggest, title=pagename+product.title, time=time, category_list= category_list, margin=margin, image_stored = app.config['IMAGE_STORED'], cook =cook)
     else:
-        return redirect(url_for('home'))
+        return render_template('404.html', category_list= category_list)
 
 
 @app.route('/cart', methods=['GET', 'POST'])
@@ -485,7 +488,7 @@ def checkout():
     form = CheckoutContact()
     time = datetime.now()
     reference = datetime.now().strftime("%m%d")+uuid.uuid4().hex[:6].upper()
-    expire = datetime.now() + timedelta(days=3)
+    expire = datetime.now() + timedelta(days=1)
     timeexpire = expire.strftime("%Y-%m-%d  %H:%M")
     if form.validate_on_submit() and cart and cart.items:
         #send sms confirmation to phone number
@@ -503,9 +506,9 @@ def checkout():
         #ส่งสำเร็จ return true ตรวจ log ใน Nexmo สำหรับกรณีไม่ได้รับรหัส
         try :
             send_sms(to, text)
-            message = "เราได้ส่งรหัสการสั่งซื้อไปยังหมายเลขโทรศัพท์ที่คุณให้ไว้เบอร์: " + form.contact.data + " หากคุณไมไ่ด้รับข้อภายใน 5 นาทีเพื่อความรวดเร็วสามารถติดต่อเราทางไลน์ ไอดี: "
+            message = "เราได้ส่งรหัสการสั่งซื้อไปยังหมายเลขโทรศัพท์ที่คุณให้ไว้เบอร์: " + form.contact.data + " หากคุณไมไ่ด้รับข้อภายใน 10 นาทีเพื่อความรวดเร็วสามารถติดต่อเราทางไลน์ "
         except:
-            message = "เราได้ส่งรหัสการสั่งซื้อไปยังหมายเลขโทรศัพท์ที่คุณให้ไว้เบอร์: " + form.contact.data + " หากคุณไมไ่ด้รับข้อภายใน 5 นาทีเพื่อความรวดเร็วสามารถติดต่อเราทางไลน์ ไอดี: "
+            message = "เราได้ส่งรหัสการสั่งซื้อไปยังหมายเลขโทรศัพท์ที่คุณให้ไว้เบอร์: " + form.contact.data + " หากคุณไมไ่ด้รับข้อภายใน 10 นาทีเพื่อความรวดเร็วสามารถติดต่อเราทางไลน์ "
 
         for item in cart.items:
             if item.seller not in seller:
@@ -541,6 +544,8 @@ def checkout():
                 else:
                      price_total = round((int(p.price)*margin)+int(p.shipping_fee)) * item.quantity
                      seller_price = round((int(p.price))+int(p.shipping_fee)) * item.quantity
+            # อัเดทสต้อก ลบจากจำนวนที่จัดส่ง
+            p.quantity -= item.quantity
             db.session.add(CheckoutItems(product=item.product, img=item.img, quantity=item.quantity, price=str(price_total), seller_price = str(seller_price) , seller=item.seller, Checkout = c))
             db.session.commit()
         #รวมราคา
@@ -611,7 +616,8 @@ def order():
             product=Products.query.get(int(item.product))
             product_title[product.id] = product.title
             total_price += int(item.price)
-        return render_template("order.html", cook = cook, cart=cart, category_list= category_list, product_title = product_title, image_stored = app.config['IMAGE_STORED'], total_price = total_price, m_name="robots", m_content="noindex")
+        return render_template("order.html", cook = cook, cart=cart, category_list= category_list, product_title = product_title, image_stored = app.config['IMAGE_STORED'], total_price = total_price, m_name="robots", m_content="noindex", main_contact = app.config['MAIN_CONTACT'],
+                                contact_email = app.config['CONTACT_EMAIL'], account_name = app.config['A_NAME'], account_no = app.config['A_NO'], account_bank = app.config['A_BANK'] )
     else:
         return redirect(url_for('tracking'))
 
@@ -732,6 +738,7 @@ def register():
             db.session.commit()
             user = User.query.filter_by(email=form.email.data).first()
             login_user(user)
+            session.permanent = True
             return redirect(url_for('dashboard', brand=current_user.username))
         except:
             flash("คุณได้เคยลงทะเบียนแล้ว")
@@ -750,9 +757,11 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data) and user.role=='Seller':
             login_user(user)
+            session.permanent = True
             return redirect(url_for('dashboard', brand=user.username))
         if user and bcrypt.check_password_hash(user.password, form.password.data) and user.role=='admin':
             login_user(user)
+            session.permanent = True
             return redirect(url_for('manage', user = current_user))
         elif not user:
             flash("ไม่มีอีเมลล์ในระบบ")
@@ -848,7 +857,7 @@ def paymentcomplete():
 def user_edit(name):
     user = request.cookies.get('cook_id')
     cook = Cookie.query.filter_by(cook_id = user).first()
-    form = Profile()
+    form = ChangeProfile()
     user = User.query.filter_by(username=name).first()
     if current_user.role == 'Seller' and current_user.username == name:
         if request.method == 'POST' and form.validate():
@@ -1181,11 +1190,110 @@ def edit_delete_product(name):
         return redirect(url_for("dashboard", brand = current_user.username))
 
 
+@app.route('/aboutus')
+def aboutus():
+    user = request.cookies.get('cook_id')
+    cook = Cookie.query.filter_by(cook_id = user).first()
+    return render_template("aboutus.html", category_list= category_list, cook = cook)
+
+
+@app.route('/sellwithus')
+def sellwithus():
+    user = request.cookies.get('cook_id')
+    cook = Cookie.query.filter_by(cook_id = user).first()
+    return render_template("sellwithus.html", category_list= category_list, cook = cook)
+
+@app.route('/howtoaddproduct')
+def howtoaddproduct():
+    user = request.cookies.get('cook_id')
+    cook = Cookie.query.filter_by(cook_id = user).first()
+    return render_template("howtoaddproduct.html", category_list= category_list, cook = cook)
+
+
 @app.errorhandler(404)
 def page_not_found(error):
-   return render_template('404.html', title = '404'), 404
+    return render_template('404.html', title = '404'), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    return render_template('404.html', title = '500')
 
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+
+@app.route('/resetpassword', methods=['GET', 'POST'])
+def resetpassword():
+    user = request.cookies.get('cook_id')
+    cook = Cookie.query.filter_by(cook_id = user).first()
+    form = Reset_Pass()
+    if form.validate_on_submit():
+        time = datetime.now()
+        user = User.query.filter_by(contact = form.contact.data).first()
+        if user and user.email == form.email.data:
+            inP_change = PasswordChange.query.filter_by(contact = user.contact).first()
+            if inP_change and inP_change.expire < time:
+                db.session.delete(inP_change)
+                db.sessin.commit()
+                o_t_p = uuid.uuid4().hex[:4]
+                text = "รหัสยืนยันตัวตนของคุณคือ: "+ str(o_t_p)
+                time_expire = datetime.now() + timedelta(days=1)
+                try:
+                    to = '66'+ user.contact[1:]
+                    send_sms(to, text)
+                    db.session.add(PasswordChange(contact = form.contact.data, otp = str(o_t_p), expire = time_expire))
+                    db.session.commit()
+                    return redirect(url_for("changepassword"))
+                except:
+                    flash('ไม่สามารถยืนยันตัวตนได้')
+                    return redirect(url_for('resetpassword'))
+            elif inP_change and inP_change.expire > time:
+                flash('เราได้ส่งรหัสยืนยันตัวตนให้คุณแล้ว')
+                return redirect(url_for("changepassword"))
+            else:
+                o_t_p = uuid.uuid4().hex[:4]
+                text = "รหัสยืนยันตัวตนของคุณคือ: "+ str(o_t_p)
+                time_expire = datetime.now() + timedelta(days=1)
+                try:
+                    to = '66'+ user.contact[1:]
+                    send_sms(to, text)
+                    db.session.add(PasswordChange(contact = form.contact.data, otp = str(o_t_p), expire = time_expire))
+                    db.session.commit()
+                    return redirect(url_for("changepassword"))
+                except:
+                    flash('ไม่สามารถยืนยันตัวตนได้')
+                    return redirect(url_for('resetpassword'))
+        else:
+            flash('ไม่มีหมายเลขนี้ในระบบ')
+            return redirect(url_for('resetpassword'))
+    else:
+        return render_template("resetpassword.html", category_list= category_list, cook = cook, form=form)
+
+
+@app.route('/changepassword', methods=['GET', 'POST'])
+def changepassword():
+    user = request.cookies.get('cook_id')
+    cook = Cookie.query.filter_by(cook_id = user).first()
+    form = Password_change()
+    time = datetime.now()
+    if form.validate_on_submit():
+        person = PasswordChange.query.filter_by(otp = form.otp.data).first()
+        user = User.query.filter_by(contact = person.contact).first()
+        if person and person.expire < time:
+            db.session.delete(person)
+            db.session.commit()
+            flash('รหัสของคุณหมดอายุแล้วกรุณาขอรหัสใหม่')
+            return redirect(url_for("resetpassword"))
+        elif person and person.expire > time:
+            hashed_pw = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
+            user.password = hashed_pw
+            db.session.delete(person)
+            db.session.commit()
+            flash('เปลี่ยนรหัสเรียบร้อยแล้ว')
+            return redirect(url_for("login"))
+        else:
+            flash('กรุณาขอรหัสก่อนเปลี่ยนพาสเวิร์ด')
+            return redirect(url_for("resetpassword"))
+    return render_template("changepassword.html", category_list= category_list, cook = cook, form=form)

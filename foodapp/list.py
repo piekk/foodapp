@@ -18,6 +18,6 @@ province_list = [('กรุงเทพมหานคร', 'กรุงเท
 
 
 category_list = [('grains', 'ธัญพืช'), ('rice', 'ข้าว'), ('vegetables', 'ผักผลไม้'), ('oil', 'น้ำมันประกอบอาหาร'),
-                 ('bread', 'ขนมปัง'), ('supplements', 'อาหารเสริม'), ('keto', 'อาหารคีโต'), ('superfood', 'ซุปเปอร์ฟูด'),
-                 ('organic', 'อาหารออร์แกนิก'), ('tea', 'ชา'), ('coffee beans', 'เมล็ดกาแฟ'),
-                 ('snacks', 'อาหารทานเล่น'), ('nuts and beans', 'ถั่ว'), ('kids', 'อาหารเด็ก'), ('ingredients', 'วัตถุดิบประกอบอาหาร')]
+                 ('bread', 'ขนมปัง'), ('supplements', 'อาหารเสริม'), ('keto', 'คีโต'), ('organic', 'ออร์แกนิก'),
+                 ('superfood', 'ซุปเปอร์ฟูด'), ('tea', 'ชา'), ('coffee beans', 'เมล็ดกาแฟ'), ('snacks', 'อาหารทานเล่น'),
+                 ('nuts and beans', 'ถั่ว'), ('kids', 'อาหารเด็ก'), ('ingredients', 'วัตถุดิบประกอบอาหาร')]
