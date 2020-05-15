@@ -91,7 +91,7 @@ class CartItems(db.Model):
     img = db.Column(db.String(50), unique=False, nullable=False)
     quantity = db.Column(db.Integer, unique=False, nullable=False, default=1)
     price = db.Column(db.String(7), unique=False, nullable=False)
-    seller = db.Column(db.String(12), unique=False,  nullable=False)
+    seller = db.Column(db.String(22), unique=False,  nullable=False)
     cartid = db.Column(db.Integer, db.ForeignKey('cart.id'))
 
     def __repr__(self):
@@ -120,7 +120,7 @@ class CheckoutItems(db.Model):
     quantity = db.Column(db.Integer, unique=False, nullable=False, default=1)
     price = db.Column(db.String(7), unique=False, nullable=False)
     seller_price = db.Column(db.String(7), unique=False, nullable=False)
-    seller = db.Column(db.String(12), unique=False,  nullable=False)
+    seller = db.Column(db.String(22), unique=False,  nullable=False)
     status = db.Column(db.String(20), unique=False, nullable=False, default = 'รอการชำระเงิน')
     ship_date = db.Column(db.DateTime, nullable=True)
     tracking = db.Column(db.String(100), unique=False,  nullable=True)
