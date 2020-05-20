@@ -9,11 +9,11 @@ env_variables:
   MAIL_PASSWORD: 'Chipperfield01'
   DB_USER: 'root'
   DB_PASS: 'artapp01'
-  NEXMO_API_SECRET: '2F0d2CE301A@6C7'
-  NEXMO_API_KEY: 'ad2030ed'
+  NEXMO_API_SECRET: '3ld0#k5%oI7Wd^'
+  NEXMO_API_KEY: 'b1f3'
   MAIN_CONTACT: '0814219606'
   CONTACT_EMAIL: 'admin@onedarystory.com'
-  A_NO: '047-8-4400-9'
+  A_NO: '047-8-44990-9'
 
 
 

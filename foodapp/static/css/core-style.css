@@ -364,6 +364,7 @@ ul.icon{
   border: 1px solid #00a8a8;
 }
 
+
 .address-print{
   border: 1px dotted black;
 }
@@ -479,6 +480,11 @@ ul.icon{
   max-height: 450px;
   margin: auto;
 }
+.product-suggest img{
+  min-height: 157px;
+  max-height: 157px;
+}
+
 .standard_size img{
   max-width: 450px;
   max-height: 450px;
@@ -513,6 +519,10 @@ form .nice-select {
   font-size: 14px;
 }
 
+.product-image img{
+  min-height: 150px;
+  max-height: 150px;
+}
 /* product form control dashboard*/
 #titleError, #PriceError, #ShippingFeeError{
   display: none;
@@ -527,6 +537,7 @@ form .nice-select {
   display: none;
 }
 
+
 /* media screen */
 
 @media (max-width: 576px){
@@ -538,6 +549,10 @@ form .nice-select {
   }
   .slogan{
     font-size: 0.6rem;
+  }
+  .product-suggest img{
+    min-height: 157px;
+    max-height: 157px;
   }
 }
 
@@ -556,6 +571,14 @@ form .nice-select {
     background-size: cover;
     margin: 0 3px;
     background-position: center;
+  }
+  .product-image img{
+    min-height: 210px;
+    max-height: 210px;
+  }
+  .product-suggest img{
+    min-height: 175px;
+    max-height: 175px;
   }
 }
 
@@ -605,6 +628,13 @@ form .nice-select {
       text-transform: capitalize;
       font-weight: 400;
   }
+  .product-image img{
+    max-height: 210px;
+  }
+  .product-suggest img{
+    min-height: 220px;
+    max-height: 220px;
+  }
 }
 
 @media (min-width: 992px){
@@ -614,5 +644,18 @@ form .nice-select {
   .carousel-indicators{
     max-width: 450px;
     margin: auto;
+  }
+  .product-suggest img{
+    min-height: 217.5px;
+    max-height: 217.5px;
+  }
+}
+@media (min-width: 992px){
+  .product-image img{
+    max-height: 240px;
+  }
+  .product-suggest img{
+    min-height: 262px;
+    max-height: 262px;
   }
 }

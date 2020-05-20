@@ -15,8 +15,8 @@ app = Flask(__name__)
 
 
 
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://'+os.environ.get('DB_USER')+':'+os.environ.get('DB_PASS')+'@/farmerdiary_main_db?unix_socket=/cloudsql/f-d-2020:asia-southeast1:farmerdiary'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:artapp01@localhost/farmerdiary_main_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://'+os.environ.get('DB_USER')+':'+os.environ.get('DB_PASS')+'@/farmerdiary_main_db?unix_socket=/cloudsql/f-d-2020:asia-southeast1:farmerdiary'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:artapp01@localhost/farmerdiary_main_db'
 app.config['SECRET_KEY'] = os.urandom(12).hex()
 app.config['SQLALCHEMY_POOL_SIZE'] = 1
 app.config['SQLALCHEMY_MAX_OVERFLOW'] = 0
@@ -39,6 +39,6 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
-margin = 1.12
+margin = 1
 
 from foodapp import routes

@@ -176,6 +176,18 @@ class Ship_Address(FlaskForm):
     make_mainaddress = BooleanField('จดจำเป็นที่อยู่หลักในการสั่งซื้อครั้งต่อไป')
     submit = SubmitField('ยืนยัน')
 
+class Add_articles(FlaskForm):
+    title = StringField('หัวข้อบทความ', validators=[DataRequired()])
+    sub_title = StringField('หัวข้อย่อย', validators=[DataRequired()])
+    content1 = TextAreaField('บทความ1', validators=[DataRequired()])
+    content2 = TextAreaField('บทความ2', validators=[DataRequired()])
+    content3 = TextAreaField('บทความ3', validators=[DataRequired()])
+    content4 = TextAreaField('บทความ4', validators=[DataRequired()])
+    content5 = TextAreaField('บทความ5')
+    content6 = TextAreaField('บทความ6')
+    submit = SubmitField('ยืนยัน')
+
+
 class ConfirmShipmentForm(FlaskForm):
     message = StringField('ส่งข้อความขอบคุณลูกค้า')
     submit = SubmitField('ยืนยันการส่งสินค้า')

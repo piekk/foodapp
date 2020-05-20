@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<form method="post">
+					{{form.hidden_tag()}}
+					<div class="col-12">
+						<h6>{{ form.title.label(class_="text-muted") }}</h6>
+						{{ form.title(class_="form-control" )}}
+						<p class="text-danger">{% for error in form.title.errors %}{{ error }}{% endfor %}</p>
+					</div>
+					<div class="col-12">
+						<h6>{{ form.sub_title.label(class_="text-muted") }}</h6>
+						{{ form.sub_title(class_="form-control" )}}
+						<p class="text-danger">{% for error in form.sub_title.errors %}{{ error }}{% endfor %}</p>
+					</div>
+					<div class="col-12">
+						<h6>{{ form.content1.label(class_="text-muted") }}</h6>
+						{{ form.content1(class_="form-control" )}}
+					</div>
+					<div class="col-12">
+						<h6>{{ form.content2.label(class_="text-muted") }}</h6>
+						{{ form.content2(class_="form-control" )}}
+					</div>
+					<div class="col-12">
+						<h6>{{ form.content3.label(class_="text-muted") }}</h6>
+						{{ form.content3(class_="form-control" )}}
+					</div>
+					<div class="col-12">
+						<h6>{{ form.content4.label(class_="text-muted") }}</h6>
+						{{ form.content4(class_="form-control" )}}
+					</div>
+					<div class="col-12">
+						<h6>{{ form.content5.label(class_="text-muted") }}</h6>
+						{{ form.content5(class_="form-control" )}}
+					</div>
+					<div class="col-12">
+						<h6>{{ form.content6.label(class_="text-muted") }}</h6>
+						{{ form.content6(class_="form-control" )}}
+					</div>
+					<div class="col-12">
+						{{ form.submit(class_="btn btn-primary button") }}
+					</div>
+				</form>
+			</div>
+
+		</div>
+
+	</div>
+
+</section>
+
+
+
+
+{% endblock %}

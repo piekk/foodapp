@@ -31,8 +31,8 @@
     <div class="row">
       {% for item in product.items %}
       <div class="product-card col-6 col-sm-6 col-md-4 col-lg-3 py-3 position-relative">
-        <div class="product-image">
-          <img class="img-fluid" src="{{image_stored+item.imgfile1}}" alt="">
+        <div class="product-image text-center">
+          <img class="img-fluid" src="{{image_stored+item.imgfile1}}" alt="{{item.title}}">
         </div>
         <div class="product-description">
           <a href="{{url_for('dashboard', brand=item.owner_product.username)}}" title="" class="brand-tag">{{item.owner_product.username}}</a>

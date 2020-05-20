@@ -13,45 +13,16 @@
     </div>
 
     <div class="row ">
+      {% for article in articles %}
       <div class="col-12 col-sm-6 col-md-4 mb-3">
-        <a href="#">
-          <img class="img-fluid mb-3" src="{{ url_for('static', filename ='articles/sample1.jpg' )}}" alt="">
-          <h6 class="font-weight-bold">Yarrah: organic food for your dogs and cats</h6>
-          <p class="d-none d-sm-block">A healthy and organic diet is the key to your pet's good health.
-          </p>
+        <a href="{{url_for('articles',filter=article.id)}}">
+          <img class="img-fluid mb-3" src="{{ image_stored+article.image1 }}" alt="{{article.title}}+'.jpg'">
+          <h6 class="font-weight-bold">{{article.title}}</h6>
+          <p class="d-none d-sm-block">{{article.sub_title}}</p>
         </a>
       </div>
+      {% endfor %}
 
-      <div class="col-12 col-sm-6 col-md-4 mb-3">
-        <a href="#">
-          <img class="img-fluid mb-3" src="{{ url_for('static', filename ='articles/sample1.jpg' )}}" alt="">
-          <h6 class="font-weight-bold">Vitamin D3 benefits</h6>
-          <p class="d-none d-sm-block">It is essentiel, get to know the reasons!
-          </p>
-        </a>
-      </div>
-
-      <div class="col-12 col-sm-6 col-md-4 mb-3">
-        <a href="#">
-          <img class="img-fluid mb-3" src="{{ url_for('static', filename ='articles/sample1.jpg' )}}" alt="">
-          <h6 class="font-weight-bold">Discover this wonderful hand-baked gluten-free granola !</h6>
-          <p class="d-none d-sm-block">The grEAT! Granola is a
-            delicious hand-baked gluten-free muesli. This healthy
-            breakfast is full of energy. It is organic and without
-            any additives. Choco, Apple & Pecan or Coco & Cranberries !
-          </p>
-        </a>
-      </div>
-      <div class="col-12 col-sm-6 col-md-4 mb-3">
-        <a href="#">
-          <img class="img-fluid mb-3" src="{{ url_for('static', filename ='articles/sample1.jpg' )}}" alt="">
-          <h6 class="font-weight-bold">article title</h6>
-          <p class="d-none d-sm-block">article short detail info Lorem ipsum dolor sit amet,
-            consectetur adipisicing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad mini
-          </p>
-        </a>
-      </div>
 
     </div>
   </div>

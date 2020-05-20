@@ -1,0 +1,61 @@
+{% extends"layout.html" %}
+{% block content %}
+
+<section>
+
+  <div class="container banner mb-5">
+    <div class="row">
+      <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner pl-3">
+          <div class="carousel-item active text-center">
+            <img class="d-block w-100" src="{{ image_stored+article.image2 }}" alt="First slide">
+          </div>
+          {% if article.image3 %}
+          <div class="carousel-item text-center">
+            <img class="d-block w-100" src="{{ image_stored+article.image3 }}" alt="Second slide">
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container articles mb-5">
+    <div class="row mt-5 mb-3">
+      <div class="col-12">
+        <div class="title">
+          <h4>{{ article.title }}</h4>
+        </div>
+      </div>
+      <div class="col-12 mt-5">
+        <h6>{{ article.sub_title }}</h6>
+      </div>
+      <div class="col-12 mt-3">
+        <p>{{ article.content1 }}</p>
+      </div>
+      <div class="col-12 mt-3">
+        <p>{{ article.content2 }}</p>
+      </div>
+      <div class="col-12 mt-3">
+        <p>{{ article.content3 }}</p>
+      </div>
+      <div class="col-12 mt-3">
+        <p>{{ article.content4 }}</p>
+      </div>
+      <div class="col-12 mt-3">
+        <p>{{ article.content5 }}</p>
+      </div>
+      <div class="col-12 mt-3">
+        <p>{{ article.content6 }}</p>
+      </div>
+      <div class="col-12">
+        <p class="font-italic text-right">โดย: {{article.author}} {{article.date_publish.strftime('%Y/%m/%d')}}</p>
+      </div>
+    </div>
+
+
+  </div>
+
+</section>
+{% endblock %}

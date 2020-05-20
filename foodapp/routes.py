@@ -8,14 +8,13 @@ from werkzeug.utils import secure_filename
 from foodapp import app, db, bcrypt, margin
 from flask import render_template, request, url_for, redirect, flash, jsonify, json, session, make_response
 from foodapp.forms import MerchantRegistrationForm, MerchantLoginForm, ChangeProfile, AddContact, ProductForm, ShopProfile, ImageProfile, IconProfile, Reset_Pass, Password_change
-from foodapp.forms import EditImageForm, EditPriceForm, EditDetailForm, EditStockForm, CheckoutContact, TrackingForm, Ship_Address, ConfirmShipmentForm
-from foodapp.models import User, Products, Reviews, Cookie, Cart, CartItems, Checkout, CheckoutItems, ShipAddress, MainAddress, PaymentDue, Profile, PasswordChange
+from foodapp.forms import EditImageForm, EditPriceForm, EditDetailForm, EditStockForm, CheckoutContact, TrackingForm, Ship_Address, ConfirmShipmentForm, Add_articles
+from foodapp.models import User, Products, Reviews, Cookie, Cart, CartItems, Checkout, CheckoutItems, ShipAddress, MainAddress, PaymentDue, Profile, PasswordChange, Nex
+from foodapp.models import Articles
 from foodapp.list import category_list
 from flask_login import login_user, current_user, logout_user, login_required
 from google.cloud import storage
 
-app.config['IMAGE_STORED'] = 'https://storage.googleapis.com/foodappproducts/'
-app.config['UPLOAD_FOLDER'] = 'static'
 
 pagename = "farmstory"
 
@@ -61,7 +60,8 @@ def check_promotion(p_insert):
 
 
 def send_sms(number, text):
-    client = nexmo.Client(key=app.config['SM_KEY'], secret=app.config['SM_SCR'])
+    n = Nex.query.first()
+    client = nexmo.Client(key= n.nex_ap + app.config['SM_KEY'], secret= n.nex_key+app.config['SM_SCR'])
     TO_NUMBER = number
     message = text
     responseData = client.send_message({'from': pagename,'to': TO_NUMBER,'text': message,'type': 'unicode'})
@@ -84,6 +84,7 @@ def home():
     time = datetime.now()
     user = request.cookies.get('cook_id')
     cook = Cookie.query.filter_by(cook_id = user).first()
+    articles = Articles.query.order_by(Articles.date_publish.desc()).limit(4).all()
     if request.method == 'POST':
         # create cart if there is no cart
         if not cook.cart:
@@ -100,7 +101,7 @@ def home():
             db.session.commit()
         return redirect(redirect_url())
     else:
-        return render_template("home.html", latest=latest, title = pagename, category_list= category_list, margin=margin, time=time, image_stored = app.config['IMAGE_STORED'], cook =cook)
+        return render_template("home.html", latest=latest, title = pagename, category_list= category_list, margin=margin, time=time, image_stored = app.config['IMAGE_STORED'], cook =cook, articles=articles)
 
 
 @app.route('/<brand>', methods=['GET', 'POST'])
@@ -170,7 +171,7 @@ def confirmshipment(brand,c_id):
             except:
                 return redirect(url_for('dashboard', brand = current_user.username))
         else:
-            text = "ขอบคุณสำหรับการสั่งซื้อสินค้าจากเรา สินค้าของคุณถูกจัดส่งแล้ว ตรวจสอบได้ที่สถานะการสั่งซื้อของคุณ"
+            text = "Farmstory ขอบคุณสำหรับการสั่งซื้อสินค้าจากเรา สินค้าของคุณถูกจัดส่งแล้ว ตรวจสอบได้ที่สถานะการสั่งซื้อของคุณ"
             try:
                 to = '66'+cart.contact[1:]
                 send_sms(to, text)
@@ -501,7 +502,7 @@ def checkout():
         qualify_seller = {}
         # list ผู้ขายที่ราคาสินค้าเกิน shipping_fee ที่ตั้งไว้
         q_seller =[]
-        text = "เราได้รับการยืนยันการสั่งซื้อของคุณ รหัสการสั่งซื้อของคุณเลขที: " + reference + " ตรวจสอบการสั่งซื้อของคุณได้ที farmerdiary"
+        text = "Farmstory เราได้รับการยืนยันการสั่งซื้อของคุณ รหัสการสั่งซื้อของคุณเลขที: " + reference + " ตรวจสอบการสั่งซื้อของคุณได้ที farmerdiary"
         to = '66' + phone_contact[1:]
         #ส่งสำเร็จ return true ตรวจ log ใน Nexmo สำหรับกรณีไม่ได้รับรหัส
         try :
@@ -717,9 +718,11 @@ def articles(filter):
     user = request.cookies.get('cook_id')
     cook = Cookie.query.filter_by(cook_id = user).first()
     if filter == None:
-        return render_template("articles.html", category_list= category_list, cook =cook)
+        articles = Articles.query.order_by(Articles.date_publish.desc()).limit(4).all()
+        return render_template("articles.html", category_list= category_list, cook =cook, title = 'บทความจาก -farmstory',image_stored = app.config['IMAGE_STORED'], articles = articles)
     else:
-        return render_template("articles.html", article=filter, category_list= category_list, cook =cook)
+        article = Articles.query.get(filter)
+        return render_template("article.html", category_list= category_list, cook =cook, title = article.title, article=article, image_stored = app.config['IMAGE_STORED'])
 
 
 
@@ -733,6 +736,7 @@ def register():
         phone = str(form.contact.data)
         time = datetime.now()
         send_sms('66814219606', "มีผู้สมัครใหม่")
+        send_sms('66'+ phone[1:], "Farmstory เราได้รับการสมัครสมาชิกของคุณแล้ว กรุณารอการติดต่อจากเราเพื่อยืนยันตัวตน")
         try:
             db.session.add(User(firstname=form.firstname.data, lastname=form.lastname.data, username=form.username.data, email=form.email.data, password=hashed_pw, verified='no', contact=phone, role='Seller', date_register=time.strftime("%Y-%m-%d  %H:%M")))
             db.session.commit()
@@ -774,7 +778,7 @@ def login():
 
 @app.route('/admin')
 def admin():
-    return redirect(url_for('home'))
+    return render_template('404.html')
 
 
 @app.route('/manage')
@@ -826,11 +830,12 @@ def cartref_confirmation(c_id):
             if product_owner.owner_id not in seller:
                 seller.append(product_owner.owner_id)
         db.session.commit()
-        text = "มีการสั่งซื้อสินค้าของคุณ กรุณาล็อกอินเข้าระบบเพื่อดูข้อมูล"
+        text = "Farmstory มีการสั่งซื้อสินค้าของคุณ กรุณาล็อกอินเข้าระบบเพื่อดูข้อมูล"
         for s in seller:
             user = User.query.get(s)
+            n = Nex.query.first()
             phone_contact = '66'+ user.contact[1:]
-            client = nexmo.Client(key=app.config['SM_KEY'], secret=app.config['SM_SCR'])
+            client = nexmo.Client(key= n.nex_ap + app.config['SM_KEY'], secret= n.nex_key+app.config['SM_SCR'])
             TO_NUMBER = phone_contact
             message = text
             client.send_message({'from': pagename,'to': TO_NUMBER,'text': message,'type': 'unicode'})
@@ -850,6 +855,20 @@ def paymentcomplete():
     else:
         return render_template('404.html')
 
+@app.route('/manage/articles', methods=['GET', 'POST'])
+def addarticles():
+    user = request.cookies.get('cook_id')
+    cook = Cookie.query.filter_by(cook_id = user).first()
+    form = Add_articles()
+    time = datetime.now()
+    if form.validate_on_submit() and current_user.is_authenticated and current_user.role == 'admin':
+        db.session.add(Articles(title = form.title.data, sub_title= form.sub_title.data, content1 = form.content1.data, content2 = form.content2.data, content3 = form.content3.data, content4 = form.content4.data, content5 = form.content5.data, content6 = form.content6.data, date_publish = time, author = 'farmstory'))
+        db.session.commit()
+        return redirect(url_for('manage'))
+    elif request.method == 'GET' and current_user.is_authenticated and current_user.role == 'admin':
+        return render_template("addarticles.html", cook = cook, form=form)
+    else:
+        return render_template('404.html')
 
 
 @app.route('/merchant/<name>/edit', methods=['GET', 'POST'])
@@ -1238,7 +1257,7 @@ def resetpassword():
                 db.session.delete(inP_change)
                 db.sessin.commit()
                 o_t_p = uuid.uuid4().hex[:4]
-                text = "รหัสยืนยันตัวตนของคุณคือ: "+ str(o_t_p)
+                text = "Farmstory รหัสยืนยันตัวตนของคุณคือ: "+ str(o_t_p)
                 time_expire = datetime.now() + timedelta(days=1)
                 try:
                     to = '66'+ user.contact[1:]

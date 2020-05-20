@@ -167,7 +167,7 @@ class MainAddress(db.Model):
     postcode = db.Column(db.Integer, unique=False, nullable=False)
 
     def __repr__(self):
-        return "(Name: {} {}, contact: {)" .format(self.firstname, self.lastname, self.contact)
+        return "(Name: {} {}, contact: {})" .format(self.firstname, self.lastname, self.contact)
 
 
 class PaymentDue(db.Model):
@@ -227,15 +227,19 @@ class Blog(db.Model):
 
 class Articles(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(30), unique=True, nullable=False)
+    title = db.Column(db.String(100), unique=True, nullable=False)
     sub_title = db.Column(db.Text, nullable=False)
-    content = db.Column(db.Text, nullable=False)
+    content1 = db.Column(db.Text, nullable=False)
+    content2 = db.Column(db.Text, nullable=False)
+    content3 = db.Column(db.Text, nullable=False)
+    content4 = db.Column(db.Text, nullable=False)
+    content5 = db.Column(db.Text, nullable=True)
+    content6 = db.Column(db.Text, nullable=True)
     image1 = db.Column(db.String(50), unique=True, nullable=True)
     image2 = db.Column(db.String(50), unique=True, nullable=True)
     image3 = db.Column(db.String(50), unique=True, nullable=True)
     date_publish = db.Column(db.DateTime, nullable=False)
-
-    author = db.Column(db.String(10), unique=False, nullable=False)
+    author = db.Column(db.String(100), unique=False, nullable=False)
 
     def __repr__(self):
         return "(Article: {}, Author: {}, Publish: {})" .format(self.title, self.author, self.date_publish)
@@ -248,3 +252,11 @@ class PasswordChange(db.Model):
 
     def __repr__(self):
         return "(contact: {}, otp: {}, expire{})" .format(self.contact, self.otp, self.expire)
+
+class Nex(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nex_ap = db.Column(db.String(50), unique=True, nullable=False)
+    nex_key = db.Column(db.String(50), unique=True, nullable=False)
+
+    def __repr__(self):
+        return "nothing"
